@@ -1,0 +1,29 @@
+<template>
+    <NuxtLink 
+        :to="`/movies/${movie.id}`"
+        class="group block h-full overflow-hidden rounded-lg bg-surface/80 shadow-lg transition-transform hover:scale-105"
+    >
+        <div class="aspect-[2/3] w-full">
+            <NuxtImg
+                v-if="movie.poster_path"
+                :src="`https://image.tmdb.org/t/p/w342${movie.poster_path}`"
+                :alt="movie.title"
+                class="size-full object-cover"
+                loading="lazy"
+                format="webp"
+            />
+            <div 
+                v-else 
+                class="flex h-full items-center justify-center bg-gray-100 text-gray-400"
+            >
+                <span>Kein Bild</span>
+            </div>
+        </div>
+    </NuxtLink>
+</template>
+
+<script setup lang="ts">
+defineProps<{
+    movie: Movie;
+}>();
+</script>

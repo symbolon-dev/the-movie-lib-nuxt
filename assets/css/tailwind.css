@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-surface-light text-content antialiased font-body;
+    }
+
+    ::selection {
+        @apply bg-primary/20 text-primary;
+    }
+    
+    .heading-1 {
+        @apply text-5xl font-black leading-none tracking-tight font-heading;
+    }
+    
+    .heading-2 {
+        @apply text-4xl font-bold leading-tight tracking-tight font-heading;
+    }
+    
+    .heading-3 {
+        @apply text-3xl font-bold leading-tight font-heading;
+    }
+    
+    .heading-4 {
+        @apply text-2xl font-semibold leading-snug  font-heading;
+    }
+    
+    .heading-5 {
+        @apply text-xl font-semibold leading-snug font-heading;
+    }
+    
+    .heading-6 {
+        @apply text-lg font-medium leading-normal font-heading;
+    }
+    
+    p {
+        @apply text-base leading-relaxed font-body;
+    }
+
+    label {
+        @apply text-xs font-bold font-body;
+    }
+}
+
+@layer components {
+    .animate-interactive {
+        @apply transition-all duration-200 ease-out will-change-transform hover:scale-105 active:scale-95 hover:shadow-lg;
+    }
+
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-semibold animate-interactive;
+    }
+
+    .btn-primary {
+        @apply btn bg-primary-dark text-content-light hover:bg-primary-dark/90;
+    }
+
+    .btn-secondary {
+        @apply btn bg-surface/20 border border-primary text-primary hover:bg-primary/10 active:bg-primary/20;
+    }
+
+    .btn-tertiary {
+        @apply btn bg-primary-light text-primary-dark hover:bg-primary/30 active:bg-primary-light/20;
+    }
+
+    .badge {
+        @apply inline-flex items-center justify-center rounded-full px-3 py-1 text-sm font-medium bg-primary/10 text-primary;
+    }
+
+    .badge-primary {
+        @apply badge bg-primary-dark  text-content-light hover:bg-primary/90;
+    }
+
+    .badge-secondary {
+        @apply badge border border-primary bg-surface/20 text-primary hover:bg-primary/10;
+    }
+}
