@@ -9,7 +9,7 @@
                 :src="`https://image.tmdb.org/t/p/w342${movie.poster_path}`"
                 :alt="movie.title"
                 class="size-full object-cover"
-                loading="lazy"
+                :loading="isLazy ? 'lazy' : undefined"
                 format="webp"
             />
             <div 
@@ -25,5 +25,6 @@
 <script setup lang="ts">
 defineProps<{
     movie: Movie;
+    isLazy?: boolean;
 }>();
 </script>

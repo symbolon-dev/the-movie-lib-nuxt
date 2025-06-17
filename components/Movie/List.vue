@@ -14,6 +14,7 @@
                     :key="movie.id"
                     :movie="movie"
                     :index="index"
+                    :is-lazy="index >= initialVisibleCount"
                 />
             </template>
         </div>
@@ -36,9 +37,12 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+withDefaults(defineProps<{
     gridClasses: string;
-}>();
+    initialVisibleCount?: number;
+}>(), {
+    initialVisibleCount: 4,
+});
 
 const movieStore = useMovieStore();
 const { displayMovies, loading, loadingMore, hasMoreMovies } = storeToRefs(movieStore);

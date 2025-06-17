@@ -2,7 +2,10 @@
     <div class="space-y-8">
         <Hero class="mt-8" />
         <Segment />
-        <MovieList :grid-classes="'grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'" />
+        <MovieList 
+            :grid-classes="'grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'" 
+            :initial-visible-count="10"
+        />
         <ScrollToTopButton />
     </div>
 </template>
