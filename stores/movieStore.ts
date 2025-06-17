@@ -43,7 +43,7 @@ export const useMovieStore = defineStore('movieData', () => {
 
     const displayMovies = computed(() => {
         if (route.path === '/discover') {
-            return searchTerm.value ? filterMovies(movies.value) : movies.value;
+            return filterMovies(movies.value);
         }
         return movies.value;
     });
@@ -118,10 +118,19 @@ export const useMovieStore = defineStore('movieData', () => {
     };
 
     const searchMovies = async (query: string, page: number = 1, append: boolean = false) => {
-        if (!query.trim()) return;
+        if (!query.trim() || query.trim().length < 2) return;
+
+        const hasGenreFilters = selectedGenres.value.length > 0;
+        
+        if (page === 1 && hasGenreFilters && !append) {
+            return await loadMultipleSearchPages(query);
+        }
 
         if (!append) {
             loading.value = true;
+            if (page === 1) {
+                movies.value = [];
+            }
         } else {
             loadingMore.value = true;
         }
@@ -130,10 +139,12 @@ export const useMovieStore = defineStore('movieData', () => {
             const response = await $fetch<MovieResponse>(`/api/movies/search?query=${encodeURIComponent(query)}&page=${page}`);
             
             if (append) {
-                const newMovies: Movie[] = response.results.filter((movie: Movie) => 
-                    !movies.value.some((existing: Movie) => existing.id === movie.id),
-                );
-                movies.value = [...movies.value, ...newMovies];
+                const existingIds = new Set(movies.value.map(m => m.id));
+                const newMovies: Movie[] = response.results.filter((movie: Movie) => !existingIds.has(movie.id));
+                
+                if (newMovies.length > 0) {
+                    movies.value = [...movies.value, ...newMovies];
+                }
             } else {
                 movies.value = response.results;
             }
@@ -155,6 +166,9 @@ export const useMovieStore = defineStore('movieData', () => {
 
         if (!append) {
             loading.value = true;
+            if (page === 1) {
+                movies.value = [];
+            }
         } else {
             loadingMore.value = true;
         }
@@ -163,10 +177,12 @@ export const useMovieStore = defineStore('movieData', () => {
             const response = await $fetch<MovieResponse>(`/api/movies/discover?${params.toString()}`);
 
             if (append) {
-                const newMovies: Movie[] = response.results.filter((movie: Movie) => 
-                    !movies.value.some((existing: Movie) => existing.id === movie.id),
-                );
-                movies.value = [...movies.value, ...newMovies];
+                const existingIds = new Set(movies.value.map(m => m.id));
+                const newMovies: Movie[] = response.results.filter((movie: Movie) => !existingIds.has(movie.id));
+                
+                if (newMovies.length > 0) {
+                    movies.value = [...movies.value, ...newMovies];
+                }
             } else {
                 movies.value = response.results;
             }
@@ -185,26 +201,35 @@ export const useMovieStore = defineStore('movieData', () => {
 
     const loadMovies = async (append: boolean = false) => {
         if (route.path === '/discover') {
-            if (searchTerm.value) {
+            if (searchTerm.value && searchTerm.value.trim().length >= 2) {
                 await searchMovies(searchTerm.value, currentPage.value, append);
-            } else {
+            } else if (!searchTerm.value || searchTerm.value.trim().length === 0) {
                 await discoverMovies(getDiscoverParams(), currentPage.value, append);
+            } else {
+                if (!append) {
+                    movies.value = [];
+                    totalPages.value = 0;
+                    totalResults.value = 0;
+                }
             }
         } else {
             await fetchMovies(currentSegmentView.value, currentPage.value, append);
         }
     };
 
+    let isLoadingNextPage = false;
+
     const loadNextPage = async () => {        
-        if (!hasMoreMovies.value || loading.value || loadingMore.value) {
+        if (!hasMoreMovies.value || loading.value || loadingMore.value || isLoadingNextPage) {
             return;
         }
         
+        isLoadingNextPage = true;
         const nextPage = currentPage.value + 1;
 
         try { 
             if (route.path === '/discover') {
-                if (searchTerm.value) {
+                if (searchTerm.value && searchTerm.value.trim().length >= 2) {
                     await searchMovies(searchTerm.value, nextPage, true);
                 } else {
                     await discoverMovies(getDiscoverParams(), nextPage, true);
@@ -214,8 +239,55 @@ export const useMovieStore = defineStore('movieData', () => {
             }
             
             currentPage.value = nextPage;
+            await new Promise(resolve => setTimeout(resolve, 200));
         } catch (error) {
             console.error('Failed to load next page:', error);
+        } finally {
+            isLoadingNextPage = false;
+        }
+    };
+
+
+
+    const loadMultipleSearchPages = async (query: string, pagesToLoad: number = 5) => {
+        loading.value = true;
+        movies.value = [];
+        
+        try {
+            const pages = Array.from({ length: pagesToLoad }, (_, index) => index + 1);
+            
+            const pagePromises = pages.map(page => 
+                $fetch<MovieResponse>(`/api/movies/search?query=${encodeURIComponent(query)}&page=${page}`),
+            );
+            
+            const responses = await Promise.all(pagePromises);
+            
+            const allMovies: Movie[] = [];
+            const movieIds = new Set<number>();
+            
+            responses.forEach((response, index) => {
+                response.results.forEach(movie => {
+                    if (!movieIds.has(movie.id)) {
+                        allMovies.push(movie);
+                        movieIds.add(movie.id);
+                    }
+                });
+                
+                if (index === 0) {
+                    totalPages.value = response.total_pages;
+                    totalResults.value = response.total_results;
+                }
+            });
+            
+            movies.value = allMovies;
+            currentPage.value = pagesToLoad;
+            
+            return allMovies;
+        } catch (error) {
+            console.error('Failed to load multiple search pages:', error);
+            return [];
+        } finally {
+            loading.value = false;
         }
     };
 
@@ -231,10 +303,18 @@ export const useMovieStore = defineStore('movieData', () => {
         }
     }, { deep: true });
     
-    watch(searchTerm, () => {
+    watch(searchTerm, (newValue) => {
         if (route.path === '/discover') {
             resetPagination();
-            loadMovies();
+            
+            if (!newValue || newValue.trim().length >= 2) {
+                loadMovies();
+            } else {
+                movies.value = [];
+                totalPages.value = 0;
+                totalResults.value = 0;
+                loading.value = false;
+            }
         }
     });
 

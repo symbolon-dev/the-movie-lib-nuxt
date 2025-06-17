@@ -17,7 +17,7 @@ export const useFilterStore = defineStore('filter', () => {
             );
         }
 
-        if (selectedGenres.value.length > 0 && route.path !== '/discover') {
+        if (selectedGenres.value.length > 0) {
             filtered = filtered.filter(movie =>
                 selectedGenres.value.every((genreId: number) => movie.genre_ids?.includes(genreId)),
             );
