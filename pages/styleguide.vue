@@ -79,9 +79,9 @@ if (process.env.NODE_ENV === 'production') {
         <section class="mb-10">
             <h2 class="heading-4 mb-2">Navigation Links</h2>
             <div class="flex flex-wrap items-center gap-4">
-                <NuxtLink to="/" class="btn-primary cursor-pointer">Aktiv</NuxtLink>
+                <NuxtLink to="/" class="btn-primary cursor-pointer">Active</NuxtLink>
                 <NuxtLink to="/" class="btn hover:btn-primary cursor-pointer">Standard</NuxtLink>
-                <NuxtLink to="/" class="btn-secondary cursor-pointer"><Icon name="ion:compass" class="mr-1" />Entdecken</NuxtLink>
+                <NuxtLink to="/" class="btn-secondary cursor-pointer"><Icon name="ion:compass" class="mr-1" />Discover</NuxtLink>
             </div>
         </section>
 
@@ -107,7 +107,7 @@ if (process.env.NODE_ENV === 'production') {
         <section class="mb-10">
             <h2 class="heading-4 mb-2">MovieCard</h2>
             <div class="max-w-xs">
-                <MovieCard :movie="{ id: 1, title: 'Beispiel-Film', release_date: '2024-01-01', poster_path: null, genre_ids: [1,2], vote_average: 8.7 }" :genres="[{ id:1, name:'Action' },{ id:2, name:'Drama' }]" :index="0" />
+                <MovieCard :movie="{ id: 1, title: 'Example Movie', release_date: '2024-01-01', poster_path: null, genre_ids: [1,2], vote_average: 8.7 }" :genres="[{ id:1, name:'Action' },{ id:2, name:'Drama' }]" :index="0" />
             </div>
         </section>
 

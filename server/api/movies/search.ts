@@ -1,19 +1,14 @@
-import { fetchFromTmdb, handleApiError, getPageFromQuery, type MovieResponse } from '~/server/utils/tmdb';
+import { fetchFromTmdb, handleApiError, type MovieResponse } from '~/server/utils/tmdb';
+import { SearchQuerySchema } from '~/server/utils/schemas';
 
 export default defineEventHandler(async (event) => {
     try {
-        const { query } = getQuery(event);
-        if (!query || typeof query !== 'string') {
-            throw createError({
-                statusCode: 400,
-                statusMessage: 'Query parameter is missing or not a string',
-            });
-        }
+        const queryParams = getQuery(event);
 
-        const page = getPageFromQuery(event);
-        
-        const data = await fetchFromTmdb<MovieResponse>('search/movie', { 
-            query: encodeURIComponent(query), 
+        const { query, page = 1 } = SearchQuerySchema.parse(queryParams);
+
+        const data = await fetchFromTmdb<MovieResponse>('search/movie', {
+            query: encodeURIComponent(query),
             page,
         });
 

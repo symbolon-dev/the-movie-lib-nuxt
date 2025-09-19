@@ -4,9 +4,9 @@
         <div class="grid grid-cols-1 gap-6" :class="gridClasses">
             <!-- Loading State -->
             <template v-if="loading">
-                <MovieSkeleton v-for="n in 12" :key="n" />
+                <MovieSkeleton v-for="n in SKELETON_COUNT" :key="n" />
             </template>
-      
+
             <!-- Movies -->
             <template v-else>
                 <MovieCard 
@@ -25,18 +25,20 @@
                 class="btn-primary"
                 @click="loadNextPage"
             >
-                {{ loadingMore ? 'Laden...' : 'Mehr laden' }}
+                {{ loadingMore ? 'Loading...' : 'Load more' }}
             </button>
         </div>
     
         <!-- No Results -->
         <div v-if="!loading && movies.length === 0" class="py-8 text-center">
-            <p class="text-gray-500">Keine Filme gefunden</p>
+            <p class="text-gray-500">No movies found</p>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+const SKELETON_COUNT = 12;
+
 withDefaults(defineProps<{
     gridClasses: string;
     initialVisibleCount?: number;
@@ -45,8 +47,6 @@ withDefaults(defineProps<{
 });
 
 const movieStore = useMovieStore();
-const { displayMovies, loading, loadingMore, hasMoreMovies } = storeToRefs(movieStore);
+const { displayMovies: movies, loading, loadingMore, hasMoreMovies } = storeToRefs(movieStore);
 const { loadNextPage } = movieStore;
-
-const movies = displayMovies;
 </script>

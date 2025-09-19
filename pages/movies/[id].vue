@@ -22,11 +22,12 @@
                 
                 <!-- Movie poster card-->
                 <div class="mx-auto w-full max-w-[240px] shrink-0 overflow-hidden rounded-xl border-4 border-surface-dark/60 shadow-2xl md:mx-0 md:max-w-[280px] lg:max-w-[300px]">
-                    <img
+                    <NuxtImg
                         :src="movie?.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : '/placeholder.png'"
                         :alt="movie?.title"
                         class="size-full object-cover"
-                    >
+                        format="webp"
+                    />
                 </div>
 
                 <!-- Movie details card -->
@@ -62,18 +63,18 @@
                                 :key="genre.id"
                                 class="badge-primary"
                             >
-                                {{ genres.find((g: any) => g.id === genre.id)?.name ?? 'Unbekannt' }}
+                                {{ genres.find((g: { id: number; name: string }) => g.id === genre.id)?.name ?? 'Unknown' }}
                             </span>
                         </div>
                     </div>
 
                     <div class="flex-1 py-6">
-                        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-content-light/70">Übersicht</h3>
+                        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-content-light/70">Overview</h3>
                         <p v-if="movie?.overview" class="max-w-none text-base leading-relaxed text-content-light/90">
                             {{ movie?.overview }}
                         </p>
                         <p v-else class="text-base italic text-content-light/60">
-                            Keine Beschreibung verfügbar.
+                            No description available.
                         </p>
                     </div>
                     
@@ -98,7 +99,6 @@ import type { Movie } from '~/stores/movieStore';
 
 const route = useRoute();
 const movieStore = useMovieStore();
-const { getGenres } = movieStore;
 const { genres } = storeToRefs(movieStore);
 
 const movieId = route.params.id as string;
@@ -116,8 +116,4 @@ const convertMinutesToHoursAndMinutes = (minutes: number): string => {
     const mins = minutes % 60;
     return `${hours}h ${mins}m`;
 };
-
-if (genres.value.length === 0) {
-    await getGenres();
-}
 </script>

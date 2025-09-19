@@ -27,10 +27,10 @@ const movieStore = useMovieStore();
 const { currentSegmentView } = storeToRefs(movieStore);
 
 const movieCategories = [
-    { key: 'now_playing', label: 'Im Kino' },
-    { key: 'popular', label: 'Populär' },
-    { key: 'top_rated', label: 'Bestbewertet' },
-    { key: 'upcoming', label: 'Neuerscheinungen' },
+    { key: 'now_playing', label: 'Now Playing' },
+    { key: 'popular', label: 'Popular' },
+    { key: 'top_rated', label: 'Top Rated' },
+    { key: 'upcoming', label: 'Upcoming' },
 ] as const;
 
 const buttons = ref<HTMLElement[]>([]);
