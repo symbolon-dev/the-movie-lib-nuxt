@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col space-y-1">
-        <label>Sortierung</label>
+        <label>Sort</label>
         <div ref="dropdownRef" class="relative">
             <button
                 type="button"
@@ -44,18 +44,18 @@ const dropdownRef = ref<HTMLElement | undefined>(undefined);
 const isOpen = ref(false);
 
 const sortVariants = [
-    { label: '↓ Popularität', value: 'popularity.desc' },   
-    { label: '↑ Popularität', value: 'popularity.asc' },
-    { label: '↓ Titel', value: 'original_title.desc' },
-    { label: '↑ Titel', value: 'original_title.asc' },
-    { label: '↓ Erscheinungsdatum', value: 'primary_release_date.desc' },
-    { label: '↑ Erscheinungsdatum', value: 'primary_release_date.asc' },
-    { label: '↓ Bewertung', value: 'vote_average.desc' }, 
-    { label: '↑ Bewertung', value: 'vote_average.asc' },
-    { label: '↓ Anzahl Bewertungen', value: 'vote_count.desc' }, 
-    { label: '↑ Anzahl Bewertungen', value: 'vote_count.asc' },
-    { label: '↓ Umsatz', value: 'revenue.desc' },
-    { label: '↑ Umsatz', value: 'revenue.asc' },
+    { label: '↓ Popularity', value: 'popularity.desc' },
+    { label: '↑ Popularity', value: 'popularity.asc' },
+    { label: '↓ Title', value: 'original_title.desc' },
+    { label: '↑ Title', value: 'original_title.asc' },
+    { label: '↓ Release Date', value: 'primary_release_date.desc' },
+    { label: '↑ Release Date', value: 'primary_release_date.asc' },
+    { label: '↓ Rating', value: 'vote_average.desc' },
+    { label: '↑ Rating', value: 'vote_average.asc' },
+    { label: '↓ Vote Count', value: 'vote_count.desc' },
+    { label: '↑ Vote Count', value: 'vote_count.asc' },
+    { label: '↓ Revenue', value: 'revenue.desc' },
+    { label: '↑ Revenue', value: 'revenue.asc' },
 ];
 
 const currentSortLabel = computed(() => {

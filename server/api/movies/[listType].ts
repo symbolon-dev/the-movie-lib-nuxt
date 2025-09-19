@@ -1,4 +1,5 @@
-import { fetchFromTmdb, getPageFromQuery, handleApiError, type MovieResponse } from '~/server/utils/tmdb';
+import { fetchFromTmdb, handleApiError, type MovieResponse } from '~/server/utils/tmdb';
+import { MovieListTypeSchema, PageSchema } from '~/server/utils/schemas';
 
 export type MovieListType = 'now_playing' | 'popular' | 'top_rated' | 'upcoming';
 
@@ -11,20 +12,12 @@ export const errorMessages: Record<MovieListType, string> = {
 
 export default defineEventHandler(async (event) => {
     try {
-        const listType = event.context.params?.listType as MovieListType;
-        
-        if (!listType || !['now_playing', 'popular', 'top_rated', 'upcoming'].includes(listType)) {
-            throw createError({
-                statusCode: 404,
-                statusMessage: 'Invalid movie list type',
-            });
-        }
-        
-        const page = getPageFromQuery(event);
-        const data = await fetchFromTmdb<MovieResponse>(`movie/${listType}`, { page });
+        const listType = MovieListTypeSchema.parse(event.context.params?.listType);
+        const page = PageSchema.parse(getQuery(event).page);
 
+        const data = await fetchFromTmdb<MovieResponse>(`movie/${listType}`, { page });
         data.page = page;
-        
+
         return data;
     } catch (error) {
         const listType = event.context.params?.listType as MovieListType;

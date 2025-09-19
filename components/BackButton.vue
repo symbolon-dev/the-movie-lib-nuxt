@@ -11,7 +11,7 @@
             size="16"
         />
         <span>
-            Zurück
+            Back
         </span>
     </button>
 </template>

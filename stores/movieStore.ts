@@ -20,9 +20,13 @@ export type MovieResponse = {
     page?: number;
 }
 
+const FETCH_DELAY = 250;
+const SEARCH_DELAY = 500;
+
 export const useMovieStore = defineStore('movieData', () => {
     const route = useRoute();
     const filterStore = useFilterStore();
+    const { loadMultipleSearchPages } = useMultipleSearch();
 
     const {
         searchTerm, selectedSort, selectedGenres,
@@ -108,7 +112,7 @@ export const useMovieStore = defineStore('movieData', () => {
             totalPages.value = response.total_pages;
             totalResults.value = response.total_results;
             
-            await new Promise(resolve => setTimeout(resolve, 250));
+            await new Promise(resolve => setTimeout(resolve, FETCH_DELAY));
         } catch (error) {
             console.error('Movie fetching failed:', error);
         } finally {
@@ -123,7 +127,12 @@ export const useMovieStore = defineStore('movieData', () => {
         const hasGenreFilters = selectedGenres.value.length > 0;
         
         if (page === 1 && hasGenreFilters && !append) {
-            return await loadMultipleSearchPages(query);
+            const result = await loadMultipleSearchPages(query);
+            movies.value = result.movies;
+            totalPages.value = result.totalPages;
+            totalResults.value = result.totalResults;
+            currentPage.value = 5; // Since we loaded 5 pages
+            return;
         }
 
         if (!append) {
@@ -152,7 +161,7 @@ export const useMovieStore = defineStore('movieData', () => {
             totalPages.value = response.total_pages;
             totalResults.value = response.total_results;
             
-            await new Promise(resolve => setTimeout(resolve, 500));
+            await new Promise(resolve => setTimeout(resolve, SEARCH_DELAY));
         } catch (error) {
             console.error('Search failed:', error);
         } finally {
@@ -190,7 +199,7 @@ export const useMovieStore = defineStore('movieData', () => {
             totalPages.value = response.total_pages;
             totalResults.value = response.total_results;
             
-            await new Promise(resolve => setTimeout(resolve, 500));
+            await new Promise(resolve => setTimeout(resolve, SEARCH_DELAY));
         } catch (error) {
             console.error('Discover failed:', error);
         } finally {
@@ -249,47 +258,6 @@ export const useMovieStore = defineStore('movieData', () => {
 
 
 
-    const loadMultipleSearchPages = async (query: string, pagesToLoad: number = 5) => {
-        loading.value = true;
-        movies.value = [];
-        
-        try {
-            const pages = Array.from({ length: pagesToLoad }, (_, index) => index + 1);
-            
-            const pagePromises = pages.map(page => 
-                $fetch<MovieResponse>(`/api/movies/search?query=${encodeURIComponent(query)}&page=${page}`),
-            );
-            
-            const responses = await Promise.all(pagePromises);
-            
-            const allMovies: Movie[] = [];
-            const movieIds = new Set<number>();
-            
-            responses.forEach((response, index) => {
-                response.results.forEach(movie => {
-                    if (!movieIds.has(movie.id)) {
-                        allMovies.push(movie);
-                        movieIds.add(movie.id);
-                    }
-                });
-                
-                if (index === 0) {
-                    totalPages.value = response.total_pages;
-                    totalResults.value = response.total_results;
-                }
-            });
-            
-            movies.value = allMovies;
-            currentPage.value = pagesToLoad;
-            
-            return allMovies;
-        } catch (error) {
-            console.error('Failed to load multiple search pages:', error);
-            return [];
-        } finally {
-            loading.value = false;
-        }
-    };
 
     watch(currentSegmentView, () => {
         resetPagination();

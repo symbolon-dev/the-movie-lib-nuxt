@@ -1,11 +1,11 @@
 <template>
     <div class="flex h-64 w-full flex-col items-center justify-center rounded-md bg-primary/20 px-4 sm:h-80 sm:px-6 md:h-96">
         <h1 class="heading-1 mb-2 text-center text-2xl sm:text-3xl md:text-4xl">
-            Entdecke Filme
+            Discover Movies
         </h1>
 
         <p class="heading-5 mb-6 max-w-xs text-center text-sm text-primary/80 sm:mb-8 sm:max-w-md sm:text-base md:mb-10 md:max-w-xl">
-            Durchsuche tausende von Filmen, filtere nach Genre und finde deinen nächsten Lieblingsfilm
+            Browse thousands of movies, filter by genre and find your next favorite film
         </p>
 
         <NuxtLink
@@ -18,7 +18,7 @@
                 size="18" 
             />
             <span>
-                Jetzt entdecken
+                Discover now
             </span>
         </NuxtLink>
     </div>

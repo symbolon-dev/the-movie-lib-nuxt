@@ -12,7 +12,7 @@ export default defineNuxtConfig({
                 { name: 'description', content: 'An application for browsing movies' },
             ],
             htmlAttrs: {
-                lang: 'de',
+                lang: 'en',
             },
         },
     },  
@@ -20,8 +20,8 @@ export default defineNuxtConfig({
     compatibilityDate: '2025-05-15',
 
     dayjs: {
-        locales: ['de'],
-        defaultLocale: 'de',
+        locales: ['en'],
+        defaultLocale: 'en',
     },
 
     modules: [

@@ -16,7 +16,7 @@
                     @click="handleResetFilters"
                 >
                     <Icon name="ion:refresh" class="mr-2" />
-                    <span>Zurücksetzen</span>
+                    <span>Reset</span>
                 </button>
             </div>
 
