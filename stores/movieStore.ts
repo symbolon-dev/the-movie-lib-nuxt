@@ -39,6 +39,7 @@ export const useMovieStore = defineStore('movieData', () => {
     const totalResults = ref(0);
     const loading = ref(false);
     const loadingMore = ref(false);
+    const error = ref<string | undefined>(undefined);
     const currentPage = ref(1);
     const currentSegmentView = ref('now_playing');
     const scrollPositions = ref<Record<string, number>>({});
@@ -84,8 +85,8 @@ export const useMovieStore = defineStore('movieData', () => {
             const response = await $fetch<{ genres: {id: number, name: string}[] }>('/api/movies/genres');
             genres.value = response.genres;
             return genres.value;
-        } catch (error) {
-            console.error('Failed to fetch genres:', error);
+        } catch (err) {
+            console.error('Failed to fetch genres:', err);
             return [];
         }
     };
@@ -98,10 +99,11 @@ export const useMovieStore = defineStore('movieData', () => {
         }
 
         try {
+            error.value = undefined;
             const response = await $fetch<MovieResponse>(`/api/movies/${listType}?page=${page}`);
 
             if (append) {
-                const newMovies: Movie[] = response.results.filter((movie: Movie) => 
+                const newMovies: Movie[] = response.results.filter((movie: Movie) =>
                     !movies.value.some((existing: Movie) => existing.id === movie.id),
                 );
                 movies.value = [...movies.value, ...newMovies];
@@ -111,10 +113,10 @@ export const useMovieStore = defineStore('movieData', () => {
 
             totalPages.value = response.total_pages;
             totalResults.value = response.total_results;
-            
-            await new Promise(resolve => setTimeout(resolve, FETCH_DELAY));
-        } catch (error) {
-            console.error('Movie fetching failed:', error);
+
+        } catch (err) {
+            console.error('Movie fetching failed:', err);
+            error.value = 'Fehler beim Laden der Filme. Bitte versuchen Sie es erneut.';
         } finally {
             loading.value = false;
             loadingMore.value = false;
@@ -145,25 +147,26 @@ export const useMovieStore = defineStore('movieData', () => {
         }
         
         try {
+            error.value = undefined;
             const response = await $fetch<MovieResponse>(`/api/movies/search?query=${encodeURIComponent(query)}&page=${page}`);
-            
+
             if (append) {
                 const existingIds = new Set(movies.value.map(m => m.id));
                 const newMovies: Movie[] = response.results.filter((movie: Movie) => !existingIds.has(movie.id));
-                
+
                 if (newMovies.length > 0) {
                     movies.value = [...movies.value, ...newMovies];
                 }
             } else {
                 movies.value = response.results;
             }
-            
+
             totalPages.value = response.total_pages;
             totalResults.value = response.total_results;
-            
-            await new Promise(resolve => setTimeout(resolve, SEARCH_DELAY));
-        } catch (error) {
-            console.error('Search failed:', error);
+
+        } catch (err) {
+            console.error('Search failed:', err);
+            error.value = 'Fehler bei der Suche. Bitte versuchen Sie es erneut.';
         } finally {
             loading.value = false;
             loadingMore.value = false;
@@ -183,12 +186,13 @@ export const useMovieStore = defineStore('movieData', () => {
         }
         
         try {
+            error.value = undefined;
             const response = await $fetch<MovieResponse>(`/api/movies/discover?${params.toString()}`);
 
             if (append) {
                 const existingIds = new Set(movies.value.map(m => m.id));
                 const newMovies: Movie[] = response.results.filter((movie: Movie) => !existingIds.has(movie.id));
-                
+
                 if (newMovies.length > 0) {
                     movies.value = [...movies.value, ...newMovies];
                 }
@@ -198,10 +202,10 @@ export const useMovieStore = defineStore('movieData', () => {
 
             totalPages.value = response.total_pages;
             totalResults.value = response.total_results;
-            
-            await new Promise(resolve => setTimeout(resolve, SEARCH_DELAY));
-        } catch (error) {
-            console.error('Discover failed:', error);
+
+        } catch (err) {
+            console.error('Discover failed:', err);
+            error.value = 'Fehler beim Entdecken von Filmen. Bitte versuchen Sie es erneut.';
         } finally {
             loading.value = false;
             loadingMore.value = false;
@@ -236,7 +240,7 @@ export const useMovieStore = defineStore('movieData', () => {
         isLoadingNextPage = true;
         const nextPage = currentPage.value + 1;
 
-        try { 
+        try {
             if (route.path === '/discover') {
                 if (searchTerm.value && searchTerm.value.trim().length >= 2) {
                     await searchMovies(searchTerm.value, nextPage, true);
@@ -246,11 +250,11 @@ export const useMovieStore = defineStore('movieData', () => {
             } else {
                 await fetchMovies(currentSegmentView.value, nextPage, true);
             }
-            
+
             currentPage.value = nextPage;
-            await new Promise(resolve => setTimeout(resolve, 200));
-        } catch (error) {
-            console.error('Failed to load next page:', error);
+        } catch (err) {
+            console.error('Failed to load next page:', err);
+            error.value = 'Fehler beim Laden weiterer Filme.';
         } finally {
             isLoadingNextPage = false;
         }
@@ -294,6 +298,7 @@ export const useMovieStore = defineStore('movieData', () => {
         currentPage,
         loading,
         loadingMore,
+        error,
         hasMoreMovies,
         currentSegmentView,
         fetchMovies,

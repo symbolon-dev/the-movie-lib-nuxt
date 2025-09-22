@@ -35,8 +35,8 @@ module.exports = {
                 },
             },
             fontFamily: {
-                heading: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                body: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                heading: ['ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                body: ['ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
             },
         },
     },

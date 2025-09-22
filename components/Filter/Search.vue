@@ -13,18 +13,21 @@
                 v-model="localSearchTerm"
                 type="text"
                 placeholder="Search movie titles..."
-                class="h-10 w-full rounded-md border border-primary bg-white py-2 pl-10 pr-3 text-content transition placeholder:text-primary/60 focus:outline-none focus:ring-2 focus:ring-primary"
+                class="min-h-11 w-full touch-manipulation rounded-md border border-primary bg-white py-2 pl-10 pr-3 text-content transition placeholder:text-primary/60 focus:outline-none focus:ring-2 focus:ring-primary"
                 :class="{ 'border-red-500': isSearchTooShort }"
             >
-            <span class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <button
+                v-if="localSearchTerm"
+                type="button"
+                class="absolute inset-y-0 right-0 flex touch-manipulation items-center pr-3"
+                @click="localSearchTerm = ''; searchTerm = ''"
+            >
                 <Icon
-                    v-if="localSearchTerm"
-                    name="ion:close" 
-                    class="cursor-pointer text-content"
+                    name="ion:close"
+                    class="text-content transition-colors hover:text-primary"
                     size="20"
-                    @click="localSearchTerm = ''; searchTerm = ''"
                 />
-            </span>
+            </button>
         </div>
         <p v-if="isSearchTooShort" class="text-xs text-red-500">
             Please enter at least {{ MIN_SEARCH_LENGTH }} characters
