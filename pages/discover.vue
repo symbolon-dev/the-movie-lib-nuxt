@@ -52,4 +52,16 @@ onBeforeRouteLeave((to) => {
         resetFilters();
     }
 });
+
+// SEO Meta Tags
+useSeoMeta({
+    title: 'Discover Movies - The Movie Lib',
+    description: 'Discover and explore movies with advanced search and filtering options. Find movies by genre, release year, rating and more.',
+    ogTitle: 'Discover Movies - The Movie Lib',
+    ogDescription: 'Discover and explore movies with advanced search and filtering options. Find movies by genre, release year, rating and more.',
+    ogType: 'website',
+    twitterCard: 'summary',
+    twitterTitle: 'Discover Movies - The Movie Lib',
+    twitterDescription: 'Discover and explore movies with advanced search and filtering options. Find movies by genre, release year, rating and more.',
+});
 </script>
