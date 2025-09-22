@@ -19,8 +19,8 @@
             </template>
         </div>
     
-        <div v-if="!loading && hasMoreMovies" class="my-8 text-center">
-            <button 
+        <div v-if="!loading && hasMoreMovies && !error" class="my-8 text-center">
+            <button
                 :disabled="loadingMore"
                 class="btn-primary"
                 @click="loadNextPage"
@@ -29,8 +29,16 @@
             </button>
         </div>
     
+        <!-- Error State -->
+        <div v-if="!loading && error" class="py-8">
+            <Error
+                :message="error"
+                @retry="loadMovies()"
+            />
+        </div>
+
         <!-- No Results -->
-        <div v-if="!loading && movies.length === 0" class="py-8 text-center">
+        <div v-else-if="!loading && movies.length === 0" class="py-8 text-center">
             <p class="text-gray-500">No movies found</p>
         </div>
     </div>
@@ -47,6 +55,6 @@ withDefaults(defineProps<{
 });
 
 const movieStore = useMovieStore();
-const { displayMovies: movies, loading, loadingMore, hasMoreMovies } = storeToRefs(movieStore);
-const { loadNextPage } = movieStore;
+const { displayMovies: movies, loading, loadingMore, hasMoreMovies, error } = storeToRefs(movieStore);
+const { loadNextPage, loadMovies } = movieStore;
 </script>

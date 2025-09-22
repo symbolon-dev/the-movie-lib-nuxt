@@ -116,4 +116,18 @@ const convertMinutesToHoursAndMinutes = (minutes: number): string => {
     const mins = minutes % 60;
     return `${hours}h ${mins}m`;
 };
+
+// SEO Meta Tags
+useSeoMeta({
+    title: () => movie.value ? `${movie.value.title} - The Movie Lib` : 'Movie Details - The Movie Lib',
+    description: () => movie.value?.overview?.substring(0, 160) || 'Discover movies and get detailed information about your favorite films.',
+    ogTitle: () => movie.value?.title || 'Movie Details',
+    ogDescription: () => movie.value?.overview?.substring(0, 160) || 'Discover movies and get detailed information about your favorite films.',
+    ogImage: () => movie.value?.poster_path ? `https://image.tmdb.org/t/p/w500${movie.value.poster_path}` : undefined,
+    ogType: 'video.movie',
+    twitterCard: 'summary_large_image',
+    twitterTitle: () => movie.value?.title || 'Movie Details',
+    twitterDescription: () => movie.value?.overview?.substring(0, 160) || 'Discover movies and get detailed information about your favorite films.',
+    twitterImage: () => movie.value?.poster_path ? `https://image.tmdb.org/t/p/w500${movie.value.poster_path}` : undefined,
+});
 </script>

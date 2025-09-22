@@ -50,7 +50,7 @@
     }
 
     .btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-semibold animate-interactive;
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-semibold animate-interactive touch-manipulation min-h-11;
     }
 
     .btn-primary {
@@ -66,14 +66,14 @@
     }
 
     .badge {
-        @apply inline-flex items-center justify-center rounded-full px-3 py-1 text-sm font-medium bg-primary/10 text-primary;
+        @apply inline-flex items-center justify-center rounded-full px-3 py-1 text-sm font-medium bg-primary/10 text-primary touch-manipulation min-h-8;
     }
 
     .badge-primary {
-        @apply badge bg-primary-dark  text-content-light hover:bg-primary/90;
+        @apply badge bg-primary-dark text-content-light hover:bg-primary/90 active:bg-primary-dark/80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1;
     }
 
     .badge-secondary {
-        @apply badge border border-primary bg-surface/20 text-primary hover:bg-primary/10;
+        @apply badge border border-primary bg-surface/20 text-primary hover:bg-primary/10 active:bg-primary/20 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1;
     }
 }

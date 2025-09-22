@@ -1,12 +1,12 @@
 <template>
-    <NuxtLink 
+    <NuxtLink
         :to="`/movies/${movie.id}`"
-        class="group block h-full overflow-hidden rounded-lg bg-surface/80 shadow-lg transition-transform hover:scale-105"
+        class="group block h-full touch-manipulation overflow-hidden rounded-lg bg-surface/80 shadow-lg transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 active:scale-95"
     >
         <div class="aspect-[2/3] w-full">
             <NuxtImg
                 v-if="movie.poster_path"
-                :src="`https://image.tmdb.org/t/p/w342${movie.poster_path}`"
+                :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
                 :alt="movie.title"
                 class="size-full object-cover"
                 :loading="isLazy ? 'lazy' : undefined"

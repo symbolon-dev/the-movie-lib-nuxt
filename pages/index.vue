@@ -18,9 +18,21 @@ const { loadMovies } = movieStore;
 onMounted(async () => {
     currentSegmentView.value = 'now_playing';
     scrollTo(0, 0);
-    
+
     if (movies.value.length === 0) {
         await loadMovies();
     }
+});
+
+// SEO Meta Tags
+useSeoMeta({
+    title: 'The Movie Lib - Discover Movies',
+    description: 'Discover the latest movies, popular films, and top-rated cinema. Browse through an extensive collection of movies with detailed information and ratings.',
+    ogTitle: 'The Movie Lib - Discover Movies',
+    ogDescription: 'Discover the latest movies, popular films, and top-rated cinema. Browse through an extensive collection of movies with detailed information and ratings.',
+    ogType: 'website',
+    twitterCard: 'summary_large_image',
+    twitterTitle: 'The Movie Lib - Discover Movies',
+    twitterDescription: 'Discover the latest movies, popular films, and top-rated cinema. Browse through an extensive collection of movies with detailed information and ratings.',
 });
 </script>
