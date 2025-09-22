@@ -1,161 +1,166 @@
 # The Movie Lib
 
-Eine moderne Filmdatenbank-Webanwendung, entwickelt mit Nuxt.js und der TMDB API als Teil einer Frontend-Developer Schnupperaufgabe.
+## Frontend Developer Coding Challenge
 
-![The Movie Lib Screenshot](https://via.placeholder.com/800x450?text=The+Movie+Lib+Screenshot)
+This project is a coding challenge for frontend developers to demonstrate skills in modern web technologies, UX/UI design, and development capabilities.
 
-## 📝 Projektbeschreibung
+**Challenge Overview:**
+Develop a web application that displays a movie list with search, filter, and sort functionality. Users should be able to click on movies to view detailed information.
 
-Diese Webanwendung wurde als Lösung für die gestellte Frontend-Developer Schnupperaufgabe entwickelt. Die Hauptanforderungen waren:
+A modern movie database web application built with Nuxt.js and the TMDB API.
 
-- Anzeige einer Liste von Filmen mit Daten aus der TMDB API
-- Implementierung von Such-, Filter- und Sortierfunktionen
-- Erstellung einer Detailansicht für einzelne Filme
-- Verwendung von Nuxt.js und Tailwind CSS
+## Project Description
 
-## 🚀 Features
+This web application was developed as a solution for the frontend developer coding challenge. The main requirements were:
 
-- **Filmliste:** Übersichtliche Darstellung von Filmen aus verschiedenen Kategorien
-- **Suche:** Echtzeit-Suche nach Filmtiteln
-- **Filter:** Filterung nach Filmgenres
-- **Sortierung:** Verschiedene Sortieroptionen (Beliebtheit, Bewertung, Erscheinungsdatum)
-- **Detailansicht:** Ausführliche Informationen zu jedem Film
-- **Responsive Design:** Optimierte Darstellung auf allen Geräten
+- Display a list of movies with data from the TMDB API
+- Implementation of search, filter, and sort functionality
+- Creation of a detail view for individual movies
+- Use of Nuxt.js and Tailwind CSS
 
-## 🛠️ Technologien
+## Features
 
-- **Framework:** Nuxt 3.17.5 (aufbauend auf Vue.js)
+- **Movie List:** Clear display of movies from various categories
+- **Search:** Real-time search for movie titles
+- **Filter:** Filtering by movie genres
+- **Sorting:** Various sorting options (popularity, rating, release date)
+- **Detail View:** Detailed information for each movie
+- **Responsive Design:** Optimized display on all devices
+
+## Technologies
+
+- **Framework:** Nuxt 3.17.5 (built on Vue.js)
 - **Styling:** Tailwind CSS v3
 - **State Management:** Pinia
 - **API:** The Movie Database (TMDB)
-- **Formatierung:** ESLint
-- **Paketmanager:** pnpm
-- **TypeScript:** Vollständige TypeScript-Unterstützung
+- **Linting:** ESLint
+- **Package Manager:** pnpm
+- **TypeScript:** Full TypeScript support
 
-## 📊 Architektur
+## Architecture
 
-Die Anwendung ist nach folgenden Prinzipien aufgebaut:
+The application is built following these principles:
 
-- **Component-basierte Struktur:** Modulare Komponenten für optimale Wiederverwendbarkeit
-- **Server-seitige API-Anbindung:** TMDB-Zugriff über Nuxt Server API Routes
-- **State Management:** Zentralisierte Datenverwaltung mit Pinia
-- **Responsive Design:** Mobile-First Ansatz mit Tailwind CSS
+- **Component-based Structure:** Modular components for optimal reusability
+- **Server-side API Integration:** TMDB access via Nuxt Server API Routes
+- **State Management:** Centralized data management with Pinia
+- **Responsive Design:** Mobile-first approach with Tailwind CSS
 
-## 💻 Installation
+## Installation
 
-### Voraussetzungen
+### Prerequisites
 
-- Node.js (v18 oder höher)
-- pnpm (empfohlen) oder npm/yarn
+- Node.js (v18 or higher)
+- pnpm (recommended) or npm/yarn
 
-### Einrichtung
+### Setup
 
-1. Projekt klonen:
+1. Clone the project:
 ```bash
-git clone https://github.com/dein-username/the-movie-lib.git
+git clone https://github.com/your-username/the-movie-lib.git
 cd the-movie-lib
 ```
 
-2. Abhängigkeiten installieren:
+2. Install dependencies:
 ```bash
-# Mit pnpm (empfohlen)
+# With pnpm (recommended)
 pnpm install
 
-# Mit npm
+# With npm
 npm install
 
-# Mit yarn
+# With yarn
 yarn install
 ```
 
-### Umgebungsvariablen
+### Environment Variables
 
-Erstelle eine `.env`-Datei im Hauptverzeichnis:
+Create a `.env` file in the root directory:
 
 ```
-NUXT_TMDB_API_KEY=dein_tmdb_api_key
+NUXT_TMDB_API_KEY=your_tmdb_api_key
 ```
 
-Den API-Key erhältst du von [The Movie Database](https://www.themoviedb.org/settings/api).
+Get your API key from [The Movie Database](https://www.themoviedb.org/settings/api).
 
-## 🚀 Entwicklung
+## Development
 
-Starte den Entwicklungsserver auf `http://localhost:3000`:
+Start the development server on `http://localhost:3000`:
 
 ```bash
-# Mit pnpm (empfohlen)
+# With pnpm (recommended)
 pnpm dev
 
-# Mit npm
+# With npm
 npm run dev
 
-# Mit yarn
+# With yarn
 yarn dev
 ```
 
-## 📦 Build
+## Build
 
-Erstelle eine produktionsfertige Version:
+Create a production-ready version:
 
 ```bash
-# Mit pnpm
+# With pnpm
 pnpm build
 
-# Mit npm
+# With npm
 npm run build
 
-# Mit yarn
+# With yarn
 yarn build
 ```
 
-Preview der Produktionsversion:
+Preview the production version:
 
 ```bash
-# Mit pnpm
+# With pnpm
 pnpm preview
 
-# Mit npm
+# With npm
 npm run preview
 
-# Mit yarn
+# With yarn
 yarn preview
 ```
 
-## 🚀 Deployment
+## Deployment
 
-Die Anwendung ist für das Deployment mit NuxtHub vorbereitet:
+The application is prepared for deployment with NuxtHub:
 
-### Lokales Deployment
+### Local Deployment
 
-Nach dem Build kann die Anwendung lokal ausgeführt werden:
+After building, the application can be run locally:
 
 ```bash
-# Nach dem Build
+# After build
 pnpm preview
 ```
 
 ### NuxtHub Deployment
 
-1. Erstelle ein [NuxtHub-Konto](https://nuxthub.com/)
-2. Installiere die NuxtHub CLI:
+1. Create a [NuxtHub account](https://nuxthub.com/)
+2. Install the NuxtHub CLI:
 
 ```bash
 npm install -g @nuxthub/cli
 ```
 
-3. Logge dich in NuxtHub ein:
+3. Log in to NuxtHub:
 
 ```bash
 nuxthub login
 ```
 
-4. Führe den Deployment-Befehl aus:
+4. Run the deployment command:
 
 ```bash
 nuxthub deploy
 ```
 
-5. Konfiguriere die Umgebungsvariablen in den NuxtHub-Einstellungen:
-   - `NUXT_TMDB_API_KEY=dein_tmdb_api_key`
+5. Configure environment variables in NuxtHub settings:
+   - `NUXT_TMDB_API_KEY=your_tmdb_api_key`
 
 
