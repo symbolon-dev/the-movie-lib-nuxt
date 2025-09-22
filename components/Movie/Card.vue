@@ -6,7 +6,7 @@
         <div class="aspect-[2/3] w-full">
             <NuxtImg
                 v-if="movie.poster_path"
-                :src="`https://image.tmdb.org/t/p/w342${movie.poster_path}`"
+                :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
                 :alt="movie.title"
                 class="size-full object-cover"
                 :loading="isLazy ? 'lazy' : undefined"

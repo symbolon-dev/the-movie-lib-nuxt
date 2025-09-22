@@ -10,31 +10,7 @@
     ::selection {
         @apply bg-primary/20 text-primary;
     }
-    
-    .heading-1 {
-        @apply text-5xl font-black leading-none tracking-tight font-heading;
-    }
-    
-    .heading-2 {
-        @apply text-4xl font-bold leading-tight tracking-tight font-heading;
-    }
-    
-    .heading-3 {
-        @apply text-3xl font-bold leading-tight font-heading;
-    }
-    
-    .heading-4 {
-        @apply text-2xl font-semibold leading-snug  font-heading;
-    }
-    
-    .heading-5 {
-        @apply text-xl font-semibold leading-snug font-heading;
-    }
-    
-    .heading-6 {
-        @apply text-lg font-medium leading-normal font-heading;
-    }
-    
+
     p {
         @apply text-base leading-relaxed font-body;
     }
@@ -75,5 +51,31 @@
 
     .badge-secondary {
         @apply badge border border-primary bg-surface/20 text-primary hover:bg-primary/10;
+    }
+}
+
+@layer utilities {
+    .heading-1 {
+        @apply text-5xl font-black leading-none tracking-tight font-heading;
+    }
+
+    .heading-2 {
+        @apply text-4xl font-bold leading-tight tracking-tight font-heading;
+    }
+
+    .heading-3 {
+        @apply text-3xl font-bold leading-tight font-heading;
+    }
+
+    .heading-4 {
+        @apply text-2xl font-semibold leading-snug  font-heading;
+    }
+
+    .heading-5 {
+        @apply text-xl font-semibold leading-snug font-heading;
+    }
+
+    .heading-6 {
+        @apply text-lg font-medium leading-normal font-heading;
     }
 }
