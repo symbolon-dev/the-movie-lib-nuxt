@@ -10,7 +10,7 @@
                 :alt="movie.title"
                 class="size-full object-cover"
                 :loading="isLazy ? 'lazy' : 'eager'"
-                :fetchpriority="index < 4 ? 'high' : undefined"
+                :fetchpriority="index !== undefined && index < 4 ? 'high' : undefined"
                 :preload="!isLazy"
                 format="webp"
                 sizes="185px"

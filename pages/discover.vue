@@ -11,8 +11,9 @@
                 <FilterGenres />
                 <FilterSort />
 
-                <button 
-                    class="btn btn-secondary mt-4"
+                <button
+                    class="btn btn-secondary mt-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100"
+                    :disabled="!hasActiveFilters"
                     @click="handleResetFilters"
                 >
                     <Icon name="ion:refresh" class="mr-2" />
@@ -33,8 +34,14 @@
 
 <script setup lang="ts">
 const movieStore = useMovieStore();
-const { movies } = storeToRefs(movieStore);
+const { movies, searchTerm, selectedGenres, selectedSort } = storeToRefs(movieStore);
 const { loadMovies, resetFilters } = movieStore;
+
+const hasActiveFilters = computed(() => {
+    return !!(searchTerm.value ||
+             selectedGenres.value.length > 0 ||
+             selectedSort.value !== 'popularity.desc');
+});
 
 const handleResetFilters = async () => {
     resetFilters();
