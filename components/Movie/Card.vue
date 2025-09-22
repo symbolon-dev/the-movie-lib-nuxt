@@ -6,11 +6,14 @@
         <div class="aspect-[2/3] w-full">
             <NuxtImg
                 v-if="movie.poster_path"
-                :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
+                :src="`https://image.tmdb.org/t/p/w185${movie.poster_path}`"
                 :alt="movie.title"
                 class="size-full object-cover"
-                :loading="isLazy ? 'lazy' : undefined"
+                :loading="isLazy ? 'lazy' : 'eager'"
+                :fetchpriority="index < 4 ? 'high' : undefined"
+                :preload="!isLazy"
                 format="webp"
+                sizes="185px"
             />
             <div 
                 v-else 
@@ -26,5 +29,6 @@
 defineProps<{
     movie: Movie;
     isLazy?: boolean;
+    index?: number;
 }>();
 </script>

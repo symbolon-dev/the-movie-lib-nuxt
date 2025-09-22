@@ -1,7 +1,7 @@
-export default defineNuxtPlugin(async () => {
+export default defineNuxtPlugin(() => {
     const movieStore = useMovieStore();
     const { getGenres } = movieStore;
 
-    // Load genres on app initialization
-    await getGenres();
+    // Load genres in background without blocking app startup
+    getGenres();
 });

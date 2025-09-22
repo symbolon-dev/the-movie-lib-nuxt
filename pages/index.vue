@@ -2,26 +2,43 @@
     <div class="space-y-8">
         <Hero class="mt-8" />
         <Segment />
-        <MovieList 
-            :grid-classes="'grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'" 
-            :initial-visible-count="10"
+        <MovieList
+            :grid-classes="'grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'"
+            :initial-visible-count="4"
         />
         <ScrollToTopButton />
     </div>
 </template>
 
 <script setup lang="ts">
+const { data: initialMovies } = await useFetch<MovieResponse>('/api/movies/now_playing?page=1');
+
 const movieStore = useMovieStore();
-const { movies, currentSegmentView } = storeToRefs(movieStore);
-const { loadMovies } = movieStore;
+const { movies, currentSegmentView, totalPages, totalResults, currentPage } = storeToRefs(movieStore);
 
-onMounted(async () => {
-    currentSegmentView.value = 'now_playing';
+if (movies.value.length === 0 && initialMovies.value) {
+    movies.value = initialMovies.value.results;
+    totalPages.value = initialMovies.value.total_pages;
+    totalResults.value = initialMovies.value.total_results;
+    currentPage.value = 1;
+}
+
+onMounted(() => {
     scrollTo(0, 0);
+    currentSegmentView.value = 'now_playing';
+});
 
-    if (movies.value.length === 0) {
-        await loadMovies();
-    }
+useHead({
+    link: [
+        {
+            rel: 'preconnect',
+            href: 'https://image.tmdb.org'
+        },
+        {
+            rel: 'dns-prefetch',
+            href: 'https://image.tmdb.org'
+        }
+    ]
 });
 
 // SEO Meta Tags

@@ -2,20 +2,18 @@
     <div>
         <!-- Movie Grid -->
         <div class="grid grid-cols-1 gap-6" :class="gridClasses">
-            <!-- Loading State -->
-            <template v-if="loading">
-                <MovieSkeleton v-for="n in SKELETON_COUNT" :key="n" />
-            </template>
+            <!-- Movies (always show, add skeletons if needed) -->
+            <MovieCard
+                v-for="(movie, index) in movies"
+                :key="movie.id"
+                :movie="movie"
+                :index="index"
+                :is-lazy="index >= initialVisibleCount"
+            />
 
-            <!-- Movies -->
-            <template v-else>
-                <MovieCard 
-                    v-for="(movie, index) in movies" 
-                    :key="movie.id"
-                    :movie="movie"
-                    :index="index"
-                    :is-lazy="index >= initialVisibleCount"
-                />
+            <!-- Additional skeletons while loading more -->
+            <template v-if="loading && movies.length === 0">
+                <MovieSkeleton v-for="n in SKELETON_COUNT" :key="n" />
             </template>
         </div>
     
