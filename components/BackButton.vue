@@ -1,12 +1,13 @@
 <template>
-    <button 
+    <button
+        type="button"
         :class="{
             'btn cursor-pointer bg-primary-dark !text-content-light hover:bg-primary-dark/80': !isDiscoverPage,
             'btn-secondary cursor-pointer': isDiscoverPage,
         }"
-        @click="router.back()"
+        @click="handleBack"
     >
-        <Icon 
+        <Icon
             name="ion:arrow-back"
             size="16"
         />
@@ -17,8 +18,24 @@
 </template>
 
 <script setup lang="ts">
+import { isNavigationFailure, NavigationFailureType } from 'vue-router';
+
 const router = useRouter();
 const route = useRoute();
 
-const isDiscoverPage = computed(() => route.fullPath.includes('/discover'));
+const isDiscoverPage = computed(() => route.name === 'discover');
+
+const handleBack = async () => {
+    try {
+        if (isDiscoverPage.value) {
+            await router.push('/');
+        } else {
+            router.back();
+        }
+    } catch (err: unknown) {
+        if (!isNavigationFailure(err, NavigationFailureType.duplicated)) {
+            console.error('Navigation error:', err);
+        }
+    }
+};
 </script>

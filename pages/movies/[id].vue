@@ -1,10 +1,8 @@
 <template>
     <div>
-        
-        <!-- Detail Hero -->
         <div
             class="relative h-[50vh] w-full overflow-hidden rounded-b-lg bg-cover bg-center md:h-[60vh]"
-            :style="{ backgroundImage: movie?.backdrop_path ? `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})` : '' }"
+            :style="{ backgroundImage: backdropUrl ? `url(${backdropUrl})` : '' }"
         >
             <div class="absolute inset-0 bg-gradient-to-t from-surface-dark/90 via-surface-dark/20 to-transparent" />
             <div class="container relative z-10 mx-auto flex h-full flex-col justify-end px-4 pb-8 md:pb-12">
@@ -19,18 +17,16 @@
 
         <div class=" relative z-20 mx-auto mt-8 pb-16">
             <div class="flex flex-col gap-8 md:flex-row md:items-stretch md:gap-10">
-                
-                <!-- Movie poster card-->
+
                 <div class="mx-auto w-full max-w-[240px] shrink-0 overflow-hidden rounded-xl border-4 border-surface-dark/60 shadow-2xl md:mx-0 md:max-w-[280px] lg:max-w-[300px]">
                     <NuxtImg
-                        :src="movie?.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : '/placeholder.png'"
+                        :src="posterUrl ?? '/placeholder.png'"
                         :alt="movie?.title"
                         class="size-full object-cover"
                         format="webp"
                     />
                 </div>
 
-                <!-- Movie details card -->
                 <div class="flex w-full flex-col rounded-2xl border border-surface-light/10 bg-surface-dark/95 p-8 shadow-2xl backdrop-blur-lg md:p-10">
                     <div class="flex flex-wrap items-center gap-x-6 gap-y-3 border-b border-surface-light/10 pb-6">
                         <span v-if="movie?.release_date" class="flex items-center gap-2 text-sm font-medium text-content-light/90">
@@ -46,12 +42,12 @@
                             </div>
                             <span>{{ convertMinutesToHoursAndMinutes(movie?.runtime) }}</span>
                         </span>
-                        
+
                         <span v-if="movie?.vote_average && movie.vote_average > 0" class="flex items-center gap-2 text-sm font-medium">
                             <div class="flex size-8 items-center justify-center rounded-full bg-yellow-400/20">
                                 <Icon name="ion:star" class="text-yellow-500" size="16" />
                             </div>
-                            <span class="font-bold text-content-light/90">{{ movie?.vote_average.toFixed(1) }}/10</span>
+                            <span class="font-bold text-content-light/90">{{ movie?.vote_average?.toFixed(1) ?? 'N/A' }}/10</span>
                         </span>
                     </div>
 
@@ -63,7 +59,7 @@
                                 :key="genre.id"
                                 class="badge-primary"
                             >
-                                {{ genres.find((g: { id: number; name: string }) => g.id === genre.id)?.name ?? 'Unknown' }}
+                                {{ genre.name }}
                             </span>
                         </div>
                     </div>
@@ -77,8 +73,7 @@
                             No description available.
                         </p>
                     </div>
-                    
-                    <!-- Tagline -->
+
                     <div v-if="movie?.tagline" class="border-t border-surface-light/10 pt-4">
                         <blockquote class="relative">
                             <div class="absolute -left-2 -top-1 font-serif text-3xl text-primary/30">"</div>
@@ -95,39 +90,51 @@
 </template>
 
 <script setup lang="ts">
-import type { Movie } from '~/stores/movieStore';
+import type { Movie } from '~/types/movie';
+import { getTmdbImageUrl } from '~/utils/tmdb';
+import { convertMinutesToHoursAndMinutes } from '~/utils/formatting';
+import { MovieIdSchema } from '~/server/utils/schemas';
+
+const MAX_DESCRIPTION_LENGTH = 160;
 
 const route = useRoute();
-const movieStore = useMovieStore();
-const { genres } = storeToRefs(movieStore);
+const id = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
+const movieId = MovieIdSchema.parse(id);
 
-const movieId = route.params.id as string;
+const { data: movie, error } = await useFetch<Movie>(
+    () => `/api/movies/details/${movieId}`,
+    {
+        key: `movie-${movieId}`,
+    },
+);
 
-const movie = ref<Movie | null>(null);
-
-try {
-    movie.value = await $fetch<Movie>(`/api/movies/details/${movieId}`);
-} catch {
+if (error.value || !movie.value) {
     throw createError({ statusCode: 404, statusMessage: 'Movie not found' });
 }
 
-const convertMinutesToHoursAndMinutes = (minutes: number): string => {
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return `${hours}h ${mins}m`;
+const posterUrl = computed(() => getTmdbImageUrl(movie.value?.poster_path));
+const backdropUrl = computed(() => getTmdbImageUrl(movie.value?.backdrop_path, 'original'));
+
+const defaultDescription = 'Discover movies and get detailed information about your favorite films.';
+
+const getDescription = (): string => {
+    const overview = movie.value?.overview;
+    if (overview) {
+        return overview.substring(0, MAX_DESCRIPTION_LENGTH);
+    }
+    return defaultDescription;
 };
 
-// SEO Meta Tags
 useSeoMeta({
     title: () => movie.value ? `${movie.value.title} - The Movie Lib` : 'Movie Details - The Movie Lib',
-    description: () => movie.value?.overview?.substring(0, 160) || 'Discover movies and get detailed information about your favorite films.',
+    description: getDescription,
     ogTitle: () => movie.value?.title || 'Movie Details',
-    ogDescription: () => movie.value?.overview?.substring(0, 160) || 'Discover movies and get detailed information about your favorite films.',
-    ogImage: () => movie.value?.poster_path ? `https://image.tmdb.org/t/p/w500${movie.value.poster_path}` : undefined,
+    ogDescription: getDescription,
+    ogImage: () => posterUrl.value,
     ogType: 'video.movie',
     twitterCard: 'summary_large_image',
     twitterTitle: () => movie.value?.title || 'Movie Details',
-    twitterDescription: () => movie.value?.overview?.substring(0, 160) || 'Discover movies and get detailed information about your favorite films.',
-    twitterImage: () => movie.value?.poster_path ? `https://image.tmdb.org/t/p/w500${movie.value.poster_path}` : undefined,
+    twitterDescription: getDescription,
+    twitterImage: () => posterUrl.value,
 });
 </script>

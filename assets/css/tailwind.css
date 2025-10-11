@@ -68,7 +68,7 @@
     }
 
     .heading-4 {
-        @apply text-2xl font-semibold leading-snug  font-heading;
+        @apply text-2xl font-semibold leading-snug font-heading;
     }
 
     .heading-5 {
@@ -77,5 +77,9 @@
 
     .heading-6 {
         @apply text-lg font-medium leading-normal font-heading;
+    }
+
+    .movie-grid {
+        @apply grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5;
     }
 }

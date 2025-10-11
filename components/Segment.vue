@@ -1,21 +1,20 @@
 <template>
-    <div class="relative flex w-full overflow-x-auto rounded-full bg-surface/80 shadow-md backdrop-blur-md md:w-max">
-        <!-- Sliding indicator -->
+    <div ref="containerRef" class="relative flex w-full overflow-x-auto rounded-full bg-surface/80 shadow-md backdrop-blur-md md:w-max">
         <div
             class="absolute left-0 top-0 z-0 h-full rounded-full bg-primary/90 transition-all duration-300 ease-out"
             :style="indicatorStyle"
         />
-        
-        <!-- Buttons -->
+
         <button
             v-for="category in movieCategories"
             :key="category.key"
             ref="buttons"
+            type="button"
             class="relative z-10 flex-1 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition-colors duration-200 focus:outline-none sm:px-4 sm:py-2 sm:text-sm md:px-5"
-            :class="currentSegmentView === category.key
+            :class="props.current === category.key
                 ? 'text-content-light'
                 : 'text-primary hover:text-primary-dark'"
-            @click="currentSegmentView = category.key"
+            @click="$emit('change', category.key)"
         >
             {{ category.label }}
         </button>
@@ -23,37 +22,39 @@
 </template>
 
 <script setup lang="ts">
-const movieStore = useMovieStore();
-const { currentSegmentView } = storeToRefs(movieStore);
+import type { MovieListType } from '~/types/movie';
+import { MOVIE_CATEGORIES } from '~/types/movie';
 
-const movieCategories = [
-    { key: 'now_playing', label: 'Now Playing' },
-    { key: 'popular', label: 'Popular' },
-    { key: 'top_rated', label: 'Top Rated' },
-    { key: 'upcoming', label: 'Upcoming' },
-] as const;
+const props = defineProps<{
+    current: MovieListType;
+}>();
+
+defineEmits<{
+    change: [segment: MovieListType];
+}>();
+
+const movieCategories = MOVIE_CATEGORIES;
 
 const buttons = ref<HTMLElement[]>([]);
 const indicatorStyle = ref('');
+const containerRef = ref<HTMLElement>();
 
 const updateIndicator = () => {
-    const activeIndex = movieCategories.findIndex(c => c.key === currentSegmentView.value);
+    const activeIndex = movieCategories.findIndex(c => c.key === props.current);
     const activeButton = buttons.value[activeIndex];
-    
+
     if (activeButton) {
         const { offsetLeft, offsetWidth } = activeButton;
         indicatorStyle.value = `left: ${offsetLeft}px; width: ${offsetWidth}px;`;
     }
 };
 
-watch(currentSegmentView, updateIndicator);
+watch(() => props.current, updateIndicator);
+
+useResizeObserver(containerRef, updateIndicator);
+
 onMounted(() => {
     nextTick(updateIndicator);
-    window.addEventListener('resize', updateIndicator);
-});
-
-onUnmounted(() => {
-    window.removeEventListener('resize', updateIndicator);
 });
 </script>
 
@@ -63,4 +64,3 @@ button:focus-visible {
     outline-offset: 2px;
 }
 </style>
-

@@ -30,8 +30,6 @@ export default defineNuxtConfig({
         '@nuxt/image',
         '@nuxt/icon',
         'dayjs-nuxt',
-        '@pinia/nuxt',
-        'pinia-plugin-persistedstate/nuxt',
         '@vueuse/nuxt',
         '@nuxtjs/tailwindcss',
     ],
@@ -48,7 +46,7 @@ export default defineNuxtConfig({
     },
 
     tailwindcss: {
-        configPath: 'tailwind.config',
+        configPath: 'tailwind.config.js',
         exposeConfig: true,
     },
 });

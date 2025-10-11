@@ -1,7 +1,6 @@
-import { fetchFromTmdb, handleApiError, type MovieResponse } from '~/server/utils/tmdb';
+import type { MovieResponse, MovieListType } from '~/types/movie';
+import { fetchFromTmdb, handleApiError } from '~/server/utils/tmdb';
 import { MovieListTypeSchema, PageSchema } from '~/server/utils/schemas';
-
-export type MovieListType = 'now_playing' | 'popular' | 'top_rated' | 'upcoming';
 
 export const errorMessages: Record<MovieListType, string> = {
     now_playing: 'Error fetching now playing movies',
@@ -15,12 +14,15 @@ export default defineEventHandler(async (event) => {
         const listType = MovieListTypeSchema.parse(event.context.params?.listType);
         const page = PageSchema.parse(getQuery(event).page);
 
-        const data = await fetchFromTmdb<MovieResponse>(`movie/${listType}`, { page });
+        const data: MovieResponse = await fetchFromTmdb(`movie/${listType}`, { page });
         data.page = page;
 
         return data;
     } catch (error) {
-        const listType = event.context.params?.listType as MovieListType;
-        return handleApiError(error, errorMessages[listType] ?? 'Error fetching movies');
+        const listType = event.context.params?.listType;
+        const message = (listType && listType in errorMessages)
+            ? errorMessages[listType as MovieListType]
+            : 'Error fetching movies';
+        handleApiError(error, message);
     }
 });

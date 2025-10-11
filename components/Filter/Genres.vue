@@ -1,39 +1,39 @@
 <template>
-    <div class="flex flex-col space-y-1">
-        <label>
+    <fieldset class="flex flex-col space-y-1">
+        <legend class="text-base">
             Genres
-        </label>
+        </legend>
 
-        <div class="flex flex-wrap gap-2">
-            <div
+        <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by genres">
+            <button
                 v-for="genre in genres"
                 :key="genre.id"
+                type="button"
                 class="cursor-pointer"
                 :class="{
                     'badge-primary': selectedGenres.includes(genre.id),
                     'badge-secondary': !selectedGenres.includes(genre.id)
                 }"
+                :aria-label="`Filter by ${genre.name}`"
+                :aria-pressed="selectedGenres.includes(genre.id)"
                 @click="handleGenreToggle(genre.id)"
             >
                 <span class="text-sm font-medium">{{ genre.name }}</span>
-            </div>
+            </button>
         </div>
-    </div>
+    </fieldset>
 </template>
 
 <script lang="ts" setup>
-const movieStore = useMovieStore();
-const { getGenres } = movieStore;
-const { genres, selectedGenres } = storeToRefs(movieStore);
+const { data: genresData } = useGenres();
+const { selectedGenres, setSelectedGenres } = useDiscoverFilters();
+
+const genres = computed(() => genresData.value?.genres || []);
 
 const handleGenreToggle = (genreId: number) => {
-    selectedGenres.value = 
-        selectedGenres.value.includes(genreId) 
-            ? selectedGenres.value.filter((id: number) => id !== genreId)
-            : [...selectedGenres.value, genreId];
+    const newGenres = selectedGenres.value.includes(genreId)
+        ? selectedGenres.value.filter(id => id !== genreId)
+        : [...selectedGenres.value, genreId];
+    setSelectedGenres(newGenres);
 };
-
-if (genres.value.length === 0) {
-    await getGenres();
-}
 </script>

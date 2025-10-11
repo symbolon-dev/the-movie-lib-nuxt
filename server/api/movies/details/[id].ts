@@ -1,3 +1,4 @@
+import type { Movie } from '~/types/movie';
 import { fetchFromTmdb, handleApiError } from '~/server/utils/tmdb';
 import { MovieIdSchema } from '~/server/utils/schemas';
 
@@ -5,9 +6,8 @@ export default defineEventHandler(async (event) => {
     try {
         const movieId = MovieIdSchema.parse(event.context?.params?.id);
 
-        const data = await fetchFromTmdb<Record<string, unknown>>(`movie/${movieId}`);
-        return data;
+        return await fetchFromTmdb<Movie>(`movie/${movieId}`);
     } catch (error) {
-        return handleApiError(error, 'Error fetching movie details');
+        handleApiError(error, 'Error fetching movie details');
     }
 });

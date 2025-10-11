@@ -1,10 +1,10 @@
+import type { GenresResponse } from '~/types/movie';
 import { fetchFromTmdb, handleApiError } from '~/server/utils/tmdb';
 
 export default defineEventHandler(async () => {
     try {
-        const data = await fetchFromTmdb<{ genres: unknown[] }>('genre/movie/list');
-        return data;
+        return await fetchFromTmdb<GenresResponse>('genre/movie/list');
     } catch (error) {
-        return handleApiError(error, 'Error fetching movie genres');
+        handleApiError(error, 'Error fetching movie genres');
     }
 });

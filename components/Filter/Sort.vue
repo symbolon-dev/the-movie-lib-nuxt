@@ -1,9 +1,14 @@
 <template>
     <div class="flex flex-col space-y-1">
-        <label>Sort</label>
+        <label id="sort-label">Sort</label>
         <div ref="dropdownRef" class="relative">
             <button
+                ref="buttonRef"
                 type="button"
+                aria-labelledby="sort-label"
+                aria-haspopup="listbox"
+                :aria-expanded="isOpen"
+                :aria-controls="isOpen ? 'sort-listbox' : undefined"
                 class="flex h-10 w-full items-center justify-between rounded-md border border-primary-light bg-white px-3 py-2 text-content transition focus:outline-none focus:ring-2 focus:ring-primary"
                 @click="isOpen = !isOpen"
             >
@@ -11,19 +16,26 @@
                 <Icon
                     name="heroicons:chevron-down"
                     :class="{ 'rotate-180': isOpen }"
-                    class="ransition-transform duration-200"
+                    class="transition-transform duration-200"
                     size="18"
+                    aria-hidden="true"
                 />
             </button>
 
             <div
                 v-show="isOpen"
+                id="sort-listbox"
+                role="listbox"
+                aria-labelledby="sort-label"
                 class="absolute z-20 mt-1 w-full rounded-md border border-primary bg-white shadow-lg"
             >
                 <div class="max-h-60 overflow-y-auto">
                     <button
                         v-for="sort in sortVariants"
                         :key="sort.value"
+                        type="button"
+                        role="option"
+                        :aria-selected="selectedSort === sort.value"
                         class="flex w-full items-center px-3 py-2 text-left hover:bg-primary/40"
                         :class="{ 'bg-primary/10 font-semibold': selectedSort === sort.value }"
                         @click="selectOption(sort)"
@@ -37,10 +49,10 @@
 </template>
 
 <script lang="ts" setup>
-const movieStore = useMovieStore();
-const { selectedSort } = storeToRefs(movieStore);
+const { selectedSort, setSelectedSort } = useDiscoverFilters();
 
 const dropdownRef = ref<HTMLElement | undefined>(undefined);
+const buttonRef = ref<HTMLButtonElement | undefined>(undefined);
 const isOpen = ref(false);
 
 const sortVariants = [
@@ -64,8 +76,9 @@ const currentSortLabel = computed(() => {
 });
 
 const selectOption = (sort: { value: string }) => {
-    selectedSort.value = sort.value;
+    setSelectedSort(sort.value);
     isOpen.value = false;
+    nextTick(() => buttonRef.value?.focus());
 };
 
 onClickOutside(dropdownRef, () => {

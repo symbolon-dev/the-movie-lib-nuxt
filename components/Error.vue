@@ -16,32 +16,28 @@
             </svg>
         </div>
         <h3 class="mt-2 text-lg font-medium text-red-900">
-            {{ title }}
+            {{ props.title ?? 'An error occurred' }}
         </h3>
         <p class="mt-2 text-sm text-red-700">
-            {{ message }}
+            {{ props.message }}
         </p>
         <button
-            v-if="showRetry"
+            v-if="props.showRetry ?? true"
+            type="button"
             class="mt-4 rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
             @click="$emit('retry')"
         >
-            Erneut versuchen
+            Try again
         </button>
     </div>
 </template>
 
 <script setup lang="ts">
-interface Props {
+const props = defineProps<{
     title?: string;
     message: string;
     showRetry?: boolean;
-}
-
-withDefaults(defineProps<Props>(), {
-    title: 'Ein Fehler ist aufgetreten',
-    showRetry: true,
-});
+}>();
 
 defineEmits<{
     retry: [];

@@ -1,10 +1,6 @@
 # The Movie Lib
 
 ## Frontend Developer Coding Challenge
-
-This project is a coding challenge for frontend developers to demonstrate skills in modern web technologies, UX/UI design, and development capabilities.
-
-**Challenge Overview:**
 Develop a web application that displays a movie list with search, filter, and sort functionality. Users should be able to click on movies to view detailed information.
 
 A modern movie database web application built with Nuxt.js and the TMDB API.
@@ -31,7 +27,6 @@ This web application was developed as a solution for the frontend developer codi
 
 - **Framework:** Nuxt 3.17.5 (built on Vue.js)
 - **Styling:** Tailwind CSS v3
-- **State Management:** Pinia
 - **API:** The Movie Database (TMDB)
 - **Linting:** ESLint
 - **Package Manager:** pnpm
@@ -43,8 +38,9 @@ The application is built following these principles:
 
 - **Component-based Structure:** Modular components for optimal reusability
 - **Server-side API Integration:** TMDB access via Nuxt Server API Routes
-- **State Management:** Centralized data management with Pinia
+- **State Management:** Lightweight state via Nuxt composables
 - **Responsive Design:** Mobile-first approach with Tailwind CSS
+- **TMDB Pagination Constraints:** The TMDB API treats `discover` and `search` endpoints differently (e.g. precomputed vs. live results). The app keeps local pagination and filter state in sync to cope with these discrepancies and guard against out-of-range pages.
 
 ## Installation
 
@@ -78,10 +74,10 @@ yarn install
 Create a `.env` file in the root directory:
 
 ```
-NUXT_TMDB_API_KEY=your_tmdb_api_key
+NUXT_TMDB_API_KEY=your_tmdb_v4_access_token
 ```
 
-Get your API key from [The Movie Database](https://www.themoviedb.org/settings/api).
+Use your TMDB **v4 API Read Access Token** (Bearer token) from [TMDB settings](https://www.themoviedb.org/settings/api) to authenticate requests.
 
 ## Development
 
@@ -161,6 +157,4 @@ nuxthub deploy
 ```
 
 5. Configure environment variables in NuxtHub settings:
-   - `NUXT_TMDB_API_KEY=your_tmdb_api_key`
-
-
+   - `NUXT_TMDB_API_KEY=your_tmdb_v4_access_token`

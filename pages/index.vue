@@ -1,47 +1,56 @@
 <template>
     <div class="space-y-8">
         <Hero class="mt-8" />
-        <Segment />
-        <MovieList
-            :grid-classes="'grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'"
-            :initial-visible-count="4"
+        <Segment :current="listType" @change="setListType" />
+
+        <Error
+            v-if="error"
+            :message="getErrorMessage(error)"
+            @retry="refresh"
         />
+
+        <template v-else>
+            <MovieList
+                :movies="allMovies"
+                :loading="pending"
+                :grid-classes="'movie-grid'"
+                :initial-visible-count="4"
+            />
+
+            <div class="mt-6 flex justify-center">
+                <ClientOnly>
+                    <LoadMoreButton
+                        :is-loading="isLoadingMore"
+                        :has-more="hasMore"
+                        @load-more="loadMore"
+                    />
+                </ClientOnly>
+            </div>
+        </template>
+
         <ScrollToTopButton />
     </div>
 </template>
 
 <script setup lang="ts">
-const { data: initialMovies } = await useFetch<MovieResponse>('/api/movies/now_playing?page=1');
+import { getErrorMessage } from '~/utils/error';
+import { TMDB_IMAGE_BASE } from '~/utils/tmdb';
 
-const movieStore = useMovieStore();
-const { movies, currentSegmentView, totalPages, totalResults, currentPage } = storeToRefs(movieStore);
-
-if (movies.value.length === 0 && initialMovies.value) {
-    movies.value = initialMovies.value.results;
-    totalPages.value = initialMovies.value.total_pages;
-    totalResults.value = initialMovies.value.total_results;
-    currentPage.value = 1;
-}
-
-onMounted(() => {
-    scrollTo(0, 0);
-    currentSegmentView.value = 'now_playing';
-});
+const { allMovies, pending, error, refresh, listType, hasMore, isLoadingMore, setListType, loadMore } = useMovies();
 
 useHead({
     link: [
         {
             rel: 'preconnect',
-            href: 'https://image.tmdb.org'
+            href: TMDB_IMAGE_BASE,
         },
         {
             rel: 'dns-prefetch',
-            href: 'https://image.tmdb.org'
-        }
-    ]
+            href: TMDB_IMAGE_BASE,
+        },
+    ],
 });
 
-// SEO Meta Tags
 useSeoMeta({
     title: 'The Movie Lib - Discover Movies',
     description: 'Discover the latest movies, popular films, and top-rated cinema. Browse through an extensive collection of movies with detailed information and ratings.',

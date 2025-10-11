@@ -1,4 +1,5 @@
-import { fetchFromTmdb, handleApiError, type MovieResponse } from '~/server/utils/tmdb';
+import type { MovieResponse } from '~/types/movie';
+import { fetchFromTmdb, handleApiError } from '~/server/utils/tmdb';
 import { SearchQuerySchema } from '~/server/utils/schemas';
 
 export default defineEventHandler(async (event) => {
@@ -7,8 +8,8 @@ export default defineEventHandler(async (event) => {
 
         const { query, page = 1 } = SearchQuerySchema.parse(queryParams);
 
-        const data = await fetchFromTmdb<MovieResponse>('search/movie', {
-            query: encodeURIComponent(query),
+        const data: MovieResponse = await fetchFromTmdb('search/movie', {
+            query,
             page,
         });
 
@@ -16,6 +17,6 @@ export default defineEventHandler(async (event) => {
 
         return data;
     } catch (error) {
-        return handleApiError(error, 'Error searching movies');
+        handleApiError(error, 'Error searching movies');
     }
 });

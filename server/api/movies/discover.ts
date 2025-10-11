@@ -1,4 +1,5 @@
-import { fetchFromTmdb, handleApiError, type MovieResponse } from '~/server/utils/tmdb';
+import type { MovieResponse } from '~/types/movie';
+import { fetchFromTmdb, handleApiError } from '~/server/utils/tmdb';
 import { DiscoverQuerySchema, normalizeGenres } from '~/server/utils/schemas';
 
 export default defineEventHandler(async (event) => {
@@ -13,11 +14,11 @@ export default defineEventHandler(async (event) => {
             ...(with_genres && { with_genres: normalizeGenres(with_genres) }),
         };
 
-        const data = await fetchFromTmdb<MovieResponse>('discover/movie', params);
+        const data: MovieResponse = await fetchFromTmdb('discover/movie', params);
         data.page = page;
 
         return data;
     } catch (error) {
-        return handleApiError(error, 'Error discovering movies');
+        handleApiError(error, 'Error discovering movies');
     }
 });
