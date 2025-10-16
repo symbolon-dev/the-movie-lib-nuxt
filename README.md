@@ -24,6 +24,8 @@ This web application was developed as a solution for the frontend developer codi
 - **Responsive Design:** Optimized display on all devices
 - **Infinite Scrolling:** Automatic loading of more results as you scroll
 
+## Implementation Notes
+
 ### Search + Genre Filtering
 
 Due to TMDB API limitations, the `/search` endpoint doesn't support genre filtering. When combining search with genres, the app uses client-side filtering and automatically prefetches up to 5 additional pages to ensure at least 20 filtered results are displayed. This provides a smooth user experience while respecting API rate limits.
