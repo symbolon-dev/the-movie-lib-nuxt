@@ -1,11 +1,8 @@
 import type { Movie, MovieResponse } from '~/types/movie';
 import { MIN_SEARCH_LENGTH } from '~/types/movie';
 
-const MIN_MOVIES_THRESHOLD = 20;
-const MAX_PREFETCH_PAGES = 5;
-
 export const useDiscoverMovies = () => {
-    const { searchTerm, selectedGenres, selectedSort, getDiscoverParams, filterMovies } = useDiscoverFilters();
+    const { searchTerm, selectedGenres, selectedSort, getDiscoverParams } = useDiscoverFilters();
 
     const page = ref(1);
     const allMovies = ref<Movie[]>([]);
@@ -21,10 +18,6 @@ export const useDiscoverMovies = () => {
 
     const hasSearch = computed(() => normalizedSearch.value.length > 0);
 
-    const hasGenreFilter = computed(() => selectedGenres.value.length > 0);
-
-    const needsPrefetch = computed(() => hasSearch.value && hasGenreFilter.value);
-
     const filtersKey = computed(() => [
         hasSearch.value ? `search:${normalizedSearch.value}` : 'discover',
         `genres:${selectedGenres.value.join(',')}`,
@@ -32,21 +25,6 @@ export const useDiscoverMovies = () => {
     ].join('|'));
 
     const previousFilterKey = ref(filtersKey.value);
-
-    const fetchSinglePage = async (pageNum: number): Promise<Movie[]> => {
-        const url = hasSearch.value
-            ? `/api/movies/search?query=${encodeURIComponent(normalizedSearch.value)}&page=${pageNum}`
-            : `/api/movies/discover?${getDiscoverParams().toString()}&page=${pageNum}`;
-
-        const data = await $fetch<MovieResponse>(url);
-        totalPages.value = data.total_pages;
-        return data.results;
-    };
-
-    const getFilteredCount = (movies: Movie[]): number => {
-        if (!needsPrefetch.value) return movies.length;
-        return filterMovies(movies).length;
-    };
 
     const fetchMovies = async () => {
         if (isLoading.value) return;
@@ -56,41 +34,20 @@ export const useDiscoverMovies = () => {
         error.value = undefined;
 
         try {
-            const results = await fetchSinglePage(page.value);
+            const url = hasSearch.value
+                ? `/api/movies/search?query=${encodeURIComponent(normalizedSearch.value)}&page=${page.value}`
+                : `/api/movies/discover?${getDiscoverParams().toString()}&page=${page.value}`;
+
+            const data = await $fetch<MovieResponse>(url);
+            totalPages.value = data.total_pages;
 
             if (page.value === 1) {
-                allMovies.value = results;
+                allMovies.value = data.results;
             } else {
-                const newMovies = results.filter(
-                    movie => !allMovies.value.some(existing => existing.id === movie.id),
-                );
-                allMovies.value = [...allMovies.value, ...newMovies];
+                allMovies.value = [...allMovies.value, ...data.results];
             }
 
             lastFetchedPage.value = page.value;
-
-            // Prefetch more pages if needed (Search + Genre scenario)
-            if (needsPrefetch.value) {
-                let prefetchCount = 0;
-                let currentPage = page.value;
-
-                while (
-                    getFilteredCount(allMovies.value) < MIN_MOVIES_THRESHOLD &&
-                    currentPage < totalPages.value &&
-                    prefetchCount < MAX_PREFETCH_PAGES
-                ) {
-                    currentPage++;
-                    prefetchCount++;
-
-                    const nextResults = await fetchSinglePage(currentPage);
-                    const newMovies = nextResults.filter(
-                        movie => !allMovies.value.some(existing => existing.id === movie.id),
-                    );
-                    allMovies.value = [...allMovies.value, ...newMovies];
-                    lastFetchedPage.value = currentPage;
-                    page.value = currentPage;
-                }
-            }
         } catch (err) {
             error.value = err as Error;
         } finally {
@@ -126,9 +83,9 @@ export const useDiscoverMovies = () => {
     });
 
     return {
-        allMovies: computed(() => allMovies.value),
-        pending: computed(() => isLoading.value),
-        error: computed(() => error.value),
+        allMovies,
+        pending: isLoading,
+        error,
         refresh: fetchMovies,
         hasSearch,
         hasMore: computed(() => page.value < totalPages.value),

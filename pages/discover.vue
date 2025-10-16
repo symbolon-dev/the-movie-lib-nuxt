@@ -88,6 +88,17 @@ const handleResetFilters = () => {
 
 const sentinelRef = ref<HTMLElement | null>(null);
 
+const checkIfNeedMore = () => {
+    if (!sentinelRef.value || !hasMore.value || isLoadingMore.value) return;
+
+    const rect = sentinelRef.value.getBoundingClientRect();
+    const isNearBottom = rect.top < window.innerHeight + 600;
+
+    if (isNearBottom) {
+        loadMore();
+    }
+};
+
 useIntersectionObserver(
     sentinelRef,
     ([{ isIntersecting }]) => {
@@ -97,6 +108,12 @@ useIntersectionObserver(
     },
     { rootMargin: '600px' },
 );
+
+watch(isLoadingMore, (loading) => {
+    if (!loading) {
+        nextTick(checkIfNeedMore);
+    }
+});
 
 useSeoMeta({
     title: 'Discover Movies - The Movie Lib',
