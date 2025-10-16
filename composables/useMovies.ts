@@ -1,70 +1,79 @@
 import type { Movie, MovieListType, MovieResponse, GenresResponse } from '~/types/movie';
 
-const FETCH_TIMEOUT = 5000;
-
 export const useMovies = () => {
     const listType = ref<MovieListType>('now_playing');
     const page = ref(1);
-    const accumulatedMovies = ref<Movie[]>([]);
-    const isLoadingMore = ref(false);
+    const allMovies = ref<Movie[]>([]);
+    const isLoading = ref(false);
+    const error = ref<Error>();
+    const totalPages = ref(1);
 
-    const { data, pending, error, refresh } = useFetch<MovieResponse>(
-        () => `/api/movies/${listType.value}`,
-        {
-            query: { page },
-            key: () => `movies-${listType.value}-${page.value}`,
-            watch: [listType, page],
-        },
-    );
+    const previousListType = ref(listType.value);
 
-    const totalPages = computed(() => data.value?.total_pages ?? 1);
+    const fetchMovies = async () => {
+        if (isLoading.value) return;
 
-    const accumulatedPages = ref(new Set<number>());
+        isLoading.value = true;
+        error.value = undefined;
 
-    watch([data, page], ([newData, currentPage]) => {
-        if (!newData?.results) return;
+        try {
+            const url = `/api/movies/${listType.value}?page=${page.value}`;
+            const data = await $fetch<MovieResponse>(url);
 
-        if (accumulatedPages.value.has(currentPage)) return;
+            if (page.value === 1) {
+                allMovies.value = data.results;
+            } else {
+                const newMovies = data.results.filter(
+                    movie => !allMovies.value.some(existing => existing.id === movie.id),
+                );
+                allMovies.value = [...allMovies.value, ...newMovies];
+            }
 
-        accumulatedMovies.value = [...accumulatedMovies.value, ...newData.results];
-        accumulatedPages.value.add(currentPage);
-    }, { immediate: true });
+            totalPages.value = data.total_pages;
+        } catch (err) {
+            error.value = err as Error;
+        } finally {
+            isLoading.value = false;
+        }
+    };
 
-    const allMovies = computed(() => accumulatedMovies.value.length === 0 ? (data.value?.results ?? []) : accumulatedMovies.value);
-
-    const hasMore = computed(() => page.value < totalPages.value);
+    const loadMore = () => {
+        if (!isLoading.value && page.value < totalPages.value) {
+            page.value++;
+        }
+    };
 
     const setListType = (value: MovieListType) => {
         listType.value = value;
         page.value = 1;
-        accumulatedMovies.value = [];
-        accumulatedPages.value.clear();
+        allMovies.value = [];
     };
 
-    const loadMore = async () => {
-        if (!hasMore.value || isLoadingMore.value) return;
-
-        isLoadingMore.value = true;
-        try {
-            page.value += 1;
-            await until(pending).toBe(false, { timeout: FETCH_TIMEOUT });
-        } catch (err) {
-            page.value = Math.max(1, page.value - 1);
-            throw err;
-        } finally {
-            isLoadingMore.value = false;
+    watch(listType, (newType) => {
+        if (newType !== previousListType.value) {
+            page.value = 1;
+            allMovies.value = [];
+            previousListType.value = newType;
         }
-    };
+    });
+
+    watch(page, () => {
+        fetchMovies();
+    });
+
+    onMounted(() => {
+        fetchMovies();
+    });
 
     return {
-        allMovies,
-        pending,
-        error,
-        refresh,
+        allMovies: computed(() => allMovies.value),
+        pending: computed(() => isLoading.value),
+        error: computed(() => error.value),
+        refresh: fetchMovies,
         listType,
         page,
-        hasMore,
-        isLoadingMore,
+        hasMore: computed(() => page.value < totalPages.value),
+        isLoadingMore: computed(() => isLoading.value && page.value > 1),
         setListType,
         loadMore,
     };

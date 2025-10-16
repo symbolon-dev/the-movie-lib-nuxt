@@ -1,6 +1,5 @@
 import { isNavigationFailure, NavigationFailureType } from 'vue-router';
 import type { Movie } from '~/types/movie';
-import { MIN_SEARCH_LENGTH } from '~/types/movie';
 import {
     DEFAULT_SORT,
     buildDiscoverParams,
@@ -15,8 +14,6 @@ export const useDiscoverFilters = () => {
     const router = useRouter();
 
     const isDiscoverRoute = computed(() => route.path === DISCOVER_ROUTE);
-
-    const showAllResults = ref(false);
 
     const searchTerm = computed(() => {
         if (!isDiscoverRoute.value) return '';
@@ -33,19 +30,10 @@ export const useDiscoverFilters = () => {
         return getQueryString(route.query.sort) || DEFAULT_SORT;
     });
 
-    const hasClientSearch = computed(() => {
-        const trimmed = searchTerm.value.trim();
-        return trimmed.length >= MIN_SEARCH_LENGTH;
-    });
-
     const hasActiveFilters = computed(() =>
         Boolean(searchTerm.value) ||
         selectedGenres.value.length > 0 ||
         selectedSort.value !== DEFAULT_SORT,
-    );
-
-    const hasGenreFilter = computed(() =>
-        selectedGenres.value.length > 0 && hasClientSearch.value,
     );
 
     const updateQuery = async (updates: Record<string, string | undefined>) => {
@@ -82,7 +70,6 @@ export const useDiscoverFilters = () => {
 
         try {
             await router.replace({ query: {} });
-            showAllResults.value = false;
         } catch (err: unknown) {
             if (!isNavigationFailure(err, NavigationFailureType.duplicated)) {
                 console.error('Navigation error:', err);
@@ -90,39 +77,24 @@ export const useDiscoverFilters = () => {
         }
     };
 
-    const toggleShowAllResults = () => {
-        showAllResults.value = !showAllResults.value;
-    };
-
-    watch([searchTerm, selectedGenres], () => {
-        showAllResults.value = false;
-    });
-
     const getDiscoverParams = (): URLSearchParams =>
         buildDiscoverParams(selectedSort.value, selectedGenres.value);
 
     const filterMovies = (movies: Movie[]): Movie[] =>
         filterMoviesList(movies, {
-            searchTerm: searchTerm.value,
-            selectedGenres: showAllResults.value ? [] : selectedGenres.value, // Bypass genre filter if showAllResults
+            selectedGenres: selectedGenres.value,
             selectedSort: selectedSort.value,
-            hasClientSearch: hasClientSearch.value,
-            isDiscoverRoute: isDiscoverRoute.value,
         });
 
     return {
         searchTerm,
         selectedGenres,
         selectedSort,
-        hasClientSearch,
         hasActiveFilters,
-        hasGenreFilter,
-        showAllResults,
         setSearchTerm,
         setSelectedGenres,
         setSelectedSort,
         resetFilters,
-        toggleShowAllResults,
         getDiscoverParams,
         filterMovies,
     };

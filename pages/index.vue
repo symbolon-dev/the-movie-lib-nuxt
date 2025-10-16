@@ -18,13 +18,13 @@
             />
 
             <div class="mt-6 flex justify-center">
-                <ClientOnly>
-                    <LoadMoreButton
-                        :is-loading="isLoadingMore"
-                        :has-more="hasMore"
-                        @load-more="loadMore"
-                    />
-                </ClientOnly>
+                <div ref="sentinelRef" class="flex h-20 items-center justify-center" :class="{ 'invisible': !hasMore }">
+                    <span v-if="isLoadingMore" class="loading loading-spinner loading-lg" />
+                </div>
+
+                <p v-if="!hasMore && allMovies.length > 0" class="text-center text-sm text-gray-500">
+                    No more results
+                </p>
             </div>
         </template>
 
@@ -37,6 +37,18 @@ import { getErrorMessage } from '~/utils/error';
 import { TMDB_IMAGE_BASE } from '~/utils/tmdb';
 
 const { allMovies, pending, error, refresh, listType, hasMore, isLoadingMore, setListType, loadMore } = useMovies();
+
+const sentinelRef = ref<HTMLElement | null>(null);
+
+useIntersectionObserver(
+    sentinelRef,
+    ([{ isIntersecting }]) => {
+        if (isIntersecting && hasMore.value && !isLoadingMore.value) {
+            loadMore();
+        }
+    },
+    { rootMargin: '600px' },
+);
 
 useHead({
     link: [
