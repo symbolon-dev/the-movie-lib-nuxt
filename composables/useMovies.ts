@@ -1,4 +1,5 @@
-import type { Movie, MovieListType, MovieResponse, GenresResponse } from '~/types/movie';
+import type { Movie, MovieListType } from '~/types/movie';
+import type { MovieResponse, GenresResponse } from '~/server/types/api';
 
 export const useMovies = () => {
     const listType = ref<MovieListType>('now_playing');

@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import { getErrorMessage } from '~/utils/error';
-import { TMDB_IMAGE_BASE } from '~/utils/tmdb';
+import { TMDB_IMAGE_BASE } from '~/utils/images';
 
 const { allMovies, pending, error, refresh, listType, hasMore, isLoadingMore, setListType, loadMore } = useMovies();
 

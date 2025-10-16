@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { MIN_SEARCH_LENGTH } from '~/types/movie';
+import { MIN_SEARCH_LENGTH } from '~/composables/useDiscoverFilters';
 
 const SEARCH_DEBOUNCE_DELAY = 400;
 

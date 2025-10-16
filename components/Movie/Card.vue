@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import type { Movie } from '~/types/movie';
-import { getTmdbImageUrl } from '~/utils/tmdb';
+import { getTmdbImageUrl } from '~/utils/images';
 
 const props = defineProps<{
     movie: Movie;

@@ -3,10 +3,6 @@ export type Genre = {
     name: string;
 };
 
-export type GenresResponse = {
-    genres: Genre[];
-};
-
 export type Movie = {
     id: number;
     title: string;
@@ -27,20 +23,4 @@ export type Movie = {
     tagline?: string;
 };
 
-export type MovieResponse = {
-    page: number;
-    results: Movie[];
-    total_pages: number;
-    total_results: number;
-};
-
-export const MIN_SEARCH_LENGTH = 2;
-
-export const MOVIE_CATEGORIES = [
-    { key: 'now_playing', label: 'Now Playing' },
-    { key: 'popular', label: 'Popular' },
-    { key: 'top_rated', label: 'Top Rated' },
-    { key: 'upcoming', label: 'Upcoming' },
-] as const;
-
-export type MovieListType = typeof MOVIE_CATEGORIES[number]['key'];
+export type MovieListType = 'now_playing' | 'popular' | 'top_rated' | 'upcoming';

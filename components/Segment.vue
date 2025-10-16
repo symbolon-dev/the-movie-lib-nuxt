@@ -23,7 +23,13 @@
 
 <script setup lang="ts">
 import type { MovieListType } from '~/types/movie';
-import { MOVIE_CATEGORIES } from '~/types/movie';
+
+const MOVIE_CATEGORIES = [
+    { key: 'now_playing', label: 'Now Playing' },
+    { key: 'popular', label: 'Popular' },
+    { key: 'top_rated', label: 'Top Rated' },
+    { key: 'upcoming', label: 'Upcoming' },
+] as const;
 
 const props = defineProps<{
     current: MovieListType;

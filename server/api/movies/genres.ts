@@ -1,5 +1,5 @@
-import type { GenresResponse } from '~/types/movie';
-import { fetchFromTmdb, handleApiError } from '~/server/utils/tmdb';
+import type { GenresResponse } from '~/server/types/api';
+import { fetchFromTmdb, handleApiError } from '~/server/utils/tmdbApi';
 
 export default defineEventHandler(async () => {
     try {

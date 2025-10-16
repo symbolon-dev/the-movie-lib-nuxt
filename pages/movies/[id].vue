@@ -91,7 +91,7 @@
 
 <script setup lang="ts">
 import type { Movie } from '~/types/movie';
-import { getTmdbImageUrl } from '~/utils/tmdb';
+import { getTmdbImageUrl } from '~/utils/images';
 import { convertMinutesToHoursAndMinutes } from '~/utils/formatting';
 import { MovieIdSchema } from '~/server/utils/schemas';
 
