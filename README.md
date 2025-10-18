@@ -32,7 +32,7 @@ Due to TMDB API limitations, the `/search` endpoint doesn't support genre filter
 
 ## Technologies
 
-- **Framework:** Nuxt 3.17.5 (built on Vue.js)
+- **Framework:** Nuxt 4.1.3 (built on Vue.js)
 - **Styling:** Tailwind CSS v3
 - **API:** The Movie Database (TMDB)
 - **Linting:** ESLint
