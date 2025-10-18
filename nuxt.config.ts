@@ -17,7 +17,7 @@ export default defineNuxtConfig({
         },
     },  
 
-    compatibilityDate: '2025-05-15',
+    compatibilityDate: '2025-10-18',
 
     dayjs: {
         locales: ['en'],
