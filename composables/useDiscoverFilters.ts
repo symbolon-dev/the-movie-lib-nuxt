@@ -19,7 +19,7 @@ export const useDiscoverFilters = () => {
 
     const searchTerm = computed(() => {
         if (!isDiscoverRoute.value) return '';
-        return getQueryString(route.query.search);
+        return getQueryString(route.query.search ?? '');
     });
 
     const selectedGenres = computed(() => {
@@ -29,7 +29,7 @@ export const useDiscoverFilters = () => {
 
     const selectedSort = computed(() => {
         if (!isDiscoverRoute.value) return DEFAULT_SORT;
-        return getQueryString(route.query.sort) || DEFAULT_SORT;
+        return getQueryString(route.query.sort ?? DEFAULT_SORT);
     });
 
     const hasActiveFilters = computed(() =>

@@ -28,10 +28,10 @@ const isDiscoverPage = computed(() => route.name === 'discover');
 const handleBack = async () => {
     try {
         if (isDiscoverPage.value) {
-            await router.push('/');
-        } else {
-            router.back();
+            return await router.push('/');
         }
+        router.back();
+        
     } catch (err: unknown) {
         if (!isNavigationFailure(err, NavigationFailureType.duplicated)) {
             console.error('Navigation error:', err);

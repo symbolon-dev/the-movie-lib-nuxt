@@ -57,7 +57,6 @@ import { getErrorMessage } from '~/utils/error';
 
 const {
     filterMovies,
-    resetFilters,
     hasActiveFilters,
     selectedGenres,
 } = useDiscoverFilters();
@@ -82,8 +81,7 @@ const displayedMovies = computed(() => {
 });
 
 const handleResetFilters = () => {
-    resetFilters();
-    reset();
+    reset(true);
 };
 
 const sentinelRef = ref<HTMLElement | null>(null);
@@ -101,13 +99,15 @@ const checkIfNeedMore = () => {
 
 useIntersectionObserver(
     sentinelRef,
-    ([{ isIntersecting }]) => {
+    (entries: IntersectionObserverEntry[]) => {
+        const [{ isIntersecting } = {}] = entries;
         if (isIntersecting && hasMore.value && !isLoadingMore.value) {
             loadMore();
         }
     },
     { rootMargin: '600px' },
 );
+
 
 watch(isLoadingMore, (loading) => {
     if (!loading) {

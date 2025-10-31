@@ -3,7 +3,7 @@ import type { MovieResponse } from '~/server/types/api';
 import { MIN_SEARCH_LENGTH } from './useDiscoverFilters';
 
 export const useDiscoverMovies = () => {
-    const { searchTerm, selectedGenres, selectedSort, getDiscoverParams } = useDiscoverFilters();
+    const { searchTerm, selectedGenres, selectedSort, getDiscoverParams, resetFilters } = useDiscoverFilters();
 
     const page = ref(1);
     const allMovies = ref<Movie[]>([]);
@@ -11,6 +11,7 @@ export const useDiscoverMovies = () => {
     const error = ref<Error>();
     const totalPages = ref(1);
     const lastFetchedPage = ref(0);
+    const isResetting = ref(false);
 
     const normalizedSearch = computed(() => {
         const value = searchTerm.value.trim();
@@ -42,11 +43,9 @@ export const useDiscoverMovies = () => {
             const data = await $fetch<MovieResponse>(url);
             totalPages.value = data.total_pages;
 
-            if (page.value === 1) {
-                allMovies.value = data.results;
-            } else {
-                allMovies.value = [...allMovies.value, ...data.results];
-            }
+            allMovies.value = page.value === 1 
+                ? data.results 
+                : [...allMovies.value, ...data.results];
 
             lastFetchedPage.value = page.value;
         } catch (err) {
@@ -62,10 +61,20 @@ export const useDiscoverMovies = () => {
         }
     };
 
-    const reset = () => {
+    const reset = async (full = false) => {
+        isResetting.value = true;
+
         page.value = 1;
         allMovies.value = [];
         lastFetchedPage.value = 0;
+
+        if (full) {
+            await resetFilters();
+        }
+
+        await nextTick();
+        isResetting.value = false;
+        await fetchMovies();
     };
 
     watch(filtersKey, (newKey) => {
@@ -75,7 +84,18 @@ export const useDiscoverMovies = () => {
         }
     });
 
+    watch(hasSearch, (newHasSearch, oldHasSearch) => {
+        if (newHasSearch === oldHasSearch) return;
+
+        page.value = 1;
+        allMovies.value = [];
+        lastFetchedPage.value = 0;
+
+        fetchMovies();
+    });
+
     watch(page, () => {
+        if (isResetting.value) return; 
         fetchMovies();
     });
 

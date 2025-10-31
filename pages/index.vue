@@ -42,7 +42,8 @@ const sentinelRef = ref<HTMLElement | null>(null);
 
 useIntersectionObserver(
     sentinelRef,
-    ([{ isIntersecting }]) => {
+    (entries: IntersectionObserverEntry[]) => {
+        const [{ isIntersecting } = {}] = entries;
         if (isIntersecting && hasMore.value && !isLoadingMore.value) {
             loadMore();
         }

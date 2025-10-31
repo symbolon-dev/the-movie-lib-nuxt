@@ -72,7 +72,7 @@ const sortVariants = [
 
 const currentSortLabel = computed(() => {
     const current = sortVariants.find(sort => sort.value === selectedSort.value);
-    return current ? current.label : sortVariants[0].label;
+    return (current ?? sortVariants[0])!.label;
 });
 
 const selectOption = (sort: { value: string }) => {

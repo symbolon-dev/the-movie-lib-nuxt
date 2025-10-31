@@ -8,6 +8,7 @@ export const useMovies = () => {
     const isLoading = ref(false);
     const error = ref<Error>();
     const totalPages = ref(1);
+    const isResetting = ref(false);
 
     const previousListType = ref(listType.value);
 
@@ -21,14 +22,14 @@ export const useMovies = () => {
             const url = `/api/movies/${listType.value}?page=${page.value}`;
             const data = await $fetch<MovieResponse>(url);
 
-            if (page.value === 1) {
-                allMovies.value = data.results;
-            } else {
-                const newMovies = data.results.filter(
-                    movie => !allMovies.value.some(existing => existing.id === movie.id),
-                );
-                allMovies.value = [...allMovies.value, ...newMovies];
-            }
+            allMovies.value = page.value === 1
+                ? data.results
+                : [
+                    ...allMovies.value,
+                    ...data.results.filter(
+                        movie => !allMovies.value.some(existing => existing.id === movie.id),
+                    ),
+                ];
 
             totalPages.value = data.total_pages;
         } catch (err) {
@@ -46,19 +47,26 @@ export const useMovies = () => {
 
     const setListType = (value: MovieListType) => {
         listType.value = value;
-        page.value = 1;
-        allMovies.value = [];
     };
 
-    watch(listType, (newType) => {
-        if (newType !== previousListType.value) {
-            page.value = 1;
-            allMovies.value = [];
-            previousListType.value = newType;
-        }
+    watch(listType, async (newType) => {
+        if (newType === previousListType.value) return;
+
+        isResetting.value = true;
+
+        page.value = 1;
+        allMovies.value = [];
+        previousListType.value = newType;
+
+        await nextTick();
+
+        isResetting.value = false;
+        await fetchMovies();
     });
 
+
     watch(page, () => {
+        if (isResetting.value) return;
         fetchMovies();
     });
 
