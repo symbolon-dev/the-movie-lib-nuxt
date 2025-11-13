@@ -14,7 +14,7 @@
             >
                 <span>{{ currentSortLabel }}</span>
                 <Icon
-                    name="heroicons:chevron-down"
+                    name="ion:chevron-down"
                     :class="{ 'rotate-180': isOpen }"
                     class="transition-transform duration-200"
                     size="18"
