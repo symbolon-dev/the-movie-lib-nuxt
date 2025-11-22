@@ -1,9 +1,9 @@
 <template>
     <div class="space-y-8">
-        <Hero class="mt-8" />
-        <Segment :current="listType" @change="setListType" />
+        <HeroComponent class="mt-8" />
+        <SegmentComponent :current="listType" @change="setListType" />
 
-        <Error
+        <ErrorComponent
             v-if="error"
             :message="getErrorMessage(error)"
             @retry="refresh"

@@ -22,7 +22,7 @@
             </div>
 
             <div class="mb-8">
-                <Error
+                <ErrorComponent
                     v-if="error"
                     :message="getErrorMessage(error)"
                     @retry="refresh"
