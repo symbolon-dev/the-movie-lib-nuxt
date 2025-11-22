@@ -23,15 +23,8 @@ export default createConfigForNuxt({
     },
 
     rules: {
-        /* -------------------------------------
-         * Deine alten TS-Regeln
-         * ------------------------------------- */
         '@typescript-eslint/array-type': ['error', { default: 'array' }],
         '@typescript-eslint/no-invalid-void-type': 'off',
-
-        /* -------------------------------------
-         * Neue type-aware async/promise Regeln
-         * ------------------------------------- */
         '@typescript-eslint/no-floating-promises': 'error',
         '@typescript-eslint/no-misused-promises': 'error',
         '@typescript-eslint/await-thenable': 'error',
@@ -45,9 +38,6 @@ export default createConfigForNuxt({
         '@typescript-eslint/consistent-type-imports': 'error',
         '@typescript-eslint/no-explicit-any': 'error',
 
-        /* -------------------------------------
-         * Deine alten Vue-Regeln
-         * ------------------------------------- */
         'vue/multi-word-component-names': 'off',
         'vue/object-curly-spacing': ['error', 'always'],
         'vue/html-closing-bracket-spacing': ['error', { selfClosingTag: 'always' }],
@@ -64,9 +54,6 @@ export default createConfigForNuxt({
         }],
         'vue/mustache-interpolation-spacing': ['error', 'always'],
 
-        /* -------------------------------------
-         * Vue Accessibility
-         * ------------------------------------- */
         'vuejs-accessibility/alt-text': 'error',
         'vuejs-accessibility/click-events-have-key-events': 'error',
         'vuejs-accessibility/no-static-element-interactions': 'error',
@@ -75,9 +62,6 @@ export default createConfigForNuxt({
         'vuejs-accessibility/tabindex-no-positive': 'error',
         'vuejs-accessibility/anchor-has-content': 'error',
 
-        /* -------------------------------------
-         * Deine alten JavaScript Best Practices
-         * ------------------------------------- */
         'prefer-spread': 'error',
         'prefer-destructuring': ['error', { object: true, array: true }],
         'no-restricted-syntax': [
@@ -99,23 +83,13 @@ export default createConfigForNuxt({
         'no-shadow': 'error',
         'eol-last': ['error', 'always'],
         'comma-dangle': ['error', 'always-multiline'],
-
-        /* -------------------------------------
-         * Modern JS (neue Regeln)
-         * ------------------------------------- */
         'no-var': 'error',
         'curly': ['error', 'all'],
 
-        /* -------------------------------------
-         * Deine Formatting-Regeln (kein Prettier)
-         * ------------------------------------- */
         'semi': ['error', 'always'],
         'quotes': ['error', 'single', { avoidEscape: true }],
         'indent': ['error', 4],
 
-        /* -------------------------------------
-         * Tailwind (korrigiert)
-         * ------------------------------------- */
         ...tailwindcss.configs['flat/recommended'].rules,
         'tailwindcss/classnames-order': 'error',
         'tailwindcss/no-custom-classname': 'off',
