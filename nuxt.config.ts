@@ -17,7 +17,9 @@ export default defineNuxtConfig({
         },
     },  
 
-    compatibilityDate: '2025-10-18',
+    compatibilityDate: '2025-07-15',
+
+    css: ['~/assets/css/tailwind.css'],
 
     dayjs: {
         locales: ['en'],

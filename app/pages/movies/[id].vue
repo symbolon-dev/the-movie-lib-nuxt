@@ -93,7 +93,7 @@
 import type { Movie } from '~/types/movie';
 import { getTmdbImageUrl } from '~/utils/images';
 import { convertMinutesToHoursAndMinutes } from '~/utils/formatting';
-import { MovieIdSchema } from '~/server/utils/schemas';
+import { MovieIdSchema } from '~~/server/utils/schemas';
 
 const MAX_DESCRIPTION_LENGTH = 160;
 

@@ -1,6 +1,6 @@
-import type { MovieResponse } from '~/server/types/api';
-import { fetchFromTmdb, handleApiError } from '~/server/utils/tmdbApi';
-import { SearchQuerySchema } from '~/server/utils/schemas';
+import type { MovieResponse } from '~~/server/types/api';
+import { fetchFromTmdb, handleApiError } from '~~/server/utils/tmdbApi';
+import { SearchQuerySchema } from '~~/server/utils/schemas';
 
 export default defineEventHandler(async (event) => {
     try {

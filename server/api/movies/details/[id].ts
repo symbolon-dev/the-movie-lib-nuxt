@@ -1,6 +1,6 @@
 import type { Movie } from '~/types/movie';
-import { fetchFromTmdb, handleApiError } from '~/server/utils/tmdbApi';
-import { MovieIdSchema } from '~/server/utils/schemas';
+import { fetchFromTmdb, handleApiError } from '~~/server/utils/tmdbApi';
+import { MovieIdSchema } from '~~/server/utils/schemas';
 
 export default defineEventHandler(async (event) => {
     try {

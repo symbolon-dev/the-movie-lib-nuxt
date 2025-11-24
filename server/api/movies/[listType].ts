@@ -1,7 +1,7 @@
 import type { MovieListType } from '~/types/movie';
-import type { MovieResponse } from '~/server/types/api';
-import { fetchFromTmdb, handleApiError } from '~/server/utils/tmdbApi';
-import { MovieListTypeSchema, PageSchema } from '~/server/utils/schemas';
+import type { MovieResponse } from '~~/server/types/api';
+import { fetchFromTmdb, handleApiError } from '~~/server/utils/tmdbApi';
+import { MovieListTypeSchema, PageSchema } from '~~/server/utils/schemas';
 
 export const errorMessages: Record<MovieListType, string> = {
     now_playing: 'Error fetching now playing movies',

@@ -10,7 +10,12 @@ export default withNuxt({
         parser: vueParser,
         parserOptions: {
             parser: '@typescript-eslint/parser',
-            project: ['./tsconfig.json'],
+            project: [
+                './.nuxt/tsconfig.app.json',
+                './.nuxt/tsconfig.server.json',
+                './.nuxt/tsconfig.shared.json',
+                './.nuxt/tsconfig.node.json'
+            ],
             tsconfigRootDir: process.cwd(),
             extraFileExtensions: ['.vue'],
             ecmaVersion: 'latest',
