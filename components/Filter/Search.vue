@@ -59,9 +59,9 @@ const isSearchTooShort = computed(() => {
     return trimmed.length > 0 && trimmed.length < MIN_SEARCH_LENGTH;
 });
 
-const debouncedUpdate = useDebounceFn((newValue: string) => {
+const debouncedUpdate = useDebounceFn(async (newValue: string) => {
     if (!newValue || newValue.trim().length === 0 || newValue.trim().length >= MIN_SEARCH_LENGTH) {
-        setSearchTerm(newValue);
+        await setSearchTerm(newValue);
     }
 }, SEARCH_DEBOUNCE_DELAY);
 
@@ -73,8 +73,8 @@ watch(searchTerm, (newValue) => {
     }
 });
 
-const handleClear = () => {
+const handleClear = async () => {
     localSearchTerm.value = '';
-    setSearchTerm('');
+    await setSearchTerm('');
 };
 </script>

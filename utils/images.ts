@@ -6,6 +6,6 @@ export const getTmdbImageUrl = (
     path: string | undefined,
     size: TmdbImageSize = 'w500',
 ): string | undefined => {
-    if (!path) return undefined;
+    if (!path) {return undefined;}
     return `${TMDB_IMAGE_BASE}/t/p/${size}${path}`;
 };

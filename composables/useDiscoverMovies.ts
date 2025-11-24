@@ -29,8 +29,8 @@ export const useDiscoverMovies = () => {
     const previousFilterKey = ref(filtersKey.value);
 
     const fetchMovies = async () => {
-        if (isLoading.value) return;
-        if (lastFetchedPage.value === page.value) return;
+        if (isLoading.value) {return;}
+        if (lastFetchedPage.value === page.value) {return;}
 
         isLoading.value = true;
         error.value = undefined;
@@ -77,30 +77,30 @@ export const useDiscoverMovies = () => {
         await fetchMovies();
     };
 
-    watch(filtersKey, (newKey) => {
+    watch(filtersKey, async (newKey) => {
         if (newKey !== previousFilterKey.value) {
-            reset();
+            await reset();
             previousFilterKey.value = newKey;
         }
     });
 
-    watch(hasSearch, (newHasSearch, oldHasSearch) => {
-        if (newHasSearch === oldHasSearch) return;
+    watch(hasSearch, async (newHasSearch, oldHasSearch) => {
+        if (newHasSearch === oldHasSearch) {return;}
 
         page.value = 1;
         allMovies.value = [];
         lastFetchedPage.value = 0;
 
-        fetchMovies();
+        await fetchMovies();
     });
 
-    watch(page, () => {
-        if (isResetting.value) return; 
-        fetchMovies();
+    watch(page, async () => {
+        if (isResetting.value) {return;} 
+        await fetchMovies();
     });
 
-    onMounted(() => {
-        fetchMovies();
+    onMounted(async () => {
+        await fetchMovies();
     });
 
     return {

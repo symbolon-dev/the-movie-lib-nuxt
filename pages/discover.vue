@@ -73,21 +73,21 @@ const {
 } = useDiscoverMovies();
 
 const displayedMovies = computed(() => {
-    if (allMovies.value.length === 0) return [];
+    if (allMovies.value.length === 0) {return [];}
     if (hasSearch.value && selectedGenres.value.length > 0) {
         return filterMovies(allMovies.value);
     }
     return allMovies.value;
 });
 
-const handleResetFilters = () => {
-    reset(true);
+const handleResetFilters = async () => {
+    await reset(true);
 };
 
 const sentinelRef = ref<HTMLElement | null>(null);
 
 const checkIfNeedMore = () => {
-    if (!sentinelRef.value || !hasMore.value || isLoadingMore.value) return;
+    if (!sentinelRef.value || !hasMore.value || isLoadingMore.value) {return;}
 
     const rect = sentinelRef.value.getBoundingClientRect();
     const isNearBottom = rect.top < window.innerHeight + 600;
@@ -109,9 +109,9 @@ useIntersectionObserver(
 );
 
 
-watch(isLoadingMore, (loading) => {
+watch(isLoadingMore, async (loading) => {
     if (!loading) {
-        nextTick(checkIfNeedMore);
+        await nextTick(checkIfNeedMore);
     }
 });
 

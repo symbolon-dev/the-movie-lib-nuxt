@@ -75,10 +75,10 @@ const currentSortLabel = computed(() => {
     return (current ?? sortVariants[0])!.label;
 });
 
-const selectOption = (sort: { value: string }) => {
-    setSelectedSort(sort.value);
+const selectOption = async (sort: { value: string }) => {
+    await setSelectedSort(sort.value);
     isOpen.value = false;
-    nextTick(() => buttonRef.value?.focus());
+    await nextTick(() => buttonRef.value?.focus());
 };
 
 onClickOutside(dropdownRef, () => {

@@ -59,8 +59,8 @@ watch(() => props.current, updateIndicator);
 
 useResizeObserver(containerRef, updateIndicator);
 
-onMounted(() => {
-    nextTick(updateIndicator);
+onMounted(async () => {
+    await nextTick(updateIndicator);
 });
 </script>
 

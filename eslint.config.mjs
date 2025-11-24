@@ -1,12 +1,13 @@
-import { createConfigForNuxt } from '@nuxt/eslint-config/flat';
+import withNuxt from './.nuxt/eslint.config.mjs'
 import tailwindcss from 'eslint-plugin-tailwindcss';
 import vueA11y from 'eslint-plugin-vuejs-accessibility';
+import vueParser from 'vue-eslint-parser';
 
-export default createConfigForNuxt({
+export default withNuxt({
     files: ['**/*.{js,ts,vue}'],
 
     languageOptions: {
-        parser: 'vue-eslint-parser',
+        parser: vueParser,
         parserOptions: {
             parser: '@typescript-eslint/parser',
             project: ['./tsconfig.json'],

@@ -13,7 +13,7 @@ export const useMovies = () => {
     const previousListType = ref(listType.value);
 
     const fetchMovies = async () => {
-        if (isLoading.value) return;
+        if (isLoading.value) {return;}
 
         isLoading.value = true;
         error.value = undefined;
@@ -50,7 +50,7 @@ export const useMovies = () => {
     };
 
     watch(listType, async (newType) => {
-        if (newType === previousListType.value) return;
+        if (newType === previousListType.value) {return;}
 
         isResetting.value = true;
 
@@ -65,13 +65,13 @@ export const useMovies = () => {
     });
 
 
-    watch(page, () => {
-        if (isResetting.value) return;
-        fetchMovies();
+    watch(page, async () => {
+        if (isResetting.value) {return;}
+        await fetchMovies();
     });
 
-    onMounted(() => {
-        fetchMovies();
+    onMounted(async () => {
+        await fetchMovies();
     });
 
     return {
