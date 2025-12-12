@@ -70,13 +70,6 @@ export default withNuxt({
 
         'prefer-spread': 'error',
         'prefer-destructuring': ['error', { object: true, array: true }],
-        'no-restricted-syntax': [
-            'error',
-            {
-                selector: 'ForStatement',
-                message: 'For loops are not allowed. Use iterable methods or for..of instead.',
-            },
-        ],
         'prefer-const': 'error',
         'prefer-template': 'error',
         'eqeqeq': ['error', 'always'],
