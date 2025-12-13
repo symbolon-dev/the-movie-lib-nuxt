@@ -12,10 +12,10 @@
             to="/discover"
             class="btn btn-primary text-sm sm:text-base"
         >
-            <Icon 
+            <Icon
                 name="ion:compass"
                 class="mr-2"
-                size="18" 
+                size="18"
             />
             <span>
                 Discover now

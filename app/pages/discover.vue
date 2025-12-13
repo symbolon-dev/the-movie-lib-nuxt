@@ -1,3 +1,81 @@
+<script setup lang="ts">
+import { getErrorMessage } from '~/utils/error';
+
+const {
+    filterMovies,
+    hasActiveFilters,
+    selectedGenres,
+} = useDiscoverFilters();
+const {
+    allMovies,
+    pending,
+    error,
+    refresh,
+    loadMore,
+    isLoadingMore,
+    hasMore,
+    reset,
+    hasSearch,
+} = useDiscoverMovies();
+
+const displayedMovies = computed(() => {
+    if (allMovies.value.length === 0) {
+        return [];
+    }
+    if (hasSearch.value && selectedGenres.value.length > 0) {
+        return filterMovies(allMovies.value);
+    }
+    return allMovies.value;
+});
+
+async function handleResetFilters() {
+    await reset(true);
+}
+
+const sentinelRef = ref<HTMLElement | null>(null);
+
+function checkIfNeedMore() {
+    if (!sentinelRef.value || !hasMore.value || isLoadingMore.value) {
+        return;
+    }
+
+    const rect = sentinelRef.value.getBoundingClientRect();
+    const isNearBottom = rect.top < window.innerHeight + 600;
+
+    if (isNearBottom) {
+        loadMore();
+    }
+}
+
+useIntersectionObserver(
+    sentinelRef,
+    (entries: IntersectionObserverEntry[]) => {
+        const [{ isIntersecting } = {}] = entries;
+        if (isIntersecting && hasMore.value && !isLoadingMore.value) {
+            loadMore();
+        }
+    },
+    { rootMargin: '600px' },
+);
+
+watch(isLoadingMore, async (loading) => {
+    if (!loading) {
+        await nextTick(checkIfNeedMore);
+    }
+});
+
+useSeoMeta({
+    title: 'Discover Movies - The Movie Lib',
+    description: 'Discover and explore movies with advanced search and filtering options. Find movies by genre, release year, rating and more.',
+    ogTitle: 'Discover Movies - The Movie Lib',
+    ogDescription: 'Discover and explore movies with advanced search and filtering options. Find movies by genre, release year, rating and more.',
+    ogType: 'website',
+    twitterCard: 'summary',
+    twitterTitle: 'Discover Movies - The Movie Lib',
+    twitterDescription: 'Discover and explore movies with advanced search and filtering options. Find movies by genre, release year, rating and more.',
+});
+</script>
+
 <template>
     <div>
         <BackButton class="mt-8" />
@@ -32,12 +110,12 @@
                     <MovieList
                         :movies="displayedMovies"
                         :loading="pending"
-                        :grid-classes="'movie-grid'"
+                        grid-classes="movie-grid"
                         :initial-visible-count="10"
                     />
 
                     <div class="mt-6 flex flex-col items-center gap-3">
-                        <div ref="sentinelRef" class="flex h-20 items-center justify-center" :class="{ 'invisible': !hasMore }">
+                        <div ref="sentinelRef" class="flex h-20 items-center justify-center" :class="{ invisible: !hasMore }">
                             <span v-if="isLoadingMore" class="loading loading-spinner loading-lg" />
                         </div>
 
@@ -51,78 +129,3 @@
         <ScrollToTopButton />
     </div>
 </template>
-
-<script setup lang="ts">
-import { getErrorMessage } from '~/utils/error';
-
-const {
-    filterMovies,
-    hasActiveFilters,
-    selectedGenres,
-} = useDiscoverFilters();
-const {
-    allMovies,
-    pending,
-    error,
-    refresh,
-    loadMore,
-    isLoadingMore,
-    hasMore,
-    reset,
-    hasSearch,
-} = useDiscoverMovies();
-
-const displayedMovies = computed(() => {
-    if (allMovies.value.length === 0) {return [];}
-    if (hasSearch.value && selectedGenres.value.length > 0) {
-        return filterMovies(allMovies.value);
-    }
-    return allMovies.value;
-});
-
-const handleResetFilters = async () => {
-    await reset(true);
-};
-
-const sentinelRef = ref<HTMLElement | null>(null);
-
-const checkIfNeedMore = () => {
-    if (!sentinelRef.value || !hasMore.value || isLoadingMore.value) {return;}
-
-    const rect = sentinelRef.value.getBoundingClientRect();
-    const isNearBottom = rect.top < window.innerHeight + 600;
-
-    if (isNearBottom) {
-        loadMore();
-    }
-};
-
-useIntersectionObserver(
-    sentinelRef,
-    (entries: IntersectionObserverEntry[]) => {
-        const [{ isIntersecting } = {}] = entries;
-        if (isIntersecting && hasMore.value && !isLoadingMore.value) {
-            loadMore();
-        }
-    },
-    { rootMargin: '600px' },
-);
-
-
-watch(isLoadingMore, async (loading) => {
-    if (!loading) {
-        await nextTick(checkIfNeedMore);
-    }
-});
-
-useSeoMeta({
-    title: 'Discover Movies - The Movie Lib',
-    description: 'Discover and explore movies with advanced search and filtering options. Find movies by genre, release year, rating and more.',
-    ogTitle: 'Discover Movies - The Movie Lib',
-    ogDescription: 'Discover and explore movies with advanced search and filtering options. Find movies by genre, release year, rating and more.',
-    ogType: 'website',
-    twitterCard: 'summary',
-    twitterTitle: 'Discover Movies - The Movie Lib',
-    twitterDescription: 'Discover and explore movies with advanced search and filtering options. Find movies by genre, release year, rating and more.',
-});
-</script>

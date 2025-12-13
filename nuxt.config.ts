@@ -15,7 +15,7 @@ export default defineNuxtConfig({
                 lang: 'en',
             },
         },
-    },  
+    },
 
     compatibilityDate: '2025-07-15',
 
@@ -27,7 +27,6 @@ export default defineNuxtConfig({
     },
 
     modules: [
-        '@nuxt/eslint',
         '@nuxthub/core',
         '@nuxt/image',
         '@nuxt/icon',

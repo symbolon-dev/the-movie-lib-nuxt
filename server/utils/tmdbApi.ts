@@ -1,20 +1,17 @@
 const TMDB_API_BASE_URL = 'https://api.themoviedb.org/3';
 const TMDB_DEFAULT_LANGUAGE = 'en-US';
 
-export const getTmdbApiKey = (): string => {
+export function getTmdbApiKey(): string {
     const { tmdbApiKey } = useRuntimeConfig();
     if (!tmdbApiKey) {
         throw new Error('API key is not set in the runtime configuration.');
     }
     return tmdbApiKey;
-};
+}
 
 type TmdbParams = Record<string, string | number | boolean | undefined>;
 
-export const fetchFromTmdb = async <TResponse>(
-    endpoint: string,
-    params: TmdbParams = {},
-): Promise<TResponse> => {
+export async function fetchFromTmdb<TResponse>(endpoint: string, params: TmdbParams = {}): Promise<TResponse> {
     const tmdbApiKey = getTmdbApiKey();
 
     const defaultParams: TmdbParams = {
@@ -37,14 +34,13 @@ export const fetchFromTmdb = async <TResponse>(
             Authorization: `Bearer ${tmdbApiKey}`,
         },
     }) as Promise<TResponse>;
-};
+}
 
-
-export const handleApiError = (error: unknown, message = 'Internal Server Error'): never => {
+export function handleApiError(error: unknown, message = 'Internal Server Error'): never {
     console.error('Error in TMDB API: ', error);
     throw createError({
         statusCode: 500,
         statusMessage: message,
         data: error instanceof Error ? error.message : error,
     });
-};
+}

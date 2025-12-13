@@ -1,6 +1,6 @@
 import type { MovieResponse } from '~~/server/types/api';
-import { fetchFromTmdb, handleApiError } from '~~/server/utils/tmdbApi';
 import { DiscoverQuerySchema, normalizeGenres } from '~~/server/utils/schemas';
+import { fetchFromTmdb, handleApiError } from '~~/server/utils/tmdbApi';
 
 export default defineEventHandler(async (event) => {
     try {
@@ -18,7 +18,8 @@ export default defineEventHandler(async (event) => {
         data.page = page;
 
         return data;
-    } catch (error) {
+    }
+    catch (error) {
         handleApiError(error, 'Error discovering movies');
     }
 });

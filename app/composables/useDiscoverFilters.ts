@@ -1,8 +1,8 @@
-import { isNavigationFailure, NavigationFailureType } from 'vue-router';
 import type { Movie } from '~/types/movie';
+import { isNavigationFailure, NavigationFailureType } from 'vue-router';
 import {
-    DEFAULT_SORT,
     buildDiscoverParams,
+    DEFAULT_SORT,
     filterMoviesList,
 } from '~/utils/movieFilters';
 import { getQueryString, parseGenresQuery } from '~/utils/queryParams';
@@ -11,35 +11,43 @@ const DISCOVER_ROUTE = '/discover';
 
 export const MIN_SEARCH_LENGTH = 2;
 
-export const useDiscoverFilters = () => {
+export function useDiscoverFilters() {
     const route = useRoute();
     const router = useRouter();
 
     const isDiscoverRoute = computed(() => route.path === DISCOVER_ROUTE);
 
     const searchTerm = computed(() => {
-        if (!isDiscoverRoute.value) {return '';}
+        if (!isDiscoverRoute.value) {
+            return '';
+        }
         return getQueryString(route.query.search ?? '');
     });
 
     const selectedGenres = computed(() => {
-        if (!isDiscoverRoute.value) {return [];}
+        if (!isDiscoverRoute.value) {
+            return [];
+        }
         return parseGenresQuery(route.query.genres);
     });
 
     const selectedSort = computed(() => {
-        if (!isDiscoverRoute.value) {return DEFAULT_SORT;}
+        if (!isDiscoverRoute.value) {
+            return DEFAULT_SORT;
+        }
         return getQueryString(route.query.sort ?? DEFAULT_SORT);
     });
 
     const hasActiveFilters = computed(() =>
-        Boolean(searchTerm.value) ||
-        selectedGenres.value.length > 0 ||
-        selectedSort.value !== DEFAULT_SORT,
+        Boolean(searchTerm.value)
+        || selectedGenres.value.length > 0
+        || selectedSort.value !== DEFAULT_SORT,
     );
 
     const updateQuery = async (updates: Record<string, string | undefined>) => {
-        if (!isDiscoverRoute.value) {return;}
+        if (!isDiscoverRoute.value) {
+            return;
+        }
 
         try {
             await router.replace({
@@ -48,7 +56,8 @@ export const useDiscoverFilters = () => {
                     ...updates,
                 },
             });
-        } catch (err: unknown) {
+        }
+        catch (err: unknown) {
             if (!isNavigationFailure(err, NavigationFailureType.duplicated)) {
                 console.error('Navigation error:', err);
             }
@@ -68,11 +77,14 @@ export const useDiscoverFilters = () => {
     };
 
     const resetFilters = async () => {
-        if (!isDiscoverRoute.value) {return;}
+        if (!isDiscoverRoute.value) {
+            return;
+        }
 
         try {
             await router.replace({ query: {} });
-        } catch (err: unknown) {
+        }
+        catch (err: unknown) {
             if (!isNavigationFailure(err, NavigationFailureType.duplicated)) {
                 console.error('Navigation error:', err);
             }
@@ -100,4 +112,4 @@ export const useDiscoverFilters = () => {
         getDiscoverParams,
         filterMovies,
     };
-};
+}

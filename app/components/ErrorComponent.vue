@@ -1,3 +1,15 @@
+<script setup lang="ts">
+const props = defineProps<{
+    title?: string;
+    message: string;
+    showRetry?: boolean;
+}>();
+
+defineEmits<{
+    retry: [];
+}>();
+</script>
+
 <template>
     <div class="mx-auto max-w-md rounded-lg bg-red-50 p-4 text-center">
         <div class="flex items-center justify-center">
@@ -31,15 +43,3 @@
         </button>
     </div>
 </template>
-
-<script setup lang="ts">
-const props = defineProps<{
-    title?: string;
-    message: string;
-    showRetry?: boolean;
-}>();
-
-defineEmits<{
-    retry: [];
-}>();
-</script>

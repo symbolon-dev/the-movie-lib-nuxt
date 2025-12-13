@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import type { Movie } from '~/types/movie';
+
+const props = defineProps<{
+    movies: Movie[];
+    loading?: boolean;
+    gridClasses: string;
+    initialVisibleCount?: number;
+}>();
+const SKELETON_COUNT = 12;
+const DEFAULT_INITIAL_VISIBLE_COUNT = 4;
+</script>
+
 <template>
     <div>
         <div class="grid grid-cols-1 gap-6" :class="props.gridClasses">
@@ -22,21 +35,9 @@
         </div>
 
         <div v-if="!props.loading && props.movies.length === 0" class="py-8 text-center">
-            <p class="text-gray-500">No movies found</p>
+            <p class="text-gray-500">
+                No movies found
+            </p>
         </div>
     </div>
 </template>
-
-<script setup lang="ts">
-import type { Movie } from '~/types/movie';
-
-const SKELETON_COUNT = 12;
-const DEFAULT_INITIAL_VISIBLE_COUNT = 4;
-
-const props = defineProps<{
-    movies: Movie[];
-    loading?: boolean;
-    gridClasses: string;
-    initialVisibleCount?: number;
-}>();
-</script>

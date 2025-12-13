@@ -1,6 +1,44 @@
+<script lang="ts" setup>
+const { selectedSort, setSelectedSort } = useDiscoverFilters();
+
+const dropdownRef = ref<HTMLElement | undefined>(undefined);
+const buttonRef = ref<HTMLButtonElement | undefined>(undefined);
+const isOpen = ref(false);
+
+const sortVariants = [
+    { label: '↓ Popularity', value: 'popularity.desc' },
+    { label: '↑ Popularity', value: 'popularity.asc' },
+    { label: '↓ Title', value: 'original_title.desc' },
+    { label: '↑ Title', value: 'original_title.asc' },
+    { label: '↓ Release Date', value: 'primary_release_date.desc' },
+    { label: '↑ Release Date', value: 'primary_release_date.asc' },
+    { label: '↓ Rating', value: 'vote_average.desc' },
+    { label: '↑ Rating', value: 'vote_average.asc' },
+    { label: '↓ Vote Count', value: 'vote_count.desc' },
+    { label: '↑ Vote Count', value: 'vote_count.asc' },
+    { label: '↓ Revenue', value: 'revenue.desc' },
+    { label: '↑ Revenue', value: 'revenue.asc' },
+];
+
+const currentSortLabel = computed(() => {
+    const current = sortVariants.find(sort => sort.value === selectedSort.value);
+    return (current ?? sortVariants[0])!.label;
+});
+
+async function selectOption(sort: { value: string }) {
+    await setSelectedSort(sort.value);
+    isOpen.value = false;
+    await nextTick(() => buttonRef.value?.focus());
+}
+
+onClickOutside(dropdownRef, () => {
+    isOpen.value = false;
+});
+</script>
+
 <template>
     <div class="flex flex-col space-y-1">
-        <label id="sort-label">Sort</label>
+        <span id="sort-label">Sort</span>
         <div ref="dropdownRef" class="relative">
             <button
                 ref="buttonRef"
@@ -47,41 +85,3 @@
         </div>
     </div>
 </template>
-
-<script lang="ts" setup>
-const { selectedSort, setSelectedSort } = useDiscoverFilters();
-
-const dropdownRef = ref<HTMLElement | undefined>(undefined);
-const buttonRef = ref<HTMLButtonElement | undefined>(undefined);
-const isOpen = ref(false);
-
-const sortVariants = [
-    { label: '↓ Popularity', value: 'popularity.desc' },
-    { label: '↑ Popularity', value: 'popularity.asc' },
-    { label: '↓ Title', value: 'original_title.desc' },
-    { label: '↑ Title', value: 'original_title.asc' },
-    { label: '↓ Release Date', value: 'primary_release_date.desc' },
-    { label: '↑ Release Date', value: 'primary_release_date.asc' },
-    { label: '↓ Rating', value: 'vote_average.desc' },
-    { label: '↑ Rating', value: 'vote_average.asc' },
-    { label: '↓ Vote Count', value: 'vote_count.desc' },
-    { label: '↑ Vote Count', value: 'vote_count.asc' },
-    { label: '↓ Revenue', value: 'revenue.desc' },
-    { label: '↑ Revenue', value: 'revenue.asc' },
-];
-
-const currentSortLabel = computed(() => {
-    const current = sortVariants.find(sort => sort.value === selectedSort.value);
-    return (current ?? sortVariants[0])!.label;
-});
-
-const selectOption = async (sort: { value: string }) => {
-    await setSelectedSort(sort.value);
-    isOpen.value = false;
-    await nextTick(() => buttonRef.value?.focus());
-};
-
-onClickOutside(dropdownRef, () => {
-    isOpen.value = false;
-});
-</script>

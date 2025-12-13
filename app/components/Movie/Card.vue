@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import type { Movie } from '~/types/movie';
+import { getTmdbImageUrl } from '~/utils/images';
+
+const props = defineProps<{
+    movie: Movie;
+    isLazy?: boolean;
+    index?: number;
+}>();
+
+const posterUrl = computed(() => getTmdbImageUrl(props.movie.poster_path));
+</script>
+
 <template>
     <NuxtLink
         :to="`/movies/${props.movie.id}`"
@@ -24,16 +37,3 @@
         </div>
     </NuxtLink>
 </template>
-
-<script setup lang="ts">
-import type { Movie } from '~/types/movie';
-import { getTmdbImageUrl } from '~/utils/images';
-
-const props = defineProps<{
-    movie: Movie;
-    isLazy?: boolean;
-    index?: number;
-}>();
-
-const posterUrl = computed(() => getTmdbImageUrl(props.movie.poster_path));
-</script>

@@ -1,12 +1,12 @@
-import dayjs from 'dayjs';
 import type { Movie } from '~/types/movie';
+import dayjs from 'dayjs';
 
 type SortableValue = string | number | undefined;
 
-type FilterOptions = {
+interface FilterOptions {
     selectedGenres: number[];
     selectedSort: string;
-};
+}
 
 export const DEFAULT_SORT = 'popularity.desc';
 const DATE_FIELDS = ['release_date', 'primary_release_date'] as const;
@@ -16,13 +16,15 @@ type DateField = typeof DATE_FIELDS[number];
 type NumericField = typeof NUMERIC_FIELDS[number];
 type MovieField = keyof Movie;
 
-const isDateField = (field: string): field is DateField =>
-    DATE_FIELDS.includes(field as DateField);
+function isDateField(field: string): field is DateField {
+    return DATE_FIELDS.includes(field as DateField);
+}
 
-const isNumericField = (field: string): field is NumericField =>
-    NUMERIC_FIELDS.includes(field as NumericField);
+function isNumericField(field: string): field is NumericField {
+    return NUMERIC_FIELDS.includes(field as NumericField);
+}
 
-export const buildDiscoverParams = (selectedSort: string, selectedGenres: number[]): URLSearchParams => {
+export function buildDiscoverParams(selectedSort: string, selectedGenres: number[]): URLSearchParams {
     const params = new URLSearchParams();
 
     params.append('sort_by', selectedSort);
@@ -32,13 +34,15 @@ export const buildDiscoverParams = (selectedSort: string, selectedGenres: number
     }
 
     return params;
-};
+}
 
-const getSortValue = (movie: Movie, field: string): SortableValue => {
+function getSortValue(movie: Movie, field: string): SortableValue {
     if (isDateField(field)) {
         const rawValue = movie[field];
         const dateValue = typeof rawValue === 'string' ? rawValue : movie.release_date;
-        if (!dateValue) {return undefined;}
+        if (!dateValue) {
+            return undefined;
+        }
         const parsed = dayjs(dateValue);
         return parsed.isValid() ? parsed.valueOf() : undefined;
     }
@@ -54,16 +58,18 @@ const getSortValue = (movie: Movie, field: string): SortableValue => {
     }
 
     return undefined;
-};
+}
 
-const compareValues = (
-    aValue: SortableValue,
-    bValue: SortableValue,
-    direction: 'asc' | 'desc',
-): number => {
-    if (aValue === undefined && bValue === undefined) {return 0;}
-    if (aValue === undefined) {return direction === 'asc' ? 1 : -1;}
-    if (bValue === undefined) {return direction === 'asc' ? -1 : 1;}
+function compareValues(aValue: SortableValue, bValue: SortableValue, direction: 'asc' | 'desc'): number {
+    if (aValue === undefined && bValue === undefined) {
+        return 0;
+    }
+    if (aValue === undefined) {
+        return direction === 'asc' ? 1 : -1;
+    }
+    if (bValue === undefined) {
+        return direction === 'asc' ? -1 : 1;
+    }
 
     if (typeof aValue === 'number' && typeof bValue === 'number') {
         return direction === 'asc' ? aValue - bValue : bValue - aValue;
@@ -75,15 +81,17 @@ const compareValues = (
     }
 
     return 0;
-};
+}
 
-export const filterMoviesList = (movies: Movie[], { selectedGenres, selectedSort }: FilterOptions): Movie[] => {
+export function filterMoviesList(movies: Movie[], { selectedGenres, selectedSort }: FilterOptions): Movie[] {
     const [field, direction] = selectedSort.split('.') as [string, 'asc' | 'desc' | undefined];
-    if (direction !== 'asc' && direction !== 'desc') {return movies;}
+    if (direction !== 'asc' && direction !== 'desc') {
+        return movies;
+    }
 
     return movies
         .filter(movie =>
-            selectedGenres.every(genreId => {
+            selectedGenres.every((genreId) => {
                 const genreIds = movie.genre_ids ?? movie.genres?.map(genre => genre.id) ?? [];
                 return genreIds.includes(genreId);
             }),
@@ -93,4 +101,4 @@ export const filterMoviesList = (movies: Movie[], { selectedGenres, selectedSort
             const bValue = getSortValue(b, field);
             return compareValues(aValue, bValue, direction);
         });
-};
+}

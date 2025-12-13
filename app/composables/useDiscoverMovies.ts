@@ -1,8 +1,8 @@
-import type { Movie } from '~/types/movie';
 import type { MovieResponse } from '~/server/types/api';
+import type { Movie } from '~/types/movie';
 import { MIN_SEARCH_LENGTH } from './useDiscoverFilters';
 
-export const useDiscoverMovies = () => {
+export function useDiscoverMovies() {
     const { searchTerm, selectedGenres, selectedSort, getDiscoverParams, resetFilters } = useDiscoverFilters();
 
     const page = ref(1);
@@ -29,8 +29,12 @@ export const useDiscoverMovies = () => {
     const previousFilterKey = ref(filtersKey.value);
 
     const fetchMovies = async () => {
-        if (isLoading.value) {return;}
-        if (lastFetchedPage.value === page.value) {return;}
+        if (isLoading.value) {
+            return;
+        }
+        if (lastFetchedPage.value === page.value) {
+            return;
+        }
 
         isLoading.value = true;
         error.value = undefined;
@@ -43,14 +47,16 @@ export const useDiscoverMovies = () => {
             const data = await $fetch<MovieResponse>(url);
             totalPages.value = data.total_pages;
 
-            allMovies.value = page.value === 1 
-                ? data.results 
+            allMovies.value = page.value === 1
+                ? data.results
                 : [...allMovies.value, ...data.results];
 
             lastFetchedPage.value = page.value;
-        } catch (err) {
+        }
+        catch (err) {
             error.value = err as Error;
-        } finally {
+        }
+        finally {
             isLoading.value = false;
         }
     };
@@ -85,7 +91,9 @@ export const useDiscoverMovies = () => {
     });
 
     watch(hasSearch, async (newHasSearch, oldHasSearch) => {
-        if (newHasSearch === oldHasSearch) {return;}
+        if (newHasSearch === oldHasSearch) {
+            return;
+        }
 
         page.value = 1;
         allMovies.value = [];
@@ -95,7 +103,9 @@ export const useDiscoverMovies = () => {
     });
 
     watch(page, async () => {
-        if (isResetting.value) {return;} 
+        if (isResetting.value) {
+            return;
+        }
         await fetchMovies();
     });
 
@@ -114,4 +124,4 @@ export const useDiscoverMovies = () => {
         loadMore,
         reset,
     };
-};
+}

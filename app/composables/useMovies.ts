@@ -1,7 +1,7 @@
+import type { GenresResponse, MovieResponse } from '~/server/types/api';
 import type { Movie, MovieListType } from '~/types/movie';
-import type { MovieResponse, GenresResponse } from '~/server/types/api';
 
-export const useMovies = () => {
+export function useMovies() {
     const listType = ref<MovieListType>('now_playing');
     const page = ref(1);
     const allMovies = ref<Movie[]>([]);
@@ -13,7 +13,9 @@ export const useMovies = () => {
     const previousListType = ref(listType.value);
 
     const fetchMovies = async () => {
-        if (isLoading.value) {return;}
+        if (isLoading.value) {
+            return;
+        }
 
         isLoading.value = true;
         error.value = undefined;
@@ -25,16 +27,18 @@ export const useMovies = () => {
             allMovies.value = page.value === 1
                 ? data.results
                 : [
-                    ...allMovies.value,
-                    ...data.results.filter(
-                        movie => !allMovies.value.some(existing => existing.id === movie.id),
-                    ),
-                ];
+                        ...allMovies.value,
+                        ...data.results.filter(
+                            movie => !allMovies.value.some(existing => existing.id === movie.id),
+                        ),
+                    ];
 
             totalPages.value = data.total_pages;
-        } catch (err) {
+        }
+        catch (err) {
             error.value = err as Error;
-        } finally {
+        }
+        finally {
             isLoading.value = false;
         }
     };
@@ -50,7 +54,9 @@ export const useMovies = () => {
     };
 
     watch(listType, async (newType) => {
-        if (newType === previousListType.value) {return;}
+        if (newType === previousListType.value) {
+            return;
+        }
 
         isResetting.value = true;
 
@@ -64,9 +70,10 @@ export const useMovies = () => {
         await fetchMovies();
     });
 
-
     watch(page, async () => {
-        if (isResetting.value) {return;}
+        if (isResetting.value) {
+            return;
+        }
         await fetchMovies();
     });
 
@@ -86,9 +93,9 @@ export const useMovies = () => {
         setListType,
         loadMore,
     };
-};
+}
 
-export const useMovieDetails = (initialId?: string) => {
+export function useMovieDetails(initialId?: string) {
     const movieId = ref(initialId ?? '');
 
     const { data, pending, error, refresh } = useFetch<Movie>(
@@ -111,9 +118,9 @@ export const useMovieDetails = (initialId?: string) => {
         movieId,
         setMovieId,
     };
-};
+}
 
-export const useGenres = () => {
+export function useGenres() {
     const { data, pending, error, refresh } = useFetch<GenresResponse>('/api/movies/genres', {
         key: 'genres',
         getCachedData: (key: string) => useNuxtData(key).data.value,
@@ -126,4 +133,4 @@ export const useGenres = () => {
         error,
         refresh,
     };
-};
+}

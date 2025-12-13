@@ -1,3 +1,53 @@
+<script setup lang="ts">
+import type { Movie } from '~/types/movie';
+import { MovieIdSchema } from '~~/server/utils/schemas';
+import { convertMinutesToHoursAndMinutes } from '~/utils/formatting';
+import { getTmdbImageUrl } from '~/utils/images';
+
+const MAX_DESCRIPTION_LENGTH = 160;
+
+const route = useRoute();
+const id = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
+const movieId = MovieIdSchema.parse(id);
+
+const { data: movie, error } = await useFetch<Movie>(
+    () => `/api/movies/details/${movieId}`,
+    {
+        key: `movie-${movieId}`,
+    },
+);
+
+if (error.value || !movie.value) {
+    throw createError({ statusCode: 404, statusMessage: 'Movie not found' });
+}
+
+const posterUrl = computed(() => getTmdbImageUrl(movie.value?.poster_path));
+const backdropUrl = computed(() => getTmdbImageUrl(movie.value?.backdrop_path, 'original'));
+
+const defaultDescription = 'Discover movies and get detailed information about your favorite films.';
+
+function getDescription(): string {
+    const overview = movie.value?.overview;
+    if (overview) {
+        return overview.substring(0, MAX_DESCRIPTION_LENGTH);
+    }
+    return defaultDescription;
+}
+
+useSeoMeta({
+    title: () => movie.value ? `${movie.value.title} - The Movie Lib` : 'Movie Details - The Movie Lib',
+    description: getDescription,
+    ogTitle: () => movie.value?.title || 'Movie Details',
+    ogDescription: getDescription,
+    ogImage: () => posterUrl.value,
+    ogType: 'video.movie',
+    twitterCard: 'summary_large_image',
+    twitterTitle: () => movie.value?.title || 'Movie Details',
+    twitterDescription: getDescription,
+    twitterImage: () => posterUrl.value,
+});
+</script>
+
 <template>
     <div>
         <div
@@ -17,7 +67,6 @@
 
         <div class=" relative z-20 mx-auto mt-8 pb-16">
             <div class="flex flex-col gap-8 md:flex-row md:items-stretch md:gap-10">
-
                 <div class="mx-auto w-full max-w-[240px] shrink-0 overflow-hidden rounded-xl border-4 border-surface-dark/60 shadow-2xl md:mx-0 md:max-w-[280px] lg:max-w-[300px]">
                     <NuxtImg
                         :src="posterUrl ?? '/placeholder.png'"
@@ -52,7 +101,9 @@
                     </div>
 
                     <div class="border-b border-surface-light/10 py-6">
-                        <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-content-light/70">Genres</h3>
+                        <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-content-light/70">
+                            Genres
+                        </h3>
                         <div class="flex flex-wrap gap-2">
                             <span
                                 v-for="genre in movie?.genres"
@@ -65,7 +116,9 @@
                     </div>
 
                     <div class="flex-1 py-6">
-                        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-content-light/70">Overview</h3>
+                        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-content-light/70">
+                            Overview
+                        </h3>
                         <p v-if="movie?.overview" class="max-w-none text-base leading-relaxed text-content-light/90">
                             {{ movie?.overview }}
                         </p>
@@ -76,11 +129,15 @@
 
                     <div v-if="movie?.tagline" class="border-t border-surface-light/10 pt-4">
                         <blockquote class="relative">
-                            <div class="absolute -left-2 -top-1 font-serif text-3xl text-primary/30">"</div>
+                            <div class="absolute -left-2 -top-1 font-serif text-3xl text-primary/30">
+                                "
+                            </div>
                             <p class="pl-4 text-lg font-medium italic text-primary-light/90">
                                 {{ movie?.tagline }}
                             </p>
-                            <div class="absolute -bottom-3 -right-1 font-serif text-3xl text-primary/30">"</div>
+                            <div class="absolute -bottom-3 -right-1 font-serif text-3xl text-primary/30">
+                                "
+                            </div>
                         </blockquote>
                     </div>
                 </div>
@@ -88,53 +145,3 @@
         </div>
     </div>
 </template>
-
-<script setup lang="ts">
-import type { Movie } from '~/types/movie';
-import { getTmdbImageUrl } from '~/utils/images';
-import { convertMinutesToHoursAndMinutes } from '~/utils/formatting';
-import { MovieIdSchema } from '~~/server/utils/schemas';
-
-const MAX_DESCRIPTION_LENGTH = 160;
-
-const route = useRoute();
-const id = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
-const movieId = MovieIdSchema.parse(id);
-
-const { data: movie, error } = await useFetch<Movie>(
-    () => `/api/movies/details/${movieId}`,
-    {
-        key: `movie-${movieId}`,
-    },
-);
-
-if (error.value || !movie.value) {
-    throw createError({ statusCode: 404, statusMessage: 'Movie not found' });
-}
-
-const posterUrl = computed(() => getTmdbImageUrl(movie.value?.poster_path));
-const backdropUrl = computed(() => getTmdbImageUrl(movie.value?.backdrop_path, 'original'));
-
-const defaultDescription = 'Discover movies and get detailed information about your favorite films.';
-
-const getDescription = (): string => {
-    const overview = movie.value?.overview;
-    if (overview) {
-        return overview.substring(0, MAX_DESCRIPTION_LENGTH);
-    }
-    return defaultDescription;
-};
-
-useSeoMeta({
-    title: () => movie.value ? `${movie.value.title} - The Movie Lib` : 'Movie Details - The Movie Lib',
-    description: getDescription,
-    ogTitle: () => movie.value?.title || 'Movie Details',
-    ogDescription: getDescription,
-    ogImage: () => posterUrl.value,
-    ogType: 'video.movie',
-    twitterCard: 'summary_large_image',
-    twitterTitle: () => movie.value?.title || 'Movie Details',
-    twitterDescription: getDescription,
-    twitterImage: () => posterUrl.value,
-});
-</script>

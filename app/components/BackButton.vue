@@ -1,3 +1,26 @@
+<script setup lang="ts">
+import { isNavigationFailure, NavigationFailureType } from 'vue-router';
+
+const router = useRouter();
+const route = useRoute();
+
+const isDiscoverPage = computed(() => route.name === 'discover');
+
+async function handleBack() {
+    try {
+        if (isDiscoverPage.value) {
+            return await router.push('/');
+        }
+        router.back();
+    }
+    catch (err: unknown) {
+        if (!isNavigationFailure(err, NavigationFailureType.duplicated)) {
+            console.error('Navigation error:', err);
+        }
+    }
+}
+</script>
+
 <template>
     <button
         type="button"
@@ -17,26 +40,3 @@
         </span>
     </button>
 </template>
-
-<script setup lang="ts">
-import { isNavigationFailure, NavigationFailureType } from 'vue-router';
-
-const router = useRouter();
-const route = useRoute();
-
-const isDiscoverPage = computed(() => route.name === 'discover');
-
-const handleBack = async () => {
-    try {
-        if (isDiscoverPage.value) {
-            return await router.push('/');
-        }
-        router.back();
-        
-    } catch (err: unknown) {
-        if (!isNavigationFailure(err, NavigationFailureType.duplicated)) {
-            console.error('Navigation error:', err);
-        }
-    }
-};
-</script>

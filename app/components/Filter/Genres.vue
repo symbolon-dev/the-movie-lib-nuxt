@@ -1,3 +1,17 @@
+<script lang="ts" setup>
+const { data: genresData } = useGenres();
+const { selectedGenres, setSelectedGenres } = useDiscoverFilters();
+
+const genres = computed(() => genresData.value?.genres || []);
+
+async function handleGenreToggle(genreId: number) {
+    const newGenres = selectedGenres.value.includes(genreId)
+        ? selectedGenres.value.filter(id => id !== genreId)
+        : [...selectedGenres.value, genreId];
+    await setSelectedGenres(newGenres);
+}
+</script>
+
 <template>
     <fieldset class="flex flex-col space-y-1">
         <legend class="text-base">
@@ -12,7 +26,7 @@
                 class="cursor-pointer"
                 :class="{
                     'badge-primary': selectedGenres.includes(genre.id),
-                    'badge-secondary': !selectedGenres.includes(genre.id)
+                    'badge-secondary': !selectedGenres.includes(genre.id),
                 }"
                 :aria-label="`Filter by ${genre.name}`"
                 :aria-pressed="selectedGenres.includes(genre.id)"
@@ -23,17 +37,3 @@
         </div>
     </fieldset>
 </template>
-
-<script lang="ts" setup>
-const { data: genresData } = useGenres();
-const { selectedGenres, setSelectedGenres } = useDiscoverFilters();
-
-const genres = computed(() => genresData.value?.genres || []);
-
-const handleGenreToggle = async (genreId: number) => {
-    const newGenres = selectedGenres.value.includes(genreId)
-        ? selectedGenres.value.filter(id => id !== genreId)
-        : [...selectedGenres.value, genreId];
-    await setSelectedGenres(newGenres);
-};
-</script>
