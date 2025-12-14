@@ -11,8 +11,9 @@
         "postinstall": "nuxt prepare",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
+        "lint:inspect": "pnpm dlx @eslint/config-inspector",
         "typecheck": "tsc --noEmit",
-        "check": "pnpm run lint && pnpm run typecheck"
+        "check": "pnpm lint && pnpm typecheck"
     },
     "dependencies": {
         "@nuxt/icon": "^2.1.0",
