@@ -28,13 +28,13 @@ const displayedMovies = computed(() => {
     return allMovies.value;
 });
 
-async function handleResetFilters() {
+const handleResetFilters = async () => {
     await reset(true);
-}
+};
 
 const sentinelRef = ref<HTMLElement | null>(null);
 
-function checkIfNeedMore() {
+const checkIfNeedMore = () => {
     if (!sentinelRef.value || !hasMore.value || isLoadingMore.value) {
         return;
     }
@@ -45,7 +45,7 @@ function checkIfNeedMore() {
     if (isNearBottom) {
         loadMore();
     }
-}
+};
 
 useIntersectionObserver(
     sentinelRef,

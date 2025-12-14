@@ -1,12 +1,12 @@
 import type { Genre, Movie } from '~/types/movie';
 
-export interface MovieResponse {
+export type MovieResponse = {
     page: number;
     results: Movie[];
     total_pages: number;
     total_results: number;
-}
+};
 
-export interface GenresResponse {
+export type GenresResponse = {
     genres: Genre[];
-}
+};

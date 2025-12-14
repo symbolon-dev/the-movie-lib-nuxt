@@ -5,11 +5,11 @@ const { y } = useWindowScroll();
 
 const visible = computed(() => y.value > SCROLL_THRESHOLD);
 
-function scrollToTop() {
+const scrollToTop = () => {
     if (import.meta.client) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-}
+};
 </script>
 
 <template>

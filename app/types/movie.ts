@@ -1,9 +1,9 @@
-export interface Genre {
+export type Genre = {
     id: number;
     name: string;
-}
+};
 
-export interface Movie {
+export type Movie = {
     id: number;
     title: string;
     original_title: string;
@@ -21,6 +21,6 @@ export interface Movie {
     revenue?: number;
     homepage?: string;
     tagline?: string;
-}
+};
 
 export type MovieListType = 'now_playing' | 'popular' | 'top_rated' | 'upcoming';

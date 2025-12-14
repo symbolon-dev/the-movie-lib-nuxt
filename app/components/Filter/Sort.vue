@@ -25,11 +25,11 @@ const currentSortLabel = computed(() => {
     return (current ?? sortVariants[0])!.label;
 });
 
-async function selectOption(sort: { value: string }) {
+const selectOption = async (sort: { value: string }) => {
     await setSelectedSort(sort.value);
     isOpen.value = false;
     await nextTick(() => buttonRef.value?.focus());
-}
+};
 
 onClickOutside(dropdownRef, () => {
     isOpen.value = false;

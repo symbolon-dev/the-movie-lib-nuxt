@@ -22,9 +22,9 @@ export const DiscoverQuerySchema = z.object({
     page: PageSchema.optional(),
 });
 
-export function normalizeGenres(genres: string | string[] | undefined): string | undefined {
+export const normalizeGenres = (genres: string | string[] | undefined): string | undefined => {
     if (genres == null || genres === '' || (Array.isArray(genres) && genres.length === 0)) {
         return undefined;
     }
     return Array.isArray(genres) ? genres.join(',') : genres;
-}
+};

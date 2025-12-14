@@ -3,10 +3,10 @@ import dayjs from 'dayjs';
 
 type SortableValue = string | number | undefined;
 
-interface FilterOptions {
+type FilterOptions = {
     selectedGenres: number[];
     selectedSort: string;
-}
+};
 
 export const DEFAULT_SORT = 'popularity.desc';
 const DATE_FIELDS = ['release_date', 'primary_release_date'] as const;
@@ -16,15 +16,15 @@ type DateField = typeof DATE_FIELDS[number];
 type NumericField = typeof NUMERIC_FIELDS[number];
 type MovieField = keyof Movie;
 
-function isDateField(field: string): field is DateField {
+const isDateField = (field: string): field is DateField => {
     return DATE_FIELDS.includes(field as DateField);
-}
+};
 
-function isNumericField(field: string): field is NumericField {
+const isNumericField = (field: string): field is NumericField => {
     return NUMERIC_FIELDS.includes(field as NumericField);
-}
+};
 
-export function buildDiscoverParams(selectedSort: string, selectedGenres: number[]): URLSearchParams {
+export const buildDiscoverParams = (selectedSort: string, selectedGenres: number[]): URLSearchParams => {
     const params = new URLSearchParams();
 
     params.append('sort_by', selectedSort);
@@ -34,9 +34,9 @@ export function buildDiscoverParams(selectedSort: string, selectedGenres: number
     }
 
     return params;
-}
+};
 
-function getSortValue(movie: Movie, field: string): SortableValue {
+const getSortValue = (movie: Movie, field: string): SortableValue => {
     if (isDateField(field)) {
         const rawValue = movie[field];
         const dateValue = typeof rawValue === 'string' ? rawValue : movie.release_date;
@@ -58,9 +58,9 @@ function getSortValue(movie: Movie, field: string): SortableValue {
     }
 
     return undefined;
-}
+};
 
-function compareValues(aValue: SortableValue, bValue: SortableValue, direction: 'asc' | 'desc'): number {
+const compareValues = (aValue: SortableValue, bValue: SortableValue, direction: 'asc' | 'desc'): number => {
     if (aValue === undefined && bValue === undefined) {
         return 0;
     }
@@ -81,9 +81,9 @@ function compareValues(aValue: SortableValue, bValue: SortableValue, direction: 
     }
 
     return 0;
-}
+};
 
-export function filterMoviesList(movies: Movie[], { selectedGenres, selectedSort }: FilterOptions): Movie[] {
+export const filterMoviesList = (movies: Movie[], { selectedGenres, selectedSort }: FilterOptions): Movie[] => {
     const [field, direction] = selectedSort.split('.') as [string, 'asc' | 'desc' | undefined];
     if (direction !== 'asc' && direction !== 'desc') {
         return movies;
@@ -101,4 +101,4 @@ export function filterMoviesList(movies: Movie[], { selectedGenres, selectedSort
             const bValue = getSortValue(b, field);
             return compareValues(aValue, bValue, direction);
         });
-}
+};

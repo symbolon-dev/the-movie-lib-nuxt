@@ -1,7 +1,7 @@
 import type { GenresResponse, MovieResponse } from '~~/server/types/api';
 import type { Movie, MovieListType } from '~/types/movie';
 
-export function useMovies() {
+export const useMovies = () => {
     const listType = ref<MovieListType>('now_playing');
     const page = ref(1);
     const allMovies = ref<Movie[]>([]);
@@ -93,9 +93,9 @@ export function useMovies() {
         setListType,
         loadMore,
     };
-}
+};
 
-export function useMovieDetails(initialId?: string) {
+export const useMovieDetails = (initialId?: string) => {
     const movieId = ref(initialId ?? '');
 
     const { data, pending, error, refresh } = useFetch<Movie>(
@@ -118,9 +118,9 @@ export function useMovieDetails(initialId?: string) {
         movieId,
         setMovieId,
     };
-}
+};
 
-export function useGenres() {
+export const useGenres = () => {
     const { data, pending, error, refresh } = useFetch<GenresResponse>('/api/movies/genres', {
         key: 'genres',
         getCachedData: (key: string) => useNuxtData<GenresResponse>(key).data.value,
@@ -133,4 +133,4 @@ export function useGenres() {
         error,
         refresh,
     };
-}
+};

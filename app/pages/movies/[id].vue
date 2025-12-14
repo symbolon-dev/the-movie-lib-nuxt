@@ -26,13 +26,13 @@ const backdropUrl = computed(() => getTmdbImageUrl(movie.value?.backdrop_path, '
 
 const defaultDescription = 'Discover movies and get detailed information about your favorite films.';
 
-function getDescription(): string {
+const getDescription = (): string => {
     const overview = movie.value?.overview;
     if (overview) {
         return overview.substring(0, MAX_DESCRIPTION_LENGTH);
     }
     return defaultDescription;
-}
+};
 
 useSeoMeta({
     title: () => movie.value ? `${movie.value.title} - The Movie Lib` : 'Movie Details - The Movie Lib',

@@ -11,7 +11,7 @@ const DISCOVER_ROUTE = '/discover';
 
 export const MIN_SEARCH_LENGTH = 2;
 
-export function useDiscoverFilters() {
+export const useDiscoverFilters = () => {
     const route = useRoute();
     const router = useRouter();
 
@@ -112,4 +112,4 @@ export function useDiscoverFilters() {
         getDiscoverParams,
         filterMovies,
     };
-}
+};

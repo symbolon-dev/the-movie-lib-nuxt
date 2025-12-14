@@ -26,10 +26,10 @@ watch(searchTerm, (newValue) => {
     }
 });
 
-async function handleClear() {
+const handleClear = async () => {
     localSearchTerm.value = '';
     await setSearchTerm('');
-}
+};
 </script>
 
 <template>

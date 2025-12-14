@@ -6,7 +6,7 @@ const route = useRoute();
 
 const isDiscoverPage = computed(() => route.name === 'discover');
 
-async function handleBack() {
+const handleBack = async () => {
     try {
         if (isDiscoverPage.value) {
             return await router.push('/');
@@ -18,7 +18,7 @@ async function handleBack() {
             console.error('Navigation error:', err);
         }
     }
-}
+};
 </script>
 
 <template>

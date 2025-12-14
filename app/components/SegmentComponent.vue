@@ -22,7 +22,7 @@ const buttons = ref<HTMLElement[]>([]);
 const indicatorStyle = ref('');
 const containerRef = ref<HTMLElement>();
 
-function updateIndicator() {
+const updateIndicator = () => {
     const activeIndex = movieCategories.findIndex(c => c.key === props.current);
     const activeButton = buttons.value[activeIndex];
 
@@ -30,7 +30,7 @@ function updateIndicator() {
         const { offsetLeft, offsetWidth } = activeButton;
         indicatorStyle.value = `left: ${offsetLeft}px; width: ${offsetWidth}px;`;
     }
-}
+};
 
 watch(() => props.current, updateIndicator);
 

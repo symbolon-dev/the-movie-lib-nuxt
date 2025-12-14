@@ -2,7 +2,7 @@ import type { MovieResponse } from '~~/server/types/api';
 import type { Movie } from '~/types/movie';
 import { MIN_SEARCH_LENGTH } from './useDiscoverFilters';
 
-export function useDiscoverMovies() {
+export const useDiscoverMovies = () => {
     const { searchTerm, selectedGenres, selectedSort, getDiscoverParams, resetFilters } = useDiscoverFilters();
 
     const page = ref(1);
@@ -124,4 +124,4 @@ export function useDiscoverMovies() {
         loadMore,
         reset,
     };
-}
+};

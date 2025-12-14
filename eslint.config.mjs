@@ -20,5 +20,13 @@ export default antfu({
     },
     rules: {
         ...tailwindcss.configs['flat/recommended'].rules,
+
+        // Prefer arrow functions over function declarations
+        'antfu/top-level-function': 'off',
+        'prefer-arrow-callback': 'error',
+        'func-style': ['error', 'expression'],
+
+        // Prefer type over interface for consistency
+        '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     },
 });

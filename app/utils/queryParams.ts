@@ -1,6 +1,6 @@
 import type { LocationQuery } from 'vue-router';
 
-export function getQueryString(value: LocationQuery[string]): string {
+export const getQueryString = (value: LocationQuery[string]): string => {
     if (typeof value === 'string') {
         return value;
     }
@@ -8,15 +8,15 @@ export function getQueryString(value: LocationQuery[string]): string {
         return value[0] ?? '';
     }
     return '';
-}
+};
 
-export function getQueryNumber(value: LocationQuery[string], defaultValue = 0): number {
+export const getQueryNumber = (value: LocationQuery[string], defaultValue = 0): number => {
     const str = getQueryString(value);
     const num = Number.parseInt(str, 10);
     return Number.isNaN(num) ? defaultValue : num;
-}
+};
 
-export function parseGenresQuery(value: unknown): number[] {
+export const parseGenresQuery = (value: unknown): number[] => {
     if (value == null) {
         return [];
     }
@@ -33,4 +33,4 @@ export function parseGenresQuery(value: unknown): number[] {
             }
             return acc;
         }, []);
-}
+};
