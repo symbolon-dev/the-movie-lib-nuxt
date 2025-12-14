@@ -34,7 +34,14 @@ export default defineNuxtConfig({
         '@vueuse/nuxt',
         '@nuxtjs/tailwindcss',
         '@nuxt/hints',
+        '@nuxt/eslint',
     ],
+
+    eslint: {
+        config: {
+            standalone: false,
+        },
+    },
 
     nitro: {
         experimental: {

@@ -1,44 +1,47 @@
 import antfu from '@antfu/eslint-config';
 import tailwindcss from 'eslint-plugin-tailwindcss';
+import withNuxt from './.nuxt/eslint.config.mjs';
 
-export default antfu(
-    {
-        vue: {
-            a11y: true,
+export default withNuxt(
+    antfu(
+        {
+            vue: {
+                a11y: true,
+            },
+            typescript: {
+                tsconfigPath: './tsconfig.json',
+            },
+            stylistic: {
+                indent: 4,
+                quotes: 'single',
+                semi: true,
+            },
+            formatters: true,
         },
-        typescript: {
-            tsconfigPath: './tsconfig.json',
+        {
+            files: ['**/*.{vue,html,jsx,tsx}'],
+            plugins: {
+                tailwindcss,
+            },
+            rules: {
+                ...tailwindcss.configs['flat/recommended'].rules,
+                'tailwindcss/classnames-order': 'error',
+            },
         },
-        stylistic: {
-            indent: 4,
-            quotes: 'single',
-            semi: true,
-        },
-        formatters: true,
-    },
-    {
-        files: ['**/*.{vue,html,jsx,tsx}'],
-        plugins: {
-            tailwindcss,
-        },
-        rules: {
-            ...tailwindcss.configs['flat/recommended'].rules,
-            'tailwindcss/classnames-order': 'error',
-        },
-    },
-    {
-        name: 'project-strict',
-        rules: {
-            // Prefer arrow functions over function declarations
-            'antfu/top-level-function': 'off',
-            'prefer-arrow-callback': 'error',
-            'func-style': ['error', 'expression'],
+        {
+            name: 'project-strict',
+            rules: {
+                // Prefer arrow functions over function declarations
+                'antfu/top-level-function': 'off',
+                'prefer-arrow-callback': 'error',
+                'func-style': ['error', 'expression'],
 
-            // Prefer type over interface for consistency
-            '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+                // Prefer type over interface for consistency
+                '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
 
-            // Warn when using `any`; allowed only for external data or edge cases
-            '@typescript-eslint/no-explicit-any': 'warn',
+                // Warn when using `any`; allowed only for external data or edge cases
+                '@typescript-eslint/no-explicit-any': 'warn',
+            },
         },
-    },
+    ),
 );
