@@ -52,7 +52,6 @@ onMounted(async () => {
             v-for="category in movieCategories"
             :key="category.key"
             ref="buttons"
-            type="button"
             class="relative z-10 flex-1 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition-colors duration-200 focus:outline-none sm:px-4 sm:py-2 sm:text-sm md:px-5"
             :class="props.current === category.key
                 ? 'text-content-light'

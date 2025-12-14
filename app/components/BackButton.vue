@@ -23,7 +23,6 @@ const handleBack = async () => {
 
 <template>
     <button
-        type="button"
         role="link"
         :class="{
             'btn cursor-pointer bg-primary-dark !text-content-light hover:bg-primary-dark/80': !isDiscoverPage,

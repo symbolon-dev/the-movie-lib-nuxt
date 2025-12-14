@@ -42,7 +42,6 @@ onClickOutside(dropdownRef, () => {
         <div ref="dropdownRef" class="relative">
             <button
                 ref="buttonRef"
-                type="button"
                 aria-labelledby="sort-label"
                 aria-haspopup="listbox"
                 :aria-expanded="isOpen"
@@ -71,7 +70,6 @@ onClickOutside(dropdownRef, () => {
                     <button
                         v-for="sort in sortVariants"
                         :key="sort.value"
-                        type="button"
                         role="option"
                         :aria-selected="selectedSort === sort.value"
                         class="flex w-full items-center px-3 py-2 text-left hover:bg-primary/40"

@@ -22,7 +22,6 @@ const handleGenreToggle = async (genreId: number) => {
             <button
                 v-for="genre in genres"
                 :key="genre.id"
-                type="button"
                 class="cursor-pointer"
                 :class="{
                     'badge-primary': selectedGenres.includes(genre.id),

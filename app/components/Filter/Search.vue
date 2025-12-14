@@ -47,7 +47,6 @@ const handleClear = async () => {
                 <input
                     id="movie-search"
                     v-model="localSearchTerm"
-                    type="search"
                     placeholder="Search movie titles..."
                     aria-label="Search movies by title"
                     :aria-invalid="isSearchTooShort"
@@ -57,7 +56,6 @@ const handleClear = async () => {
                 >
                 <button
                     v-if="localSearchTerm"
-                    type="button"
                     aria-label="Clear search"
                     class="absolute inset-y-0 right-0 flex touch-manipulation items-center pr-3"
                     @click="handleClear"

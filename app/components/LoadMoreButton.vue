@@ -26,7 +26,6 @@ const buttonText = computed(() => {
 
 <template>
     <button
-        type="button"
         class="btn btn-secondary flex items-center gap-2 disabled:cursor-not-allowed"
         :disabled="isDisabled"
         @click="$emit('loadMore')"

@@ -89,7 +89,6 @@ useSeoMeta({
                 <FilterSort />
 
                 <button
-                    type="button"
                     class="btn btn-secondary mt-4 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 disabled:active:scale-100"
                     :disabled="!hasActiveFilters"
                     @click="handleResetFilters"

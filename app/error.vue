@@ -14,7 +14,6 @@ const errorMessage = computed(() => error.value?.message ?? 'An unexpected error
             {{ errorMessage }}
         </p>
         <button
-            type="button"
             class="btn btn-primary"
             @click="clearError({ redirect: '/' })"
         >
