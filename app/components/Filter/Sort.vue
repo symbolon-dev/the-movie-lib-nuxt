@@ -42,10 +42,6 @@ onClickOutside(dropdownRef, () => {
         <div ref="dropdownRef" class="relative">
             <button
                 ref="buttonRef"
-                aria-labelledby="sort-label"
-                aria-haspopup="listbox"
-                :aria-expanded="isOpen"
-                :aria-controls="isOpen ? 'sort-listbox' : undefined"
                 class="flex h-10 w-full items-center justify-between rounded-md border border-primary-light bg-white px-3 py-2 text-content transition focus:outline-none focus:ring-2 focus:ring-primary"
                 @click="isOpen = !isOpen"
             >
@@ -55,23 +51,18 @@ onClickOutside(dropdownRef, () => {
                     :class="{ 'rotate-180': isOpen }"
                     class="transition-transform duration-200"
                     size="18"
-                    aria-hidden="true"
                 />
             </button>
 
             <div
                 v-show="isOpen"
                 id="sort-listbox"
-                role="listbox"
-                aria-labelledby="sort-label"
                 class="absolute z-20 mt-1 w-full rounded-md border border-primary bg-white shadow-lg"
             >
                 <div class="max-h-60 overflow-y-auto">
                     <button
                         v-for="sort in sortVariants"
                         :key="sort.value"
-                        role="option"
-                        :aria-selected="selectedSort === sort.value"
                         class="flex w-full items-center px-3 py-2 text-left hover:bg-primary/40"
                         :class="{ 'bg-primary/10 font-semibold': selectedSort === sort.value }"
                         @click="selectOption(sort)"

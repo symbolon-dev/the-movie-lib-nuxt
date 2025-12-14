@@ -18,7 +18,7 @@ const handleGenreToggle = async (genreId: number) => {
             Genres
         </legend>
 
-        <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by genres">
+        <div class="flex flex-wrap gap-2">
             <button
                 v-for="genre in genres"
                 :key="genre.id"
@@ -27,8 +27,6 @@ const handleGenreToggle = async (genreId: number) => {
                     'badge-primary': selectedGenres.includes(genre.id),
                     'badge-secondary': !selectedGenres.includes(genre.id),
                 }"
-                :aria-label="`Filter by ${genre.name}`"
-                :aria-pressed="selectedGenres.includes(genre.id)"
                 @click="handleGenreToggle(genre.id)"
             >
                 <span class="text-sm font-medium">{{ genre.name }}</span>
