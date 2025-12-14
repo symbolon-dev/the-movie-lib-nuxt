@@ -4,7 +4,7 @@
             Discover Movies
         </h1>
 
-        <p class="heading-5 mb-6 max-w-xs text-center text-sm text-primary/80 sm:mb-8 sm:max-w-md sm:text-base md:mb-10 md:max-w-xl">
+        <p class="heading-5 mb-6 max-w-xs text-center text-sm text-content/80 sm:mb-8 sm:max-w-md sm:text-base md:mb-10 md:max-w-xl">
             Browse thousands of movies, filter by genre and find your next favorite film
         </p>
 

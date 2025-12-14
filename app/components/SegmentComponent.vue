@@ -44,7 +44,7 @@ onMounted(async () => {
 <template>
     <div ref="containerRef" class="relative flex w-full overflow-x-auto rounded-full bg-surface/80 shadow-md backdrop-blur-md md:w-max">
         <div
-            class="absolute left-0 top-0 z-0 h-full rounded-full bg-primary/90 transition-all duration-300 ease-out"
+            class="absolute left-0 top-0 z-0 h-full rounded-full bg-primary-dark transition-all duration-300 ease-out"
             :style="indicatorStyle"
         />
 
@@ -55,7 +55,7 @@ onMounted(async () => {
             class="relative z-10 flex-1 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition-colors duration-200 focus:outline-none sm:px-4 sm:py-2 sm:text-sm md:px-5"
             :class="props.current === category.key
                 ? 'text-content-light'
-                : 'text-primary hover:text-primary-dark'"
+                : 'text-primary-dark hover:text-primary-dark/80'"
             @click="$emit('change', category.key)"
         >
             {{ category.label }}
