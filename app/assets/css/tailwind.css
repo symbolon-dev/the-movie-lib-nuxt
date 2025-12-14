@@ -34,7 +34,7 @@
     }
 
     .btn-secondary {
-        @apply btn bg-surface/20 border border-primary text-primary hover:bg-primary/10 active:bg-primary/20;
+        @apply btn bg-surface-dark border border-primary text-surface-light hover:bg-surface-dark/80 active:bg-primary/20;
     }
 
     .btn-tertiary {
@@ -46,11 +46,11 @@
     }
 
     .badge-primary {
-        @apply badge bg-primary-dark text-content-light hover:bg-primary/90 active:bg-primary-dark/80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1;
+        @apply badge bg-surface-dark text-content-light hover:bg-surface-dark/80 active:bg-surface-dark/80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1;
     }
 
     .badge-secondary {
-        @apply badge border border-primary bg-surface/20 text-primary hover:bg-primary/10 active:bg-primary/20 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1;
+        @apply badge border border-primary bg-surface/20 text-surface-dark hover:bg-primary/10 active:bg-primary/20 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1;
     }
 }
 

@@ -1,29 +1,3 @@
-<template>
-    <fieldset class="flex flex-col space-y-1">
-        <legend class="text-base">
-            Genres
-        </legend>
-
-        <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by genres">
-            <button
-                v-for="genre in genres"
-                :key="genre.id"
-                type="button"
-                class="cursor-pointer"
-                :class="{
-                    'badge-primary': selectedGenres.includes(genre.id),
-                    'badge-secondary': !selectedGenres.includes(genre.id)
-                }"
-                :aria-label="`Filter by ${genre.name}`"
-                :aria-pressed="selectedGenres.includes(genre.id)"
-                @click="handleGenreToggle(genre.id)"
-            >
-                <span class="text-sm font-medium">{{ genre.name }}</span>
-            </button>
-        </div>
-    </fieldset>
-</template>
-
 <script lang="ts" setup>
 const { data: genresData } = useGenres();
 const { selectedGenres, setSelectedGenres } = useDiscoverFilters();
@@ -37,3 +11,26 @@ const handleGenreToggle = async (genreId: number) => {
     await setSelectedGenres(newGenres);
 };
 </script>
+
+<template>
+    <fieldset class="flex flex-col space-y-1">
+        <legend class="text-base">
+            Genres
+        </legend>
+
+        <div class="flex flex-wrap gap-2">
+            <button
+                v-for="genre in genres"
+                :key="genre.id"
+                class="cursor-pointer"
+                :class="{
+                    'badge-primary': selectedGenres.includes(genre.id),
+                    'badge-secondary': !selectedGenres.includes(genre.id),
+                }"
+                @click="handleGenreToggle(genre.id)"
+            >
+                <span class="text-sm font-medium">{{ genre.name }}</span>
+            </button>
+        </div>
+    </fieldset>
+</template>

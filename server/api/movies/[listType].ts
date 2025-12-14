@@ -1,7 +1,7 @@
+import type { MovieResponse } from '#shared/types/api';
 import type { MovieListType } from '~/types/movie';
-import type { MovieResponse } from '~~/server/types/api';
-import { fetchFromTmdb, handleApiError } from '~~/server/utils/tmdbApi';
 import { MovieListTypeSchema, PageSchema } from '~~/server/utils/schemas';
+import { fetchFromTmdb, handleApiError } from '~~/server/utils/tmdbApi';
 
 export const errorMessages: Record<MovieListType, string> = {
     now_playing: 'Error fetching now playing movies',
@@ -19,9 +19,10 @@ export default defineEventHandler(async (event) => {
         data.page = page;
 
         return data;
-    } catch (error) {
+    }
+    catch (error) {
         const listType = event.context.params?.listType;
-        const message = (listType && listType in errorMessages)
+        const message = (listType != null && listType in errorMessages)
             ? errorMessages[listType as MovieListType]
             : 'Error fetching movies';
         handleApiError(error, message);

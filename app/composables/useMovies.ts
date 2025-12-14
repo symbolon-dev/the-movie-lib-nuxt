@@ -1,5 +1,5 @@
+import type { GenresResponse, MovieResponse } from '#shared/types/api';
 import type { Movie, MovieListType } from '~/types/movie';
-import type { MovieResponse, GenresResponse } from '~/server/types/api';
 
 export const useMovies = () => {
     const listType = ref<MovieListType>('now_playing');
@@ -13,28 +13,32 @@ export const useMovies = () => {
     const previousListType = ref(listType.value);
 
     const fetchMovies = async () => {
-        if (isLoading.value) {return;}
+        if (isLoading.value) {
+            return;
+        }
 
         isLoading.value = true;
         error.value = undefined;
 
         try {
             const url = `/api/movies/${listType.value}?page=${page.value}`;
-            const data = await $fetch<MovieResponse>(url);
+            const data: MovieResponse = await $fetch(url);
 
             allMovies.value = page.value === 1
                 ? data.results
                 : [
-                    ...allMovies.value,
-                    ...data.results.filter(
-                        movie => !allMovies.value.some(existing => existing.id === movie.id),
-                    ),
-                ];
+                        ...allMovies.value,
+                        ...data.results.filter(
+                            (movie: Movie) => !allMovies.value.some(existing => existing.id === movie.id),
+                        ),
+                    ];
 
             totalPages.value = data.total_pages;
-        } catch (err) {
+        }
+        catch (err) {
             error.value = err as Error;
-        } finally {
+        }
+        finally {
             isLoading.value = false;
         }
     };
@@ -50,7 +54,9 @@ export const useMovies = () => {
     };
 
     watch(listType, async (newType) => {
-        if (newType === previousListType.value) {return;}
+        if (newType === previousListType.value) {
+            return;
+        }
 
         isResetting.value = true;
 
@@ -64,9 +70,10 @@ export const useMovies = () => {
         await fetchMovies();
     });
 
-
     watch(page, async () => {
-        if (isResetting.value) {return;}
+        if (isResetting.value) {
+            return;
+        }
         await fetchMovies();
     });
 
@@ -116,7 +123,7 @@ export const useMovieDetails = (initialId?: string) => {
 export const useGenres = () => {
     const { data, pending, error, refresh } = useFetch<GenresResponse>('/api/movies/genres', {
         key: 'genres',
-        getCachedData: (key: string) => useNuxtData(key).data.value,
+        getCachedData: (key: string) => useNuxtData<GenresResponse>(key).data.value,
         default: () => ({ genres: [] }),
     });
 

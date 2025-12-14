@@ -1,8 +1,12 @@
 import type { LocationQuery } from 'vue-router';
 
 export const getQueryString = (value: LocationQuery[string]): string => {
-    if (typeof value === 'string') {return value;}
-    if (Array.isArray(value) && value.length > 0) {return value[0] ?? '';}
+    if (typeof value === 'string') {
+        return value;
+    }
+    if (Array.isArray(value) && value.length > 0) {
+        return value[0] ?? '';
+    }
     return '';
 };
 
@@ -13,9 +17,13 @@ export const getQueryNumber = (value: LocationQuery[string], defaultValue = 0): 
 };
 
 export const parseGenresQuery = (value: unknown): number[] => {
-    if (!value) {return [];}
+    if (value == null) {
+        return [];
+    }
     const rawValue = Array.isArray(value) ? value.join(',') : String(value);
-    if (!rawValue) {return [];}
+    if (rawValue === '') {
+        return [];
+    }
     return rawValue
         .split(',')
         .reduce<number[]>((acc, part) => {

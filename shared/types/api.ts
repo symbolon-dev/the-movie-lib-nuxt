@@ -1,4 +1,4 @@
-import type { Movie, Genre } from '~/types/movie';
+import type { Genre, Movie } from '~/types/movie';
 
 export type MovieResponse = {
     page: number;

@@ -15,7 +15,7 @@ export default defineNuxtConfig({
                 lang: 'en',
             },
         },
-    },  
+    },
 
     compatibilityDate: '2025-07-15',
 
@@ -27,7 +27,6 @@ export default defineNuxtConfig({
     },
 
     modules: [
-        '@nuxt/eslint',
         '@nuxthub/core',
         '@nuxt/image',
         '@nuxt/icon',
@@ -35,7 +34,14 @@ export default defineNuxtConfig({
         '@vueuse/nuxt',
         '@nuxtjs/tailwindcss',
         '@nuxt/hints',
+        '@nuxt/eslint',
     ],
+
+    eslint: {
+        config: {
+            standalone: false,
+        },
+    },
 
     nitro: {
         experimental: {

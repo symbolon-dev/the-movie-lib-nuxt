@@ -1,15 +1,3 @@
-<template>
-    <button
-        type="button"
-        class="btn btn-secondary flex items-center gap-2 disabled:cursor-not-allowed"
-        :disabled="isDisabled"
-        @click="$emit('load-more')"
-    >
-        <span v-if="props.isLoading" class="loading loading-spinner loading-sm" />
-        <span>{{ buttonText }}</span>
-    </button>
-</template>
-
 <script setup lang="ts">
 const props = defineProps<{
     isLoading: boolean;
@@ -20,7 +8,7 @@ const props = defineProps<{
 }>();
 
 defineEmits<{
-    'load-more': [];
+    loadMore: [];
 }>();
 
 const isDisabled = computed(() => props.isLoading || !props.hasMore);
@@ -35,3 +23,14 @@ const buttonText = computed(() => {
     return props.noMoreText ?? 'No more movies';
 });
 </script>
+
+<template>
+    <button
+        class="btn btn-secondary flex items-center gap-2 disabled:cursor-not-allowed"
+        :disabled="isDisabled"
+        @click="$emit('loadMore')"
+    >
+        <span v-if="props.isLoading" class="loading loading-spinner loading-sm" />
+        <span>{{ buttonText }}</span>
+    </button>
+</template>

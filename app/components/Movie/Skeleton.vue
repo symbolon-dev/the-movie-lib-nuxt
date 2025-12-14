@@ -1,6 +1,5 @@
 <template>
     <div class="group relative block h-full overflow-hidden rounded-lg bg-surface/80 shadow-lg backdrop-blur-md transition-transform duration-300 ease-out">
-
         <div class="relative w-full" style="padding-top: 150%;">
             <div class="absolute inset-0 animate-pulse bg-gray-200" />
         </div>
