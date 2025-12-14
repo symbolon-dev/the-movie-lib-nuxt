@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     }
     catch (error) {
         const listType = event.context.params?.listType;
-        const message = (listType && listType in errorMessages)
+        const message = (listType != null && listType in errorMessages)
             ? errorMessages[listType as MovieListType]
             : 'Error fetching movies';
         handleApiError(error, message);

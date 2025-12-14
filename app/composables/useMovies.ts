@@ -1,4 +1,4 @@
-import type { GenresResponse, MovieResponse } from '~/server/types/api';
+import type { GenresResponse, MovieResponse } from '~~/server/types/api';
 import type { Movie, MovieListType } from '~/types/movie';
 
 export function useMovies() {
@@ -22,14 +22,14 @@ export function useMovies() {
 
         try {
             const url = `/api/movies/${listType.value}?page=${page.value}`;
-            const data = await $fetch<MovieResponse>(url);
+            const data: MovieResponse = await $fetch(url);
 
             allMovies.value = page.value === 1
                 ? data.results
                 : [
                         ...allMovies.value,
                         ...data.results.filter(
-                            movie => !allMovies.value.some(existing => existing.id === movie.id),
+                            (movie: Movie) => !allMovies.value.some(existing => existing.id === movie.id),
                         ),
                     ];
 
@@ -123,7 +123,7 @@ export function useMovieDetails(initialId?: string) {
 export function useGenres() {
     const { data, pending, error, refresh } = useFetch<GenresResponse>('/api/movies/genres', {
         key: 'genres',
-        getCachedData: (key: string) => useNuxtData(key).data.value,
+        getCachedData: (key: string) => useNuxtData<GenresResponse>(key).data.value,
         default: () => ({ genres: [] }),
     });
 

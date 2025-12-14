@@ -1,6 +1,7 @@
 # The Movie Lib
 
 ## Frontend Developer Coding Challenge
+
 Develop a web application that displays a movie list with search, filter, and sort functionality. Users should be able to click on movies to view detailed information.
 
 A modern movie database web application built with Nuxt.js and the TMDB API.
@@ -59,12 +60,14 @@ The application is built following these principles:
 ### Setup
 
 1. Clone the project:
+
 ```bash
 git clone https://github.com/your-username/the-movie-lib.git
 cd the-movie-lib
 ```
 
 2. Install dependencies:
+
 ```bash
 # With pnpm (recommended)
 pnpm install
@@ -164,4 +167,4 @@ nuxthub deploy
 ```
 
 5. Configure environment variables in NuxtHub settings:
-   - `NUXT_TMDB_API_KEY=your_tmdb_v4_access_token`
+    - `NUXT_TMDB_API_KEY=your_tmdb_v4_access_token`

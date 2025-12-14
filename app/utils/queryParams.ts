@@ -17,11 +17,11 @@ export function getQueryNumber(value: LocationQuery[string], defaultValue = 0): 
 }
 
 export function parseGenresQuery(value: unknown): number[] {
-    if (!value) {
+    if (value == null) {
         return [];
     }
     const rawValue = Array.isArray(value) ? value.join(',') : String(value);
-    if (!rawValue) {
+    if (rawValue === '') {
         return [];
     }
     return rawValue

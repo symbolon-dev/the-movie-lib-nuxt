@@ -40,7 +40,7 @@ function getSortValue(movie: Movie, field: string): SortableValue {
     if (isDateField(field)) {
         const rawValue = movie[field];
         const dateValue = typeof rawValue === 'string' ? rawValue : movie.release_date;
-        if (!dateValue) {
+        if (dateValue == null || dateValue === '') {
             return undefined;
         }
         const parsed = dayjs(dateValue);

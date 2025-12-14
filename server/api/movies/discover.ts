@@ -10,8 +10,8 @@ export default defineEventHandler(async (event) => {
 
         const params: Record<string, string | number> = {
             page,
-            ...(sort_by && { sort_by }),
-            ...(with_genres && { with_genres: normalizeGenres(with_genres) }),
+            ...(sort_by != null && sort_by !== '' && { sort_by }),
+            ...(with_genres != null && { with_genres: normalizeGenres(with_genres) }),
         };
 
         const data: MovieResponse = await fetchFromTmdb('discover/movie', params);

@@ -23,7 +23,7 @@ export const DiscoverQuerySchema = z.object({
 });
 
 export function normalizeGenres(genres: string | string[] | undefined): string | undefined {
-    if (!genres) {
+    if (genres == null || genres === '' || (Array.isArray(genres) && genres.length === 0)) {
         return undefined;
     }
     return Array.isArray(genres) ? genres.join(',') : genres;

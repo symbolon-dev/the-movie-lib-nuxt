@@ -1,4 +1,4 @@
-import type { MovieResponse } from '~/server/types/api';
+import type { MovieResponse } from '~~/server/types/api';
 import type { Movie } from '~/types/movie';
 import { MIN_SEARCH_LENGTH } from './useDiscoverFilters';
 
@@ -44,14 +44,14 @@ export function useDiscoverMovies() {
                 ? `/api/movies/search?query=${encodeURIComponent(normalizedSearch.value)}&page=${page.value}`
                 : `/api/movies/discover?${getDiscoverParams().toString()}&page=${page.value}`;
 
-            const data = await $fetch<MovieResponse>(url);
-            totalPages.value = data.total_pages;
+            const data: MovieResponse = await $fetch(url);
 
             allMovies.value = page.value === 1
                 ? data.results
                 : [...allMovies.value, ...data.results];
 
             lastFetchedPage.value = page.value;
+            totalPages.value = data.total_pages;
         }
         catch (err) {
             error.value = err as Error;

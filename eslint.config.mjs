@@ -5,12 +5,15 @@ export default antfu({
     vue: {
         a11y: true,
     },
-    typescript: true,
+    typescript: {
+        tsconfigPath: './tsconfig.json',
+    },
     stylistic: {
         indent: 4,
         quotes: 'single',
         semi: true,
     },
+    formatters: true,
 }, {
     plugins: {
         tailwindcss,
