@@ -1,11 +1,5 @@
 import type { Movie } from '~/types/movie';
 import { isNavigationFailure, NavigationFailureType } from 'vue-router';
-import {
-    buildDiscoverParams,
-    DEFAULT_SORT,
-    filterMoviesList,
-} from '~/utils/movieFilters';
-import { getQueryString, parseGenresQuery } from '~/utils/queryParams';
 
 const DISCOVER_ROUTE = '/discover';
 

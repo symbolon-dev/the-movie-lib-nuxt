@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import type { Movie } from '~/types/movie';
-import { MovieIdSchema } from '~~/server/utils/schemas';
-import { convertMinutesToHoursAndMinutes } from '~/utils/formatting';
-import { getTmdbImageUrl } from '~/utils/images';
 
 const MAX_DESCRIPTION_LENGTH = 160;
 
 const route = useRoute();
-const id = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
-const movieId = MovieIdSchema.parse(id);
+const movieId = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
 
 const { data: movie, error } = await useFetch<Movie>(
     () => `/api/movies/details/${movieId}`,

@@ -1,4 +1,4 @@
-import type { MovieResponse } from '~~/server/types/api';
+import type { MovieResponse } from '#shared/types/api';
 import type { MovieListType } from '~/types/movie';
 import { MovieListTypeSchema, PageSchema } from '~~/server/utils/schemas';
 import { fetchFromTmdb, handleApiError } from '~~/server/utils/tmdbApi';

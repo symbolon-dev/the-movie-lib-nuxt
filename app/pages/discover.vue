@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { getErrorMessage } from '~/utils/error';
-
 const {
     filterMovies,
     hasActiveFilters,
     selectedGenres,
 } = useDiscoverFilters();
+
 const {
     allMovies,
     pending,

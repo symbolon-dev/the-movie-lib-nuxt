@@ -1,4 +1,4 @@
-import type { MovieResponse } from '~~/server/types/api';
+import type { MovieResponse } from '#shared/types/api';
 import { DiscoverQuerySchema, normalizeGenres } from '~~/server/utils/schemas';
 import { fetchFromTmdb, handleApiError } from '~~/server/utils/tmdbApi';
 

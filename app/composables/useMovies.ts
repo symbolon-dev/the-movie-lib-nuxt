@@ -1,4 +1,4 @@
-import type { GenresResponse, MovieResponse } from '~~/server/types/api';
+import type { GenresResponse, MovieResponse } from '#shared/types/api';
 import type { Movie, MovieListType } from '~/types/movie';
 
 export const useMovies = () => {

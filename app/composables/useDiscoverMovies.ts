@@ -1,6 +1,5 @@
-import type { MovieResponse } from '~~/server/types/api';
+import type { MovieResponse } from '#shared/types/api';
 import type { Movie } from '~/types/movie';
-import { MIN_SEARCH_LENGTH } from './useDiscoverFilters';
 
 export const useDiscoverMovies = () => {
     const { searchTerm, selectedGenres, selectedSort, getDiscoverParams, resetFilters } = useDiscoverFilters();
