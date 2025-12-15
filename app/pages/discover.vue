@@ -1,9 +1,5 @@
 <script setup lang="ts">
-const {
-    filterMovies,
-    hasActiveFilters,
-    selectedGenres,
-} = useDiscoverFilters();
+const { filterMovies, hasActiveFilters, selectedGenres } = useDiscoverFilters();
 
 const {
     allMovies,
@@ -65,13 +61,16 @@ watch(isLoadingMore, async (loading) => {
 
 useSeoMeta({
     title: 'Discover Movies - The Movie Lib',
-    description: 'Discover and explore movies with advanced search and filtering options. Find movies by genre, release year, rating and more.',
+    description:
+    'Discover and explore movies with advanced search and filtering options. Find movies by genre, release year, rating and more.',
     ogTitle: 'Discover Movies - The Movie Lib',
-    ogDescription: 'Discover and explore movies with advanced search and filtering options. Find movies by genre, release year, rating and more.',
+    ogDescription:
+    'Discover and explore movies with advanced search and filtering options. Find movies by genre, release year, rating and more.',
     ogType: 'website',
     twitterCard: 'summary',
     twitterTitle: 'Discover Movies - The Movie Lib',
-    twitterDescription: 'Discover and explore movies with advanced search and filtering options. Find movies by genre, release year, rating and more.',
+    twitterDescription:
+    'Discover and explore movies with advanced search and filtering options. Find movies by genre, release year, rating and more.',
 });
 </script>
 
@@ -81,7 +80,7 @@ useSeoMeta({
 
         <div class="mt-8 grid gap-4 lg:grid-cols-[300px_1fr]">
             <div
-                class="flex h-fit w-full flex-col space-y-4 rounded-md border border-gray-300 bg-surface/80 p-4 shadow-xl backdrop-blur-md"
+                class="bg-surface/80 flex h-fit w-full flex-col space-y-4 rounded-md border border-gray-300 p-4 shadow-xl backdrop-blur-md"
             >
                 <FilterSearch />
                 <FilterGenres />
@@ -113,11 +112,21 @@ useSeoMeta({
                     />
 
                     <div class="mt-6 flex flex-col items-center gap-3">
-                        <div ref="sentinelRef" class="flex h-20 items-center justify-center" :class="{ invisible: !hasMore }">
-                            <span v-if="isLoadingMore" class="loading loading-spinner loading-lg" />
+                        <div
+                            ref="sentinelRef"
+                            class="flex h-20 items-center justify-center"
+                            :class="{ invisible: !hasMore }"
+                        >
+                            <span
+                                v-if="isLoadingMore"
+                                class="loading loading-spinner loading-lg"
+                            />
                         </div>
 
-                        <p v-if="!hasMore && displayedMovies.length > 0" class="text-center text-sm text-gray-500">
+                        <p
+                            v-if="!hasMore && displayedMovies.length > 0"
+                            class="text-center text-sm text-gray-500"
+                        >
                             No more results
                         </p>
                     </div>

@@ -23,4 +23,8 @@ export type Movie = {
     tagline?: string;
 };
 
-export type MovieListType = 'now_playing' | 'popular' | 'top_rated' | 'upcoming';
+export type MovieListType
+    = | 'now_playing'
+        | 'popular'
+        | 'top_rated'
+        | 'upcoming';

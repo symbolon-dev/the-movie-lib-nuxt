@@ -2,7 +2,7 @@
     <div>
         <NuxtRouteAnnouncer />
         <HeaderComponent />
-        <main class="mx-auto min-h-svh max-w-8xl px-4 xs:px-8 lg:px-16">
+        <main class="max-w-8xl xs:px-8 mx-auto min-h-svh px-4 lg:px-16">
             <NuxtPage keepalive />
         </main>
     </div>

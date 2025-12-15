@@ -11,7 +11,10 @@ export const getTmdbApiKey = (): string => {
 
 type TmdbParams = Record<string, string | number | boolean | undefined>;
 
-export const fetchFromTmdb = async <TResponse>(endpoint: string, params: TmdbParams = {}): Promise<TResponse> => {
+export const fetchFromTmdb = async <TResponse>(
+    endpoint: string,
+    params: TmdbParams = {},
+): Promise<TResponse> => {
     const tmdbApiKey = getTmdbApiKey();
 
     const defaultParams: TmdbParams = {
@@ -36,7 +39,10 @@ export const fetchFromTmdb = async <TResponse>(endpoint: string, params: TmdbPar
     }) as Promise<TResponse>;
 };
 
-export const handleApiError = (error: unknown, message = 'Internal Server Error'): never => {
+export const handleApiError = (
+    error: unknown,
+    message = 'Internal Server Error',
+): never => {
     console.error('Error in TMDB API: ', error);
     throw createError({
         statusCode: 500,

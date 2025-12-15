@@ -1,5 +1,5 @@
 import antfu from '@antfu/eslint-config';
-import prettier from 'eslint-config-prettier';
+import tailwind from 'eslint-plugin-tailwindcss';
 import withNuxt from './.nuxt/eslint.config.mjs';
 
 export default withNuxt(
@@ -33,6 +33,22 @@ export default withNuxt(
                 '@typescript-eslint/no-explicit-any': 'warn',
             },
         },
-        prettier,
+        {
+            name: 'tailwind-config',
+            files: ['**/*.vue', '**/*.jsx', '**/*.tsx'],
+            plugins: {
+                tailwindcss: tailwind,
+            },
+            settings: {
+                tailwindcss: {
+                    config: false,
+                    cssFiles: ['app/assets/css/tailwind.css'],
+                },
+            },
+            rules: {
+                'tailwindcss/classnames-order': 'warn',
+                'tailwindcss/no-custom-classname': 'off',
+            },
+        },
     ),
 );

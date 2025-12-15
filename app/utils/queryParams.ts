@@ -10,7 +10,10 @@ export const getQueryString = (value: LocationQuery[string]): string => {
     return '';
 };
 
-export const getQueryNumber = (value: LocationQuery[string], defaultValue = 0): number => {
+export const getQueryNumber = (
+    value: LocationQuery[string],
+    defaultValue = 0,
+): number => {
     const str = getQueryString(value);
     const num = Number.parseInt(str, 10);
     return Number.isNaN(num) ? defaultValue : num;
@@ -24,13 +27,11 @@ export const parseGenresQuery = (value: unknown): number[] => {
     if (rawValue === '') {
         return [];
     }
-    return rawValue
-        .split(',')
-        .reduce<number[]>((acc, part) => {
-            const id = Number.parseInt(part, 10);
-            if (!Number.isNaN(id)) {
-                acc.push(id);
-            }
-            return acc;
-        }, []);
+    return rawValue.split(',').reduce<number[]>((acc, part) => {
+        const id = Number.parseInt(part, 10);
+        if (!Number.isNaN(id)) {
+            acc.push(id);
+        }
+        return acc;
+    }, []);
 };

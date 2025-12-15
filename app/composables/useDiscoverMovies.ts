@@ -2,7 +2,13 @@ import type { MovieResponse } from '#shared/types/api';
 import type { Movie } from '~/types/movie';
 
 export const useDiscoverMovies = () => {
-    const { searchTerm, selectedGenres, selectedSort, getDiscoverParams, resetFilters } = useDiscoverFilters();
+    const {
+        searchTerm,
+        selectedGenres,
+        selectedSort,
+        getDiscoverParams,
+        resetFilters,
+    } = useDiscoverFilters();
 
     const page = ref(1);
     const allMovies = ref<Movie[]>([]);
@@ -19,11 +25,13 @@ export const useDiscoverMovies = () => {
 
     const hasSearch = computed(() => normalizedSearch.value.length > 0);
 
-    const filtersKey = computed(() => [
-        hasSearch.value ? `search:${normalizedSearch.value}` : 'discover',
-        `genres:${selectedGenres.value.join(',')}`,
-        `sort:${selectedSort.value}`,
-    ].join('|'));
+    const filtersKey = computed(() =>
+        [
+            hasSearch.value ? `search:${normalizedSearch.value}` : 'discover',
+            `genres:${selectedGenres.value.join(',')}`,
+            `sort:${selectedSort.value}`,
+        ].join('|'),
+    );
 
     const previousFilterKey = ref(filtersKey.value);
 
@@ -45,9 +53,8 @@ export const useDiscoverMovies = () => {
 
             const data: MovieResponse = await $fetch(url);
 
-            allMovies.value = page.value === 1
-                ? data.results
-                : [...allMovies.value, ...data.results];
+            allMovies.value
+                = page.value === 1 ? data.results : [...allMovies.value, ...data.results];
 
             lastFetchedPage.value = page.value;
             totalPages.value = data.total_pages;

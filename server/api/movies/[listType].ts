@@ -15,16 +15,19 @@ export default defineEventHandler(async (event) => {
         const listType = MovieListTypeSchema.parse(event.context.params?.listType);
         const page = PageSchema.parse(getQuery(event).page);
 
-        const data: MovieResponse = await fetchFromTmdb(`movie/${listType}`, { page });
+        const data: MovieResponse = await fetchFromTmdb(`movie/${listType}`, {
+            page,
+        });
         data.page = page;
 
         return data;
     }
     catch (error) {
         const listType = event.context.params?.listType;
-        const message = (listType != null && listType in errorMessages)
-            ? errorMessages[listType as MovieListType]
-            : 'Error fetching movies';
+        const message
+            = listType != null && listType in errorMessages
+                ? errorMessages[listType as MovieListType]
+                : 'Error fetching movies';
         handleApiError(error, message);
     }
 });

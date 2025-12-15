@@ -24,14 +24,16 @@ export const useMovies = () => {
             const url = `/api/movies/${listType.value}?page=${page.value}`;
             const data: MovieResponse = await $fetch(url);
 
-            allMovies.value = page.value === 1
-                ? data.results
-                : [
-                        ...allMovies.value,
-                        ...data.results.filter(
-                            (movie: Movie) => !allMovies.value.some(existing => existing.id === movie.id),
-                        ),
-                    ];
+            allMovies.value
+                = page.value === 1
+                    ? data.results
+                    : [
+                            ...allMovies.value,
+                            ...data.results.filter(
+                                (movie: Movie) =>
+                                    !allMovies.value.some(existing => existing.id === movie.id),
+                            ),
+                        ];
 
             totalPages.value = data.total_pages;
         }
@@ -121,11 +123,15 @@ export const useMovieDetails = (initialId?: string) => {
 };
 
 export const useGenres = () => {
-    const { data, pending, error, refresh } = useFetch<GenresResponse>('/api/movies/genres', {
-        key: 'genres',
-        getCachedData: (key: string) => useNuxtData<GenresResponse>(key).data.value,
-        default: () => ({ genres: [] }),
-    });
+    const { data, pending, error, refresh } = useFetch<GenresResponse>(
+        '/api/movies/genres',
+        {
+            key: 'genres',
+            getCachedData: (key: string) =>
+                useNuxtData<GenresResponse>(key).data.value,
+            default: () => ({ genres: [] }),
+        },
+    );
 
     return {
         data,

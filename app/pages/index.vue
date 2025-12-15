@@ -1,5 +1,15 @@
 <script setup lang="ts">
-const { allMovies, pending, error, refresh, listType, hasMore, isLoadingMore, setListType, loadMore } = useMovies();
+const {
+    allMovies,
+    pending,
+    error,
+    refresh,
+    listType,
+    hasMore,
+    isLoadingMore,
+    setListType,
+    loadMore,
+} = useMovies();
 
 const sentinelRef = ref<HTMLElement | null>(null);
 
@@ -29,13 +39,16 @@ useHead({
 
 useSeoMeta({
     title: 'The Movie Lib - Discover Movies',
-    description: 'Discover the latest movies, popular films, and top-rated cinema. Browse through an extensive collection of movies with detailed information and ratings.',
+    description:
+    'Discover the latest movies, popular films, and top-rated cinema. Browse through an extensive collection of movies with detailed information and ratings.',
     ogTitle: 'The Movie Lib - Discover Movies',
-    ogDescription: 'Discover the latest movies, popular films, and top-rated cinema. Browse through an extensive collection of movies with detailed information and ratings.',
+    ogDescription:
+    'Discover the latest movies, popular films, and top-rated cinema. Browse through an extensive collection of movies with detailed information and ratings.',
     ogType: 'website',
     twitterCard: 'summary_large_image',
     twitterTitle: 'The Movie Lib - Discover Movies',
-    twitterDescription: 'Discover the latest movies, popular films, and top-rated cinema. Browse through an extensive collection of movies with detailed information and ratings.',
+    twitterDescription:
+    'Discover the latest movies, popular films, and top-rated cinema. Browse through an extensive collection of movies with detailed information and ratings.',
 });
 </script>
 
@@ -59,11 +72,21 @@ useSeoMeta({
             />
 
             <div class="mt-6 flex justify-center">
-                <div ref="sentinelRef" class="flex h-20 items-center justify-center" :class="{ invisible: !hasMore }">
-                    <span v-if="isLoadingMore" class="loading loading-spinner loading-lg" />
+                <div
+                    ref="sentinelRef"
+                    class="flex h-20 items-center justify-center"
+                    :class="{ invisible: !hasMore }"
+                >
+                    <span
+                        v-if="isLoadingMore"
+                        class="loading loading-spinner loading-lg"
+                    />
                 </div>
 
-                <p v-if="!hasMore && allMovies.length > 0" class="text-center text-sm text-gray-500">
+                <p
+                    v-if="!hasMore && allMovies.length > 0"
+                    class="text-center text-sm text-gray-500"
+                >
                     No more results
                 </p>
             </div>

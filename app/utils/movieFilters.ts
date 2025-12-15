@@ -10,10 +10,15 @@ type FilterOptions = {
 
 export const DEFAULT_SORT = 'popularity.desc';
 const DATE_FIELDS = ['release_date', 'primary_release_date'] as const;
-const NUMERIC_FIELDS = ['popularity', 'revenue', 'vote_average', 'vote_count'] as const;
+const NUMERIC_FIELDS = [
+    'popularity',
+    'revenue',
+    'vote_average',
+    'vote_count',
+] as const;
 
-type DateField = typeof DATE_FIELDS[number];
-type NumericField = typeof NUMERIC_FIELDS[number];
+type DateField = (typeof DATE_FIELDS)[number];
+type NumericField = (typeof NUMERIC_FIELDS)[number];
 type MovieField = keyof Movie;
 
 const isDateField = (field: string): field is DateField => {
@@ -24,7 +29,10 @@ const isNumericField = (field: string): field is NumericField => {
     return NUMERIC_FIELDS.includes(field as NumericField);
 };
 
-export const buildDiscoverParams = (selectedSort: string, selectedGenres: number[]): URLSearchParams => {
+export const buildDiscoverParams = (
+    selectedSort: string,
+    selectedGenres: number[],
+): URLSearchParams => {
     const params = new URLSearchParams();
 
     params.append('sort_by', selectedSort);
@@ -39,7 +47,8 @@ export const buildDiscoverParams = (selectedSort: string, selectedGenres: number
 const getSortValue = (movie: Movie, field: string): SortableValue => {
     if (isDateField(field)) {
         const rawValue = movie[field];
-        const dateValue = typeof rawValue === 'string' ? rawValue : movie.release_date;
+        const dateValue
+            = typeof rawValue === 'string' ? rawValue : movie.release_date;
         if (dateValue == null || dateValue === '') {
             return undefined;
         }
@@ -60,7 +69,11 @@ const getSortValue = (movie: Movie, field: string): SortableValue => {
     return undefined;
 };
 
-const compareValues = (aValue: SortableValue, bValue: SortableValue, direction: 'asc' | 'desc'): number => {
+const compareValues = (
+    aValue: SortableValue,
+    bValue: SortableValue,
+    direction: 'asc' | 'desc',
+): number => {
     if (aValue === undefined && bValue === undefined) {
         return 0;
     }
@@ -83,8 +96,14 @@ const compareValues = (aValue: SortableValue, bValue: SortableValue, direction: 
     return 0;
 };
 
-export const filterMoviesList = (movies: Movie[], { selectedGenres, selectedSort }: FilterOptions): Movie[] => {
-    const [field, direction] = selectedSort.split('.') as [string, 'asc' | 'desc' | undefined];
+export const filterMoviesList = (
+    movies: Movie[],
+    { selectedGenres, selectedSort }: FilterOptions,
+): Movie[] => {
+    const [field, direction] = selectedSort.split('.') as [
+        string,
+    'asc' | 'desc' | undefined,
+    ];
     if (direction !== 'asc' && direction !== 'desc') {
         return movies;
     }
@@ -92,7 +111,8 @@ export const filterMoviesList = (movies: Movie[], { selectedGenres, selectedSort
     return movies
         .filter(movie =>
             selectedGenres.every((genreId) => {
-                const genreIds = movie.genre_ids ?? movie.genres?.map(genre => genre.id) ?? [];
+                const genreIds
+                    = movie.genre_ids ?? movie.genres?.map(genre => genre.id) ?? [];
                 return genreIds.includes(genreId);
             }),
         )

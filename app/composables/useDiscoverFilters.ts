@@ -32,10 +32,11 @@ export const useDiscoverFilters = () => {
         return getQueryString(route.query.sort ?? DEFAULT_SORT);
     });
 
-    const hasActiveFilters = computed(() =>
-        Boolean(searchTerm.value)
-        || selectedGenres.value.length > 0
-        || selectedSort.value !== DEFAULT_SORT,
+    const hasActiveFilters = computed(
+        () =>
+            Boolean(searchTerm.value)
+            || selectedGenres.value.length > 0
+            || selectedSort.value !== DEFAULT_SORT,
     );
 
     const updateQuery = async (updates: Record<string, string | undefined>) => {
@@ -63,7 +64,9 @@ export const useDiscoverFilters = () => {
     };
 
     const setSelectedGenres = async (value: number[]) => {
-        await updateQuery({ genres: value.length > 0 ? value.join(',') : undefined });
+        await updateQuery({
+            genres: value.length > 0 ? value.join(',') : undefined,
+        });
     };
 
     const setSelectedSort = async (value: string) => {

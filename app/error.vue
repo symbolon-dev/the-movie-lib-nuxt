@@ -2,7 +2,9 @@
 const error = useError();
 
 const errorCode = computed(() => error.value?.statusCode ?? 'Unknown');
-const errorMessage = computed(() => error.value?.message ?? 'An unexpected error occurred.');
+const errorMessage = computed(
+    () => error.value?.message ?? 'An unexpected error occurred.',
+);
 </script>
 
 <template>
@@ -10,13 +12,10 @@ const errorMessage = computed(() => error.value?.message ?? 'An unexpected error
         <h1 class="heading-1 mb-2">
             Error {{ errorCode }}
         </h1>
-        <p class="mb-8 max-w-xl text-center ">
+        <p class="mb-8 max-w-xl text-center">
             {{ errorMessage }}
         </p>
-        <button
-            class="btn btn-primary"
-            @click="clearError({ redirect: '/' })"
-        >
+        <button class="btn btn-primary" @click="clearError({ redirect: '/' })">
             Back to homepage
         </button>
     </div>

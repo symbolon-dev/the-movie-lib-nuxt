@@ -33,7 +33,6 @@ export default defineNuxtConfig({
         '@nuxt/icon',
         'dayjs-nuxt',
         '@vueuse/nuxt',
-        '@nuxtjs/tailwindcss',
         '@nuxt/hints',
         '@nuxt/eslint',
     ],
@@ -56,8 +55,6 @@ export default defineNuxtConfig({
     },
 
     vite: {
-        plugins: [
-            tailwindcss(),
-        ],
+        plugins: [tailwindcss()],
     },
 });

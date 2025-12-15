@@ -23,15 +23,10 @@ const handleBack = async () => {
 
 <template>
     <button
-        class="btn cursor-pointer bg-primary-dark !text-content-light/80 hover:bg-primary-dark/80"
+        class="btn bg-primary-dark !text-content-light/80 hover:bg-primary-dark/80 cursor-pointer"
         @click="handleBack"
     >
-        <Icon
-            name="ion:arrow-back"
-            size="16"
-        />
-        <span>
-            Back
-        </span>
+        <Icon name="ion:arrow-back" size="16" />
+        <span> Back </span>
     </button>
 </template>

@@ -16,8 +16,8 @@
     --color-content-dark: #2d3e34;
     --color-content-light: #f0f0f0;
 
-    --font-family-heading: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-family-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-heading: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 @layer base {
@@ -39,24 +39,20 @@
 }
 
 @layer components {
-    .animate-interactive {
-        @apply transition-all duration-200 ease-out will-change-transform hover:scale-105 active:scale-95 hover:shadow-lg;
-    }
-
     .btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-semibold animate-interactive touch-manipulation min-h-11;
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-semibold transition-all duration-200 ease-out will-change-transform hover:scale-105 active:scale-95 hover:shadow-lg touch-manipulation min-h-11;
     }
 
     .btn-primary {
-        @apply btn bg-primary-dark text-content-light hover:bg-primary-dark/90;
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-semibold transition-all duration-200 ease-out will-change-transform hover:scale-105 active:scale-95 hover:shadow-lg touch-manipulation min-h-11 bg-primary-dark text-content-light hover:bg-primary-dark/90;
     }
 
     .btn-secondary {
-        @apply btn bg-surface-dark border border-primary text-surface-light hover:bg-surface-dark/80 active:bg-primary/20;
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-semibold transition-all duration-200 ease-out will-change-transform hover:scale-105 active:scale-95 hover:shadow-lg touch-manipulation min-h-11 bg-surface-dark border border-primary text-surface-light hover:bg-surface-dark/80 active:bg-primary/20;
     }
 
     .btn-tertiary {
-        @apply btn bg-primary-light text-primary-dark hover:bg-primary/30 active:bg-primary-light/20;
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-semibold transition-all duration-200 ease-out will-change-transform hover:scale-105 active:scale-95 hover:shadow-lg touch-manipulation min-h-11 bg-primary-light text-primary-dark hover:bg-primary/30 active:bg-primary-light/20;
     }
 
     .badge {
@@ -64,11 +60,11 @@
     }
 
     .badge-primary {
-        @apply badge bg-surface-dark text-content-light hover:bg-surface-dark/80 active:bg-surface-dark/80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1;
+        @apply inline-flex items-center justify-center rounded-full px-3 py-1 text-sm font-medium bg-surface-dark text-content-light hover:bg-surface-dark/80 active:bg-surface-dark/80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 touch-manipulation min-h-8;
     }
 
     .badge-secondary {
-        @apply badge border border-primary bg-surface/20 text-surface-dark hover:bg-primary/10 active:bg-primary/20 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1;
+        @apply inline-flex items-center justify-center rounded-full px-3 py-1 text-sm font-medium border border-primary bg-surface/20 text-surface-dark hover:bg-primary/10 active:bg-primary/20 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 touch-manipulation min-h-8;
     }
 }
 
