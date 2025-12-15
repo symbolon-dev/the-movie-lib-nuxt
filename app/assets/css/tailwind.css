@@ -1,6 +1,24 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+    --breakpoint-xs: 475px;
+    --breakpoint-max-8xl: 96rem;
+
+    --color-primary: #588157;
+    --color-primary-dark: #3a5a40;
+    --color-primary-light: #a3b18a;
+
+    --color-surface: #fff;
+    --color-surface-dark: #344e41;
+    --color-surface-light: #dad7cd;
+
+    --color-content: #18181b;
+    --color-content-dark: #2d3e34;
+    --color-content-light: #f0f0f0;
+
+    --font-family-heading: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-family-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
 @layer base {
     body {

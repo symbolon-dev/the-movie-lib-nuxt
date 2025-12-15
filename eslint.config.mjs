@@ -1,5 +1,5 @@
 import antfu from '@antfu/eslint-config';
-import tailwindcss from 'eslint-plugin-tailwindcss';
+import prettier from 'eslint-config-prettier';
 import withNuxt from './.nuxt/eslint.config.mjs';
 
 export default withNuxt(
@@ -19,16 +19,6 @@ export default withNuxt(
             formatters: true,
         },
         {
-            files: ['**/*.{vue,html,jsx,tsx}'],
-            plugins: {
-                tailwindcss,
-            },
-            rules: {
-                ...tailwindcss.configs['flat/recommended'].rules,
-                'tailwindcss/classnames-order': 'error',
-            },
-        },
-        {
             name: 'project-strict',
             rules: {
                 // Prefer arrow functions over function declarations
@@ -43,5 +33,6 @@ export default withNuxt(
                 '@typescript-eslint/no-explicit-any': 'warn',
             },
         },
+        prettier,
     ),
 );

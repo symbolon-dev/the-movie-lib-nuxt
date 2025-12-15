@@ -1,4 +1,5 @@
 import process from 'node:process';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineNuxtConfig({
     ssr: true,
@@ -54,8 +55,9 @@ export default defineNuxtConfig({
         public: {},
     },
 
-    tailwindcss: {
-        configPath: 'tailwind.config.js',
-        exposeConfig: true,
+    vite: {
+        plugins: [
+            tailwindcss(),
+        ],
     },
 });
