@@ -11,8 +11,10 @@
         "postinstall": "nuxt prepare",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
         "typecheck": "tsc --noEmit",
-        "check": "pnpm lint && pnpm typecheck"
+        "check": "pnpm lint && pnpm typecheck && pnpm format:check"
     },
     "dependencies": {
         "@nuxt/icon": "^2.1.0",
