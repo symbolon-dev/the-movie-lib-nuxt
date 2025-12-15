@@ -11,7 +11,7 @@ defineEmits<{
 </script>
 
 <template>
-    <div class="mx-auto  max-w-md rounded-lg bg-red-50 p-4 text-center">
+    <div class="mx-auto max-w-md rounded-lg bg-red-50 p-4 text-center">
         <div class="flex items-center justify-center">
             <svg
                 class="size-8 text-red-500"
@@ -35,7 +35,13 @@ defineEmits<{
         </p>
         <button
             v-if="props.showRetry ?? true"
-            class="mt-4 rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+            class="
+                mt-4 rounded-md bg-red-600 px-4 py-2 text-sm font-medium
+                text-white
+                hover:bg-red-700
+                focus:ring-2 focus:ring-red-500 focus:ring-offset-2
+                focus:outline-none
+            "
             @click="$emit('retry')"
         >
             Try again

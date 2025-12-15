@@ -15,7 +15,12 @@ const scrollToTop = () => {
 <template>
     <button
         v-show="visible"
-        class="bg-primary hover:bg-primary-dark focus:ring-primary-light fixed right-6 bottom-6 z-50 flex items-center justify-center rounded-full p-4 text-white shadow-lg transition-all focus:ring-2 focus:outline-none"
+        class="
+            fixed right-6 bottom-6 z-50 flex items-center justify-center
+            rounded-full bg-primary p-4 text-white shadow-lg transition-all
+            hover:bg-primary-dark
+            focus:ring-2 focus:ring-primary-light focus:outline-none
+        "
         @click="scrollToTop"
     >
         <Icon name="ion:arrow-up-circle" size="24" class="text-white" />

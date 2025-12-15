@@ -44,10 +44,17 @@ onMounted(async () => {
 <template>
     <div
         ref="containerRef"
-        class="bg-surface/80 relative flex w-full overflow-x-auto rounded-full shadow-md backdrop-blur-md md:w-max"
+        class="
+            relative flex w-full overflow-x-auto rounded-full bg-surface/80
+            shadow-md backdrop-blur-md
+            md:w-max
+        "
     >
         <div
-            class="bg-primary-dark absolute top-0 left-0 z-0 h-full rounded-full transition-all duration-300 ease-out"
+            class="
+                absolute top-0 left-0 z-0 h-full rounded-full bg-primary-dark
+                transition-all duration-300 ease-out
+            "
             :style="indicatorStyle"
         />
 
@@ -55,11 +62,20 @@ onMounted(async () => {
             v-for="category in movieCategories"
             :key="category.key"
             ref="buttons"
-            class="relative z-10 flex-1 rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition-colors duration-200 focus:outline-none sm:px-4 sm:py-2 sm:text-sm md:px-5"
+            class="
+                relative z-10 flex-1 rounded-full px-3 py-1.5 text-xs
+                font-semibold whitespace-nowrap transition-colors duration-200
+                focus:outline-none
+                sm:px-4 sm:py-2 sm:text-sm
+                md:px-5
+            "
             :class="
                 props.current === category.key
                     ? 'text-content-light'
-                    : 'text-primary-dark hover:text-primary-dark/80'
+                    : `
+                        text-primary-dark
+                        hover:text-primary-dark/80
+                    `
             "
             @click="$emit('change', category.key)"
         >

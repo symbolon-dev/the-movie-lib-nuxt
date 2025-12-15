@@ -44,7 +44,12 @@ onClickOutside(dropdownRef, () => {
         <div ref="dropdownRef" class="relative">
             <button
                 ref="buttonRef"
-                class="border-primary-light text-content focus:ring-primary flex h-10 w-full items-center justify-between rounded-md border bg-white px-3 py-2 transition focus:ring-2 focus:outline-none"
+                class="
+                    flex h-10 w-full items-center justify-between rounded-md
+                    border border-primary-light bg-white px-3 py-2 text-content
+                    transition
+                    focus:ring-2 focus:ring-primary focus:outline-none
+                "
                 @click="isOpen = !isOpen"
             >
                 <span>{{ currentSortLabel }}</span>
@@ -59,13 +64,19 @@ onClickOutside(dropdownRef, () => {
             <div
                 v-show="isOpen"
                 id="sort-listbox"
-                class="border-primary absolute z-20 mt-1 w-full rounded-md border bg-white shadow-lg"
+                class="
+                    absolute z-20 mt-1 w-full rounded-md border border-primary
+                    bg-white shadow-lg
+                "
             >
                 <div class="max-h-60 overflow-y-auto">
                     <button
                         v-for="sort in sortVariants"
                         :key="sort.value"
-                        class="hover:bg-primary/40 flex w-full items-center px-3 py-2 text-left"
+                        class="
+                            flex w-full items-center px-3 py-2 text-left
+                            hover:bg-primary/40
+                        "
                         :class="{
                             'bg-primary/10 font-semibold': selectedSort === sort.value,
                         }"

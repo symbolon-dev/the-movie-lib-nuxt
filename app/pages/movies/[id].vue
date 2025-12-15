@@ -55,19 +55,36 @@ useSeoMeta({
 <template>
     <div>
         <div
-            class="relative h-[50vh] w-full overflow-hidden rounded-b-lg bg-cover bg-center"
+            class="
+                relative h-[50vh] w-full overflow-hidden rounded-b-lg bg-cover
+                bg-center
+            "
             :style="{ backgroundImage: backdropUrl ? `url(${backdropUrl})` : '' }"
         >
-            <div class="absolute inset-0 bg-gradient-to-t from-black/75 from-30%" />
             <div
-                class="relative z-10 container mx-auto flex h-full flex-col justify-end px-4 pb-8 md:pb-12"
+                class="absolute inset-0 bg-gradient-to-t from-black/75 from-30%"
+            />
+            <div
+                class="
+                    relative z-10 container mx-auto flex h-full flex-col
+                    justify-end px-4 pb-8
+                    md:pb-12
+                "
             >
                 <BackButton
-                    class="hover:text-primary-light absolute top-6 left-4 text-white transition-colors md:left-auto"
+                    class="
+                        absolute top-6 left-4 text-white transition-colors
+                        hover:text-primary-light
+                        md:left-auto
+                    "
                 />
                 <div class="md:max-w-3xl">
                     <h1
-                        class="font-heading text-4xl leading-tight font-bold text-white md:text-6xl"
+                        class="
+                            font-heading text-4xl leading-tight font-bold
+                            text-white
+                            md:text-6xl
+                        "
                     >
                         {{ movie?.title }}
                     </h1>
@@ -76,9 +93,19 @@ useSeoMeta({
         </div>
 
         <div class="relative z-20 mx-auto mt-8 pb-16">
-            <div class="flex flex-col gap-8 md:flex-row md:items-stretch md:gap-10">
+            <div
+                class="
+                    flex flex-col gap-8
+                    md:flex-row md:items-stretch md:gap-10
+                "
+            >
                 <div
-                    class="border-surface-dark/60 mx-auto w-full max-w-[240px] shrink-0 overflow-hidden rounded-xl border-4 shadow-2xl md:mx-0 md:max-w-[280px] lg:max-w-[300px]"
+                    class="
+                        mx-auto w-full max-w-[240px] shrink-0 overflow-hidden
+                        rounded-xl border-4 border-surface-dark/60 shadow-2xl
+                        md:mx-0 md:max-w-[280px]
+                        lg:max-w-[300px]
+                    "
                 >
                     <NuxtImg
                         :src="posterUrl ?? '/placeholder.png'"
@@ -89,17 +116,30 @@ useSeoMeta({
                 </div>
 
                 <div
-                    class="border-surface-light/10 flex w-full flex-col rounded-2xl border p-8 shadow-2xl backdrop-blur-lg md:p-10"
+                    class="
+                        flex w-full flex-col rounded-2xl border
+                        border-surface-light/10 p-8 shadow-2xl backdrop-blur-lg
+                        md:p-10
+                    "
                 >
                     <div
-                        class="border-surface-light/10 flex flex-wrap items-center gap-x-6 gap-y-3 border-b pb-6"
+                        class="
+                            flex flex-wrap items-center gap-x-6 gap-y-3 border-b
+                            border-surface-light/10 pb-6
+                        "
                     >
                         <span
                             v-if="movie?.release_date"
-                            class="text-content-dark/90 flex items-center gap-2 text-sm font-medium"
+                            class="
+                                flex items-center gap-2 text-sm font-medium
+                                text-content-dark/90
+                            "
                         >
                             <div
-                                class="bg-primary/10 flex size-8 items-center justify-center rounded-full"
+                                class="
+                                    flex size-8 items-center justify-center
+                                    rounded-full bg-primary/10
+                                "
                             >
                                 <Icon
                                     name="ion:calendar-clear-outline"
@@ -114,12 +154,22 @@ useSeoMeta({
 
                         <span
                             v-if="movie?.runtime"
-                            class="text-content-dark/90 flex items-center gap-2 text-sm font-medium"
+                            class="
+                                flex items-center gap-2 text-sm font-medium
+                                text-content-dark/90
+                            "
                         >
                             <div
-                                class="bg-primary/10 flex size-8 items-center justify-center rounded-full"
+                                class="
+                                    flex size-8 items-center justify-center
+                                    rounded-full bg-primary/10
+                                "
                             >
-                                <Icon name="ion:time-outline" size="16" class="text-primary" />
+                                <Icon
+                                    name="ion:time-outline" size="16" class="
+                                        text-primary
+                                    "
+                                />
                             </div>
                             <span>{{ convertMinutesToHoursAndMinutes(movie?.runtime) }}</span>
                         </span>
@@ -129,17 +179,23 @@ useSeoMeta({
                             class="flex items-center gap-2 text-sm font-medium"
                         >
                             <div
-                                class="bg-primary/10 flex size-8 items-center justify-center rounded-full"
+                                class="
+                                    flex size-8 items-center justify-center
+                                    rounded-full bg-primary/10
+                                "
                             >
                                 <Icon name="ion:star" class="text-primary" size="16" />
                             </div>
-                            <span class="text-content-dark/90 font-bold">{{ movie?.vote_average?.toFixed(1) ?? "N/A" }}/10</span>
+                            <span class="font-bold text-content-dark/90">{{ movie?.vote_average?.toFixed(1) ?? "N/A" }}/10</span>
                         </span>
                     </div>
 
-                    <div class="border-surface-light/10 border-b py-6">
+                    <div class="border-b border-surface-light/10 py-6">
                         <h2
-                            class="text-content-dark/90 mb-3 text-sm font-semibold tracking-wider uppercase"
+                            class="
+                                mb-3 text-sm font-semibold tracking-wider
+                                text-content-dark/90 uppercase
+                            "
                         >
                             Genres
                         </h2>
@@ -156,17 +212,23 @@ useSeoMeta({
 
                     <div class="flex-1 py-6">
                         <h2
-                            class="text-content-dark/90 mb-4 text-sm font-semibold tracking-wider uppercase"
+                            class="
+                                mb-4 text-sm font-semibold tracking-wider
+                                text-content-dark/90 uppercase
+                            "
                         >
                             Overview
                         </h2>
                         <p
                             v-if="movie?.overview"
-                            class="text-content-dark/90 max-w-none text-base leading-relaxed"
+                            class="
+                                max-w-none text-base leading-relaxed
+                                text-content-dark/90
+                            "
                         >
                             {{ movie?.overview }}
                         </p>
-                        <p v-else class="text-content-light/60 text-base italic">
+                        <p v-else class="text-base text-content-light/60 italic">
                             No description available.
                         </p>
                     </div>

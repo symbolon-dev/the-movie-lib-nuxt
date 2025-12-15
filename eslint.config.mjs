@@ -1,5 +1,5 @@
 import antfu from '@antfu/eslint-config';
-import tailwind from 'eslint-plugin-tailwindcss';
+import tailwind from 'eslint-plugin-better-tailwindcss';
 import withNuxt from './.nuxt/eslint.config.mjs';
 
 export default withNuxt(
@@ -37,17 +37,18 @@ export default withNuxt(
             name: 'tailwind-config',
             files: ['**/*.vue', '**/*.jsx', '**/*.tsx'],
             plugins: {
-                tailwindcss: tailwind,
+                'better-tailwindcss': tailwind,
             },
             settings: {
-                tailwindcss: {
-                    config: false,
-                    cssFiles: ['app/assets/css/tailwind.css'],
+                'better-tailwindcss': {
+                    entryPoint: 'app/assets/css/tailwind.css',
                 },
             },
             rules: {
-                'tailwindcss/classnames-order': 'warn',
-                'tailwindcss/no-custom-classname': 'off',
+                ...tailwind.configs.stylistic.rules,
+                'better-tailwindcss/enforce-consistent-line-wrapping': ['warn', {
+                    indent: 4,
+                }],
             },
         },
     ),

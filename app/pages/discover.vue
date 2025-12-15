@@ -78,16 +78,28 @@ useSeoMeta({
     <div>
         <BackButton class="mt-8" />
 
-        <div class="mt-8 grid gap-4 lg:grid-cols-[300px_1fr]">
+        <div
+            class="
+                mt-8 grid gap-4
+                lg:grid-cols-[300px_1fr]
+            "
+        >
             <div
-                class="bg-surface/80 flex h-fit w-full flex-col space-y-4 rounded-md border border-gray-300 p-4 shadow-xl backdrop-blur-md"
+                class="
+                    flex h-fit w-full flex-col space-y-4 rounded-md border
+                    border-gray-300 bg-surface/80 p-4 shadow-xl backdrop-blur-md
+                "
             >
                 <FilterSearch />
                 <FilterGenres />
                 <FilterSort />
 
                 <button
-                    class="btn btn-secondary mt-4 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 disabled:active:scale-100"
+                    class="
+                        btn btn-secondary mt-4
+                        disabled:cursor-not-allowed disabled:opacity-50
+                        disabled:hover:scale-100 disabled:active:scale-100
+                    "
                     :disabled="!hasActiveFilters"
                     @click="handleResetFilters"
                 >

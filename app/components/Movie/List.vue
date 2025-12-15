@@ -33,7 +33,7 @@ const DEFAULT_INITIAL_VISIBLE_COUNT = 4;
             v-if="props.loading && props.movies.length > 0"
             class="mt-6 flex justify-center"
         >
-            <div class="text-primary flex items-center gap-2">
+            <div class="flex items-center gap-2 text-primary">
                 <span class="loading loading-spinner loading-md" />
                 <span class="text-sm font-medium">Loading more movies...</span>
             </div>
