@@ -21,13 +21,7 @@ export default withNuxt(
         {
             name: 'project-strict',
             rules: {
-                // Prefer functional programming methods over loops
-                'no-restricted-syntax': [
-                    'error',
-                    { selector: 'ForStatement', message: 'Use map/filter/reduce instead.' },
-                    { selector: 'ForInStatement', message: 'Use Object.keys()/values()/entries() and functional methods.' },
-                    { selector: 'ForOfStatement', message: 'Use map/filter/reduce instead of for..of loops.' },
-                ],
+                // Prefer safe array callbacks
                 'array-callback-return': ['error', { allowImplicit: false }],
 
                 // Prefer arrow functions over function declarations
