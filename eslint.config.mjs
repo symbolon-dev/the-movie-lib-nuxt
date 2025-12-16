@@ -38,7 +38,7 @@ export default withNuxt(
         },
         {
             name: 'tailwind-config',
-            files: ['**/*.vue', '**/*.jsx', '**/*.tsx'],
+            files: ['**/*.vue'],
             plugins: {
                 'better-tailwindcss': tailwind,
             },
