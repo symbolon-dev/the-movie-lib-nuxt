@@ -29,7 +29,7 @@ const defaultDescription
 
 const getDescription = (): string => {
     const overview = movie.value?.overview;
-    if (overview) {
+    if (overview != null && overview !== '') {
         return overview.substring(0, MAX_DESCRIPTION_LENGTH);
     }
     return defaultDescription;
@@ -41,12 +41,12 @@ useSeoMeta({
             ? `${movie.value.title} - The Movie Lib`
             : 'Movie Details - The Movie Lib',
     description: getDescription,
-    ogTitle: () => movie.value?.title || 'Movie Details',
+    ogTitle: () => movie.value?.title ?? 'Movie Details',
     ogDescription: getDescription,
     ogImage: () => posterUrl.value,
     ogType: 'video.movie',
     twitterCard: 'summary_large_image',
-    twitterTitle: () => movie.value?.title || 'Movie Details',
+    twitterTitle: () => movie.value?.title ?? 'Movie Details',
     twitterDescription: getDescription,
     twitterImage: () => posterUrl.value,
 });

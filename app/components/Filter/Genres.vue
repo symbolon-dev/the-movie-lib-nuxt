@@ -2,7 +2,7 @@
 const { data: genresData } = useGenres();
 const { selectedGenres, setSelectedGenres } = useDiscoverFilters();
 
-const genres = computed(() => genresData.value?.genres || []);
+const genres = computed(() => genresData.value?.genres ?? []);
 
 const handleGenreToggle = async (genreId: number) => {
     const newGenres = selectedGenres.value.includes(genreId)
